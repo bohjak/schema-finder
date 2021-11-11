@@ -46,7 +46,28 @@ export const Info: React.FC = () => {
     item = fromSchema(path);
   }
 
-  const { title = key, description, type, enum: ienum, examples } = item;
+  const {
+    title = key,
+    description,
+    type,
+    enum: ienum,
+    examples,
+    required
+  } = item;
+
+  console.log('examples', examples)
+
+  const renderExamples = (examples: JSONSchema7['examples']) => {
+    if (!examples) return null;
+
+    if (Array.isArray(examples))
+      return examples.map(e => <p><Code>{JSON.stringify(e)}</Code></p>);
+
+    if (typeof examples === 'object')
+      return <p><Code>{JSON.stringify(examples)}</Code></p>;
+
+    return  <p><Code>examples</Code></p>;
+  }
 
   return (
     <InfoWrapper>
@@ -62,10 +83,18 @@ export const Info: React.FC = () => {
           <Name>Value(s):</Name> {ienum.join(', ')}
         </p>
       )}
-      {examples && (
+      {required && (
         <p>
-          <Name>Examples:</Name> <Code>{JSON.stringify(examples)}</Code>
+          <Name>Required Properties:</Name> {required.join(', ')}
         </p>
+      )}
+      {examples && (
+        <>
+          <p>
+            <Name>Examples:</Name>
+          </p>
+          {renderExamples(examples)}
+        </>
       )}
     </InfoWrapper>
   );
