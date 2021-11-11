@@ -331,6 +331,7 @@
     },
     "FDS": {
       "description": "Value is set here in FDS",
+      "title": "FDS",
       "type": "object",
       "properties": {
         "source": {
@@ -360,6 +361,7 @@
     },
     "SessionStorage": {
       "description": "Value comes from session storage",
+      "title": "Session Storage",
       "type": "object",
       "properties": {
         "source": {
@@ -392,6 +394,8 @@
       ]
     },
     "CustomerData": {
+      "description": "Value is taken from the customers data object",
+      "title": "Customer Data",
       "type": "object",
       "properties": {
         "source": {
@@ -424,7 +428,8 @@
       ]
     },
     "DealerSelectorHiddenValue": {
-      "description": "Value is loaded via feature app connector.",
+      "description": "Value is loaded via feature app connector from the Dealer Search Feature Service.",
+      "title": "Dealer Selector",
       "type": "object",
       "properties": {
         "source": {
@@ -503,7 +508,8 @@
       }
     },
     "AppointmentSelectorHiddenValue": {
-      "description": "Value is loaded via feature app connector.",
+      "description": "Value is loaded via feature app connector from the Appointment Selector Feature Service.",
+      "title": "Appointment Selector",
       "type": "object",
       "properties": {
         "source": {
@@ -544,7 +550,8 @@
       }
     },
     "CarConfigurationHiddenValue": {
-      "description": "Value is loaded via feature app connector.",
+      "description": "Value is loaded via feature app connector from the Car Configuration Feature Service.",
+      "title": "Car Configuration",
       "type": "object",
       "properties": {
         "source": {
@@ -606,6 +613,7 @@
     },
     "MarketingCode": {
       "description": "Marketing code generated from car data",
+      "title": "Marketing Code",
       "type": "object",
       "properties": {
         "source": {
@@ -1143,7 +1151,7 @@
     },
     "Richtext": {
       "description": "Rich Text is a field type that enables to create text content, supporting various text formats such as bold, italic, links, lists etc.",
-      "title": "Form Group Richtext",
+      "title": "Richtext",
       "type": "object",
       "properties": {
         "type": {
@@ -1184,6 +1192,7 @@
     },
     "MarketingConsentText": {
       "description": "Text field displaying the latest MEV (Marketing Einverständnis Erklärung - Marketing Consent Statement) texts from the IDK (VW Identity Kit)",
+      "title": "Marketing Consent Text",
       "type": "object",
       "properties": {
         "type": {
@@ -1224,6 +1233,7 @@
     },
     "Select": {
       "description": "A select field is a dropdown field containing different information to be selected by the customer. As the input this field has to appear inside a form group.",
+      "title": "Select",
       "type": "object",
       "properties": {
         "type": {
@@ -1336,6 +1346,7 @@
     },
     "AppointmentSelectorSummaryField": {
       "description": "A summary field that can show information from appointment selector into the form",
+      "title": "Appointment Selector Summary",
       "type": "object",
       "properties": {
         "type": {
@@ -1389,6 +1400,7 @@
     },
     "DealerSelectorSummaryField": {
       "description": "A summary field that can show information from dealer selector into the form",
+      "title": "Dealer Selector Summary",
       "type": "object",
       "properties": {
         "type": {
@@ -1442,6 +1454,7 @@
     },
     "SummaryField": {
       "description": "A summary field that can show information that has been already entered by the user into the form",
+      "title": "General Summary",
       "type": "object",
       "properties": {
         "type": {
@@ -1495,6 +1508,7 @@
     },
     "DoubleSelect": {
       "description": "A double select field is a dropdown field containing different information to be selected by the customer.",
+      "title": "Double Select",
       "type": "object",
       "properties": {
         "type": {
@@ -1671,6 +1685,7 @@
     },
     "Textarea": {
       "description": "A textarea field represents a multi-line plain-text editing control, useful when you want to allow users to enter a sizeable amount of free-form text.",
+      "title": "Text Area",
       "type": "object",
       "properties": {
         "type": {
@@ -1762,6 +1777,8 @@
       ]
     },
     "DealerSelector": {
+      "description": "A Feature App for search for and selecting a dealer",
+      "title": "Dealer Selector",
       "type": "object",
       "properties": {
         "cidPrefix": {
@@ -1788,6 +1805,8 @@
       ]
     },
     "AppointmentSelector": {
+      "description": "A Feature App for selecting a date and a time for an appointment",
+      "title": "Appointment Selector",
       "type": "object",
       "properties": {
         "cidPrefix": {
@@ -1814,6 +1833,8 @@
       ]
     },
     "ModelSelector": {
+      "description": "A Feature App for selecting a car configuration",
+      "title": "Model Selector",
       "type": "object",
       "properties": {
         "cidPrefix": {
@@ -1840,7 +1861,8 @@
       ]
     },
     "FormStep": {
-      "description": "Groups form fields into consecutive steps.",
+      "description": "Groups form fields into consecutive steps",
+      "title": "Form Step",
       "type": "object",
       "properties": {
         "type": {

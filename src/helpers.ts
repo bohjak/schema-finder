@@ -1,24 +1,39 @@
 import type { JSONSchema7 } from 'json-schema';
 
+export const getRef = (schema?: JSONSchema7) =>
+  (schema && typeof schema === 'object' && '$ref' in schema) ? schema.$ref : undefined;
+
 export const parseRef = (ref?: string) => ref?.split('/');
 
+export const getNameFromRef = (ref?: string) =>
+  parseRef(ref)
+    ?.slice(-1)[0]
+    .replace(/([A-Z-_]*[a-z]+)/g, (m) => m.replace(/[-_]/, '') + ' ')
+    .trim()
+    .split(' ')
+    .map(([h, ...t]) => h.toUpperCase() + t.join('').toLowerCase())
+    .join(' ');
+
 export const cleverDeepGet =
-  (obj: JSONSchema7) =>
-  (path: string[] = []) => {
-    let acc = obj;
+  (obj: JSONSchema7) => {
+    const deepGet = (path: string[] = []) => {
+      let acc = obj;
 
-    for (const key of path.slice(1)) {
-      // @ts-expect-error Unsafe object manipulation
-      acc = acc[key];
+      for (const key of path.slice(1)) {
+        // @ts-expect-error Unsafe object manipulation
+        acc = acc[key];
 
-      if (acc && typeof acc === 'object' && '$ref' in acc) {
-        const { $ref, ...rest } = acc;
-        acc = { ...rest, ...cleverDeepGet(obj)(parseRef($ref)) };
+        if (acc && typeof acc === 'object' && '$ref' in acc) {
+          const { $ref, ...rest } = acc;
+          acc = { ...rest, ...deepGet(parseRef($ref)) };
+        }
       }
-    }
 
-    return acc;
-  };
+      return acc;
+    };
+
+    return deepGet;
+  }
 
 const createMemberCheck =
   (arr: string[]) =>
@@ -35,10 +50,10 @@ export const isSchemaObject = createMemberCheck(schemaObjectKeys);
 
 export const simpleKeys: (keyof JSONSchema7)[] = [
   'items',
-  'contains',
   'additionalItems',
   'additionalProperties',
   'propertyNames',
+  'contains',
   'if',
   'then',
   'else',

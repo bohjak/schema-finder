@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { isValidationKeyword, Property, useSchema } from './internal';
+import { isValidationKeyword, Property, useSchema, getNameFromRef, getRef } from './internal';
 
 export const ColumnWrapper = styled.div`
   display: flex;
@@ -41,8 +41,11 @@ export const Column: React.FC<ColumnProps> = ({
   const complexCreateProp = (key: string) => {
     const itemPath = [...path, key];
 
+    const parent = fromSchema(path);
     const item = fromSchema(itemPath);
-    const title = item.title || key;
+    // TODO: getNameFromRef is making me really uneasy
+    // @ts-expect-error Unsafe object access
+    const title = item.title || getNameFromRef(getRef(parent[key])) || key;
 
     const hasChildren = !!Object.keys(item).filter(isValidationKeyword).length;
 
