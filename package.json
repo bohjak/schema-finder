@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/jamesbohacek/schema-finder.git"
   },
-  "license": "ISC",
+  "license": "Unlicense",
   "author": "jakub.bohacek <jamesbohacek@outlook.com>",
   "main": "dist/index.js",
   "scripts": {
