@@ -47,7 +47,7 @@ export const Column: React.FC<ColumnProps> = ({
 
   return (
     <ul className="Column" id={path.join('-')}>
-      {...listItems}
+      {listItems}
     </ul>
   );
 };

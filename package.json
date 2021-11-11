@@ -1,31 +1,33 @@
 {
+  "name": "schema-finder",
+  "version": "0.1.0",
+  "description": "A simple component for displaying JSONSchema in a human readable format",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "snowpack dev",
-    "build": "node build.mjs",
-    "postbuild": "tsc --project tsconfig.build.json",
-    "build:app": "snowpack build"
+    "test": "storybook",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
-  "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamesbohacek/schema-finder.git"
   },
+  "author": "jakub.bohacek <jamesbohacek@outlook.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jamesbohacek/schema-finder/issues"
+  },
+  "homepage": "https://github.com/jamesbohacek/schema-finder#readme",
   "devDependencies": {
-    "@snowpack/plugin-dotenv": "^2.1.0",
-    "@snowpack/plugin-react-refresh": "^2.5.0",
-    "@snowpack/plugin-typescript": "^1.2.1",
-    "@snowpack/web-test-runner-plugin": "^0.2.2",
-    "@testing-library/react": "^11.2.6",
-    "@types/chai": "^4.2.17",
-    "@types/json-schema": "^7.0.9",
-    "@types/mocha": "^8.2.2",
-    "@types/react": "^17.0.4",
-    "@types/react-dom": "^17.0.3",
-    "@types/snowpack-env": "^2.3.3",
-    "@web/test-runner": "^0.13.3",
-    "chai": "^4.3.4",
+    "@babel/core": "^7.16.0",
+    "@storybook/addon-actions": "^6.3.12",
+    "@storybook/addon-essentials": "^6.3.12",
+    "@storybook/addon-links": "^6.3.12",
+    "@storybook/react": "^6.3.12",
+    "babel-loader": "^8.2.3",
     "esbuild": "^0.13.13",
-    "prettier": "^2.2.1",
-    "snowpack": "^3.3.7",
-    "typescript": "^4.2.4"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "typescript": "^4.4.4"
   }
 }

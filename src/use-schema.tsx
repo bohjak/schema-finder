@@ -12,7 +12,7 @@ const SchemaCtx = React.createContext<Ctx | undefined>(undefined);
 export const SchemaProvider: React.FC = ({ children }) => {
   const [schema, setSchema] = React.useState<JSONSchema7>({});
 
-  const fromSchema = cleverDeepGet(schema);
+  const fromSchema = React.useCallback(cleverDeepGet(schema), [schema]);
 
   return (
     <SchemaCtx.Provider value={{ schema, fromSchema, setSchema }}>

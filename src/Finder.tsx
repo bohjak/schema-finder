@@ -12,6 +12,7 @@ import {
   usePath,
   useSchema,
 } from './internal';
+import './finder.css';
 
 export interface FinderProps {
   readonly schemas: Record<string, JSONSchema7>;
@@ -67,15 +68,15 @@ const InternalFinder: React.FC<FinderProps> = ({ schemas }) => {
     if (!path.length) return;
 
     const lastColumn = document.querySelector(`#${path.join('-')}`);
-    lastColumn?.scrollIntoView({ behavior: 'smooth' });
+    lastColumn?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'end' });
   }, [path]);
 
   return (
     <div className="FinderWrapper">
       <div className="Finder">
         <div className="Columns">
-          <ul className="Column">{...roots}</ul>
-          {...columns}
+          <ul className="Column">{roots}</ul>
+          {columns}
         </div>
         <Info />
       </div>

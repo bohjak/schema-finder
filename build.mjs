@@ -1,11 +1,10 @@
 import { build } from 'esbuild';
 
 build({
-  entryPoints: ['lib/index.ts'],
+  entryPoints: ['src/index.ts'],
   bundle: true,
   minify: true,
   sourcemap: true,
   outdir: 'dist',
-  platform: 'node',
-  target: 'node14',
+  platform: 'browser',
 });

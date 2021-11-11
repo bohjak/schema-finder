@@ -15,5 +15,5 @@ export const Breadcrumbs: React.FC = () => {
     </div>
   ));
 
-  return <div className="Breadcrumbs">{...crumbs}</div>;
+  return <div className="Breadcrumbs">{crumbs}</div>;
 };

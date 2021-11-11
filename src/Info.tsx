@@ -13,8 +13,6 @@ export const Info: React.FC = () => {
     item = fromSchema(path);
   }
 
-  console.log(item);
-
   const { title = key, description, type, enum: ienum, examples } = item;
 
   return (
@@ -33,7 +31,7 @@ export const Info: React.FC = () => {
       )}
       {examples && (
         <p className="InfoExamples">
-          <span className="Name">Examples:</span> {JSON.stringify(examples)}
+          <span className="Name">Examples:</span> <code>{JSON.stringify(examples)}</code>
         </p>
       )}
     </div>
