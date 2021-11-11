@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePath } from './use-path';
+import { usePath } from './internal';
 
 export const Breadcrumbs: React.FC = () => {
   const [path, setPath] = usePath();

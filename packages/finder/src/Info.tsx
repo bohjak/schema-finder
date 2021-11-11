@@ -1,8 +1,6 @@
-import React from 'react';
-import { useSchema } from './use-schema';
-import { usePath } from './use-path';
-import { isSchemaObject } from './helpers';
 import type { JSONSchema7 } from 'json-schema';
+import React from 'react';
+import { isSchemaObject, usePath, useSchema } from './internal';
 
 export const Info: React.FC = () => {
   const [path] = usePath();

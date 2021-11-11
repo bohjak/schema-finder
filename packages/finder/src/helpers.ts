@@ -1,32 +1,4 @@
-import type { JSONSchema7, JSONSchema7Definition } from 'json-schema';
-
-type Property = [key: string, value: JSONSchema7Definition];
-
-const getTitle = (def?: JSONSchema7): string | undefined => {
-  return def?.title;
-};
-
-const getPropName = ([key, value]: Property): string => {
-  if (typeof value === 'boolean') return key;
-
-  return getTitle(value) ?? key;
-};
-
-export const getPropNames = (schema: JSONSchema7): string[] => {
-  const props = schema.properties;
-
-  if (!props) return [];
-
-  return Object.entries(props).map(getPropName);
-};
-
-export const getDefinition =
-  (definitions?: Record<string, JSONSchema7Definition>) => (key: string) =>
-    definitions?.[key];
-
-export const deepGet = (obj: Record<string, unknown>) => (path: string[]) =>
-  // @ts-expect-error unsafe object access
-  path.reduce((acc, key) => acc[key], obj);
+import type { JSONSchema7 } from 'json-schema';
 
 export const parseRef = (ref?: string) => ref?.substring(2).split('/');
 
@@ -35,9 +7,8 @@ export const cleverDeepGet =
   (path: string[] = []) => {
     let acc = obj;
 
-    for (const key of path) {
-      if (key === 'root') continue;
-      // @ts-expect-error unsafe object access
+    for (const key of path.slice(1)) {
+      // @ts-expect-error Unsafe object manipulation
       acc = acc[key];
 
       if (acc && typeof acc === 'object' && '$ref' in acc) {

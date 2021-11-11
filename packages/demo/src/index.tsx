@@ -2,18 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
-import schema from './test-schema.json';
-import type { JSONSchema7 } from 'json-schema';
-import { PathProvider } from './use-path';
-import { SchemaProvider } from './use-schema';
 
 ReactDOM.render(
   <React.StrictMode>
-    <PathProvider>
-      <SchemaProvider schema={schema as JSONSchema7}>
-        <App />
-      </SchemaProvider>
-    </PathProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root'),
 );

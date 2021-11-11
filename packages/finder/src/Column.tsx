@@ -1,7 +1,5 @@
 import React from 'react';
-import { isComplexKey, isValidationKeyword } from './helpers';
-import { Property } from './Property';
-import { useSchema } from './use-schema';
+import { isValidationKeyword, Property, useSchema } from './internal';
 
 export interface ColumnProps {
   childKeys: string[];

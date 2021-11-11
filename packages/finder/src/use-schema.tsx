@@ -1,25 +1,21 @@
-import React from 'react';
 import type { JSONSchema7 } from 'json-schema';
-import { cleverDeepGet } from './helpers';
+import React from 'react';
+import { cleverDeepGet } from './internal';
 
 interface Ctx {
   schema: JSONSchema7;
+  setSchema: (schema: JSONSchema7) => void;
   fromSchema: (path?: string[]) => JSONSchema7;
 }
 const SchemaCtx = React.createContext<Ctx | undefined>(undefined);
 
-export interface SchemaProviderProps {
-  schema: JSONSchema7;
-}
+export const SchemaProvider: React.FC = ({ children }) => {
+  const [schema, setSchema] = React.useState<JSONSchema7>({});
 
-export const SchemaProvider: React.FC<SchemaProviderProps> = ({
-  children,
-  schema,
-}) => {
   const fromSchema = cleverDeepGet(schema);
 
   return (
-    <SchemaCtx.Provider value={{ schema, fromSchema }}>
+    <SchemaCtx.Provider value={{ schema, fromSchema, setSchema }}>
       {children}
     </SchemaCtx.Provider>
   );

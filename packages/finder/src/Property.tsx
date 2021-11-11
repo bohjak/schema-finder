@@ -1,15 +1,17 @@
 import React, { useRef } from 'react';
-import { usePath } from './use-path';
+import { usePath } from './internal';
 
 export interface PropertyProps {
   path: string[];
   hasChildren?: boolean;
+  onClick?: () => void;
 }
 
 export const Property: React.FC<PropertyProps> = ({
   children,
   path,
   hasChildren,
+  onClick,
 }) => {
   const [curPath, setPath] = usePath();
   const ref = useRef<HTMLLIElement>(null);
@@ -35,7 +37,10 @@ export const Property: React.FC<PropertyProps> = ({
       className={`Property${
         inPath ? (last ? ' PropertyPathLast' : ' PropertyPath') : ''
       }${hasChildren ? ' PropertyHasChildren' : ''}`}
-      onClick={() => setPath(path)}
+      onClick={() => {
+        setPath(path);
+        onClick?.();
+      }}
       tabIndex={0}
       ref={ref}
     >
