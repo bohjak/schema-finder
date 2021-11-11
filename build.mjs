@@ -6,5 +6,6 @@ build({
   minify: true,
   sourcemap: true,
   outdir: 'dist',
-  platform: 'browser',
+  platform: 'node',
+  target: 'node14'
 });
