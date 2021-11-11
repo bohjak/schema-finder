@@ -1,6 +1,6 @@
 {
   "name": "schema-finder",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A simple component for displaying JSONSchema in a human readable format",
   "homepage": "https://github.com/jamesbohacek/schema-finder#readme",
   "bugs": {
