@@ -7,6 +7,7 @@ specifiers:
   '@snowpack/web-test-runner-plugin': ^0.2.2
   '@testing-library/react': ^11.2.6
   '@types/chai': ^4.2.17
+  '@types/json-schema': ^7.0.9
   '@types/mocha': ^8.2.2
   '@types/react': ^17.0.4
   '@types/react-dom': ^17.0.3
@@ -30,6 +31,7 @@ devDependencies:
   '@snowpack/web-test-runner-plugin': 0.2.2_f682a15f61ca4fed6f9c62eb6369e48f
   '@testing-library/react': 11.2.7_react-dom@17.0.2+react@17.0.2
   '@types/chai': 4.2.22
+  '@types/json-schema': 7.0.9
   '@types/mocha': 8.2.3
   '@types/react': 17.0.34
   '@types/react-dom': 17.0.11
@@ -760,6 +762,10 @@ packages:
     resolution: {integrity: sha512-c3mAZEuK0lvBp8tmuL74XRKn1+y2dcwOUpH7x4WrF6gk1GIgiluDRgMYQtw2OFcBvAJWlt6ASU3tSqxp0Uu0Aw==}
     dependencies:
       '@types/istanbul-lib-report': 3.0.0
+    dev: true
+
+  /@types/json-schema/7.0.9:
+    resolution: {integrity: sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==}
     dev: true
 
   /@types/keygrip/1.0.2:

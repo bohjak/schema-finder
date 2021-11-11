@@ -1,46 +1,109 @@
 .App {
-  text-align: center;
-}
-.App code {
-  background: #FFF3;
-  padding: 4px 8px;
-  border-radius: 4px;
-}
-.App p {
-  margin: 0.4rem;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.Finder {
+  display: flex;
+  flex-flow: row nowrap;
+  border: thin black solid;
+  font-size: 12px;
+  height: 30em;
+}
+
+.Info {
+  padding: 1em;
+  border-left: thin black solid;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.InfoTitle {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.InfoType {
+  font-style: italic;
+}
+
+.Name {
+  font-weight: bold;
+}
+
+.Columns {
+  display: flex;
+  flex-flow: row nowrap;
+  flex: 2;
+  overflow-x: auto;
+}
+
+.Column {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  width: 15em;
+  min-width: 15em;
+  border-right: thin #0002 solid;
+  overflow-y: auto;
+}
+
+.Property {
+  padding: 0.25em 0.5em;
+}
+
+.Property:hover,
+.Property:focus {
+  cursor: pointer;
+  background: #0003;
+}
+
+.PropertyPath {
+  background: #0001;
+}
+
+.PropertyHasChildren::after {
+  content: '>';
+  float: right;
+}
+
+.PropertyPathLast.PropertyPathLast.PropertyPathLast {
+  background: #000a;
   color: white;
+  font-weight: bold;
+  cursor: default;
 }
 
-.App-link {
-  color: #61dafb;
+.Breadcrumbs {
+  display: flex;
+  flex-flow: row nowrap;
+  border: thin black solid;
+  overflow-x: auto;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Breadcrumb {
+  cursor: pointer;
+  padding: 0.25em 0.5em;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-right: solid thin black;
+}
+
+.Breadcrumb:hover,
+.Breadcrumb:focus {
+  background: #0003;
+}
+
+.Breadcrumb::before {
+  content: '.';
+}
+
+.Breadcrumb:first-child::before {
+  content: '';
 }
