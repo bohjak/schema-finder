@@ -4,6 +4,8 @@
   "description": "A simple component for displaying JSONSchema in a human readable format",
   "main": "dist/index.js",
   "scripts": {
+    "build": "node build.mjs",
+    "postbuild": "tsc --project tsconfig.json",
     "test": "storybook",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"

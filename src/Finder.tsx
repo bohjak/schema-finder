@@ -15,6 +15,7 @@ import {
 import './finder.css';
 
 export interface FinderProps {
+  /** Key/Value store; Key used for display name */
   readonly schemas: Record<string, JSONSchema7>;
 }
 
@@ -85,6 +86,9 @@ const InternalFinder: React.FC<FinderProps> = ({ schemas }) => {
   );
 };
 
+/**
+ * OSX Finder-esque JSONSchema explorer
+ */
 export const Finder: React.FC<FinderProps> = (props) => {
   return (
     <div>

@@ -8,6 +8,7 @@ export const cleverDeepGet =
     let acc = obj;
 
     for (const key of path.slice(1)) {
+      // @ts-expect-error Unsafe object manipulation
       acc = acc[key];
 
       if (acc && typeof acc === 'object' && '$ref' in acc) {
