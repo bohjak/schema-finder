@@ -7,5 +7,6 @@ build({
   sourcemap: true,
   outdir: 'dist',
   platform: 'node',
-  target: 'node14'
+  target: 'node14',
+  external: ['react', 'react-dom', 'styled-components']
 });

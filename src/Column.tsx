@@ -1,5 +1,19 @@
 import React from 'react';
+import styled from 'styled-components';
 import { isValidationKeyword, Property, useSchema } from './internal';
+
+export const ColumnWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  width: 15em;
+  min-width: 15em;
+  border-right: thin #0002 solid;
+  overflow-y: auto;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+`
 
 export interface ColumnProps {
   childKeys: string[];
@@ -46,8 +60,8 @@ export const Column: React.FC<ColumnProps> = ({
   const listItems = childKeys.map(isComplex ? complexCreateProp : createProp);
 
   return (
-    <ul className="Column" id={path.join('-')}>
+    <ColumnWrapper id={path.join('-')}>
       {listItems}
-    </ul>
+    </ColumnWrapper>
   );
 };

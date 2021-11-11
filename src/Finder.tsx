@@ -1,8 +1,10 @@
 import type { JSONSchema7 } from 'json-schema';
 import React from 'react';
+import styled from 'styled-components';
 import {
   Breadcrumbs,
   Column,
+  ColumnWrapper,
   Info,
   isComplexKey,
   isValidationKeyword,
@@ -10,14 +12,40 @@ import {
   Property,
   SchemaProvider,
   usePath,
-  useSchema,
+  useSchema
 } from './internal';
-import './finder.css';
 
 export interface FinderProps {
   /** Key/Value store; Key used for display name */
   readonly schemas: Record<string, JSONSchema7>;
 }
+
+const OuterWrapper = styled.div`
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+
+const InnerWrapper = styled.div`
+display: flex;
+  flex-flow: row nowrap;
+  border: thin black solid;
+  font-size: 12px;
+  height: 30em;
+`
+
+const Columns = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  flex: 2;
+  overflow-x: auto;
+`
 
 const InternalFinder: React.FC<FinderProps> = ({ schemas }) => {
   const { setSchema, fromSchema } = useSchema();
@@ -73,16 +101,16 @@ const InternalFinder: React.FC<FinderProps> = ({ schemas }) => {
   }, [path]);
 
   return (
-    <div className="FinderWrapper">
-      <div className="Finder">
-        <div className="Columns">
-          <ul className="Column">{roots}</ul>
+    <OuterWrapper>
+      <InnerWrapper>
+        <Columns>
+          <ColumnWrapper>{roots}</ColumnWrapper>
           {columns}
-        </div>
+        </Columns>
         <Info />
-      </div>
+      </InnerWrapper>
       {!!path.length && <Breadcrumbs />}
-    </div>
+    </OuterWrapper>
   );
 };
 

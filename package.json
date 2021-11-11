@@ -2,27 +2,23 @@
   "name": "schema-finder",
   "version": "0.1.1",
   "description": "A simple component for displaying JSONSchema in a human readable format",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "node build.mjs",
-    "postbuild": "tsc --project tsconfig.json",
-    "test": "storybook",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+  "homepage": "https://github.com/jamesbohacek/schema-finder#readme",
+  "bugs": {
+    "url": "https://github.com/jamesbohacek/schema-finder/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jamesbohacek/schema-finder.git"
   },
-  "author": "jakub.bohacek <jamesbohacek@outlook.com>",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jamesbohacek/schema-finder/issues"
-  },
-  "homepage": "https://github.com/jamesbohacek/schema-finder#readme",
-  "peerDependencies": {
-    "react": "^16.8.x",
-    "react-dom": "^16.8.x"
+  "author": "jakub.bohacek <jamesbohacek@outlook.com>",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "node build.mjs",
+    "postbuild": "tsc --project tsconfig.json",
+    "build-storybook": "build-storybook",
+    "storybook": "start-storybook -p 6006",
+    "test": "storybook"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -30,8 +26,15 @@
     "@storybook/addon-essentials": "^6.3.12",
     "@storybook/addon-links": "^6.3.12",
     "@storybook/react": "^6.3.12",
+    "@types/json-schema": "^7.0.9",
+    "@types/styled-components": "^4.x",
     "babel-loader": "^8.2.3",
     "esbuild": "^0.13.13",
     "typescript": "^4.4.4"
+  },
+  "peerDependencies": {
+    "react": "^16.8.x",
+    "react-dom": "^16.8.x",
+    "styled-components": "4.x"
   }
 }
