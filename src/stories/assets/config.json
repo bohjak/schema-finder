@@ -1,0 +1,53 @@
+{
+  "title": "Forms Feature App Content Config Schema",
+  "type": "object",
+  "properties": {
+    "primaryForm": {
+      "type": "string"
+    },
+    "carConfigurationContext": {
+      "type": "string"
+    },
+    "modeType": {
+      "$ref": "#/definitions/ModeTypeSchema"
+    },
+    "hiddenValues": {
+      "description": "A valid JSON array with overwrites for hidden values specified in FDS. NOTE: Hidden values must first be defined in FDS so that they have the appropriate OSS path mapping on the backend!",
+      "type": "string"
+    },
+    "personalizationId": {
+      "type": "string"
+    },
+    "themeType": {
+      "enum": [
+        "inverted",
+        "main"
+      ],
+      "type": "string"
+    },
+    "headline": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "buttonLabel": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "modeType"
+  ],
+  "definitions": {
+    "ModeTypeSchema": {
+      "enum": [
+        "default",
+        "formInLayer",
+        "simpleFormTeaser",
+        "standalone"
+      ],
+      "type": "string"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

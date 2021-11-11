@@ -1,0 +1,71 @@
+{
+  "description": "Schema for Forms i18n entries.",
+  "title": "i18n Schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Translation bundle id.",
+      "type": "string"
+    },
+    "tenant": {
+      "description": "Tenant",
+      "type": "string"
+    },
+    "application": {
+      "description": "Application ID.",
+      "type": "string"
+    },
+    "language": {
+      "description": "Language of current translation bundle.",
+      "type": "string"
+    },
+    "object_type": {
+      "description": "TranslationBundle",
+      "type": "string"
+    },
+    "translation": {
+      "description": "Map of translations",
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "properties": {
+        "general": {
+          "description": "General properties",
+          "type": "object",
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": {}
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "general"
+      ]
+    }
+  },
+  "required": [
+    "application",
+    "id",
+    "language",
+    "object_type",
+    "tenant",
+    "translation"
+  ],
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
