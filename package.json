@@ -14,8 +14,8 @@
   "author": "jakub.bohacek <jamesbohacek@outlook.com>",
   "main": "dist/index.js",
   "scripts": {
-    "build": "node build.mjs",
-    "postbuild": "tsc --project tsconfig.json",
+    "build": "node build.mjs && tsc",
+    "tsc": "tsc --project tsconfig.json",
     "build-storybook": "build-storybook",
     "storybook": "start-storybook -p 6006",
     "test": "storybook",
