@@ -10,6 +10,7 @@ specifiers:
   '@types/styled-components': ^4.x
   babel-loader: ^8.2.3
   esbuild: ^0.13.13
+  prettier: ^2.4.1
   react: ^17.0.2
   react-dom: ^17.0.2
   styled-components: ^5.3.3
@@ -25,6 +26,7 @@ devDependencies:
   '@types/styled-components': 4.4.3
   babel-loader: 8.2.3_@babel+core@7.16.0
   esbuild: 0.13.13
+  prettier: 2.4.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
@@ -8228,6 +8230,12 @@ packages:
 
   /prettier/2.2.1:
     resolution: {integrity: sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    dev: true
+
+  /prettier/2.4.1:
+    resolution: {integrity: sha512-9fbDAXSBcc6Bs1mZrDYb3XKzDLm4EXXL9sC1LqKP5rZkT6KRr/rf9amVUcODVXgguK/isJz0d0hP72WeaKWsvA==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true

@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import { usePath } from './internal';
+import React from "react";
+import styled from "styled-components";
+import {usePath} from "./internal";
 
 const BreadcrumbWrapper = styled.div`
-display: flex;
+  display: flex;
   flex-flow: row nowrap;
   border: thin black solid;
   overflow-x: auto;
-`
+`;
 
 const Breadcrumb = styled.div`
   cursor: pointer;
@@ -17,25 +17,26 @@ const Breadcrumb = styled.div`
   align-items: center;
   border-right: solid thin black;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background: #0003;
   }
 
   &::before {
-    content: '.';
+    content: ".";
   }
 
   &:first-child::before {
-    content: '';
+    content: "";
   }
-`
+`;
 
 export const Breadcrumbs: React.FC = () => {
   const [path, setPath] = usePath();
 
   const crumbs = path.map((p, i) => (
     <Breadcrumb
-      key={'b-' + i + path.join('.')}
+      key={"b-" + i + path.join(".")}
       onClick={() => setPath(path.slice(0, i + 1))}
       tabIndex={0}
     >

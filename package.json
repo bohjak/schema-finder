@@ -18,7 +18,8 @@
     "postbuild": "tsc --project tsconfig.json",
     "build-storybook": "build-storybook",
     "storybook": "start-storybook -p 6006",
-    "test": "storybook"
+    "test": "storybook",
+    "format": "prettier --write 'src/*.{ts,tsx,json}'"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -30,6 +31,7 @@
     "@types/styled-components": "^4.x",
     "babel-loader": "^8.2.3",
     "esbuild": "^0.13.13",
+    "prettier": "^2.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "styled-components": "^5.3.3",

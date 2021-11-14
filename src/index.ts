@@ -1,1 +1,1 @@
-export { Finder, FinderProps } from './internal';
+export {Finder, FinderProps} from "./internal";

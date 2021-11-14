@@ -1,6 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import { isValidationKeyword, Property, useSchema, getNameFromRef, getRef } from './internal';
+import React from "react";
+import styled from "styled-components";
+import {
+  isValidationKeyword,
+  Property,
+  useSchema,
+  getNameFromRef,
+  getRef,
+} from "./internal";
 
 export const ColumnWrapper = styled.div`
   display: flex;
@@ -13,7 +19,7 @@ export const ColumnWrapper = styled.div`
   list-style-type: none;
   margin: 0;
   padding: 0;
-`
+`;
 
 export interface ColumnProps {
   childKeys: string[];
@@ -21,19 +27,15 @@ export interface ColumnProps {
   isComplex?: boolean;
 }
 
-export const Column: React.FC<ColumnProps> = ({
-  childKeys,
-  path,
-  isComplex,
-}) => {
-  const { fromSchema } = useSchema();
+export const Column: React.FC<ColumnProps> = ({childKeys, path, isComplex}) => {
+  const {fromSchema} = useSchema();
 
   const createProp = (key: string) => {
     const itemPath = [...path, key];
 
     return (
-      <Property key={'p-' + itemPath.join('.')} path={itemPath} hasChildren>
-        <span style={{ fontStyle: 'italic' }}>{key}</span>
+      <Property key={"p-" + itemPath.join(".")} path={itemPath} hasChildren>
+        <span style={{fontStyle: "italic"}}>{key}</span>
       </Property>
     );
   };
@@ -52,7 +54,7 @@ export const Column: React.FC<ColumnProps> = ({
     return (
       <Property
         path={itemPath}
-        key={'p-' + itemPath.join('.')}
+        key={"p-" + itemPath.join(".")}
         hasChildren={hasChildren}
       >
         {title}
@@ -62,9 +64,5 @@ export const Column: React.FC<ColumnProps> = ({
 
   const listItems = childKeys.map(isComplex ? complexCreateProp : createProp);
 
-  return (
-    <ColumnWrapper id={path.join('-')}>
-      {listItems}
-    </ColumnWrapper>
-  );
+  return <ColumnWrapper id={path.join("-")}>{listItems}</ColumnWrapper>;
 };

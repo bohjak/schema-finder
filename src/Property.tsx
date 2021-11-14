@@ -1,6 +1,6 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import { usePath } from './internal';
+import React from "react";
+import styled, {css} from "styled-components";
+import {usePath} from "./internal";
 
 interface PropertyWrapperProps {
   readonly hasChildren?: boolean;
@@ -12,30 +12,37 @@ const PropertyWrapper = styled.div<PropertyWrapperProps>`
   margin: 0;
   padding: 0.25em 0.5em;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     cursor: pointer;
     background: #0003;
   }
 
-  ${({hasChildren}) => hasChildren && css`
-    &::after {
-      content: '>';
-      float: right;
-    }
-  `}
+  ${({hasChildren}) =>
+    hasChildren &&
+    css`
+      &::after {
+        content: ">";
+        float: right;
+      }
+    `}
 
-  ${({inPath}) => inPath && css`
-    background: #0001;
-  `}
+  ${({inPath}) =>
+    inPath &&
+    css`
+      background: #0001;
+    `}
 
-  ${({lastInPath}) => lastInPath && css`
-    color: white;
-    font-weight: bold;
+  ${({lastInPath}) =>
+    lastInPath &&
+    css`
+      color: white;
+      font-weight: bold;
 
-    background: #000a !important;
-    cursor: default !important;
-  `}
-`
+      background: #000a !important;
+      cursor: default !important;
+    `}
+`;
 
 export interface PropertyProps {
   path: string[];

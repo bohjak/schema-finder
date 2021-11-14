@@ -1,6 +1,6 @@
-import type { JSONSchema7 } from 'json-schema';
-import React from 'react';
-import styled from 'styled-components';
+import type {JSONSchema7} from "json-schema";
+import React from "react";
+import styled from "styled-components";
 import {
   Breadcrumbs,
   Column,
@@ -12,8 +12,8 @@ import {
   Property,
   SchemaProvider,
   usePath,
-  useSchema
-} from './internal';
+  useSchema,
+} from "./internal";
 
 export interface FinderProps {
   /** Key/Value store; Key used for display name */
@@ -21,8 +21,8 @@ export interface FinderProps {
 }
 
 const OuterWrapper = styled.div`
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -30,25 +30,25 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-`
+`;
 
 const InnerWrapper = styled.div`
-display: flex;
+  display: flex;
   flex-flow: row nowrap;
   border: thin black solid;
   font-size: 12px;
   height: 30em;
-`
+`;
 
 const Columns = styled.div`
   display: flex;
   flex-flow: row nowrap;
   flex: 2;
   overflow-x: auto;
-`
+`;
 
-const InternalFinder: React.FC<FinderProps> = ({ schemas }) => {
-  const { setSchema, fromSchema } = useSchema();
+const InternalFinder: React.FC<FinderProps> = ({schemas}) => {
+  const {setSchema, fromSchema} = useSchema();
   const [path] = usePath();
 
   const roots = Object.entries(schemas).map(([key, schema]) => (
@@ -64,7 +64,7 @@ const InternalFinder: React.FC<FinderProps> = ({ schemas }) => {
 
   const columns = path.flatMap((pItem, i, p) => {
     const colPath = p.slice(0, i + 1);
-    const key = colPath.join('.');
+    const key = colPath.join(".");
     const item = fromSchema(colPath);
 
     const childKeys = Object.keys(item);
@@ -72,7 +72,7 @@ const InternalFinder: React.FC<FinderProps> = ({ schemas }) => {
     if (isComplexKey(pItem)) {
       return [
         <Column
-          key={'c-' + key}
+          key={"c-" + key}
           childKeys={childKeys}
           path={colPath}
           isComplex
@@ -81,11 +81,11 @@ const InternalFinder: React.FC<FinderProps> = ({ schemas }) => {
     }
 
     return item &&
-      (Array.isArray(item) || typeof item === 'object') &&
-      (!item.type || item.type === 'array' || item.type === 'object')
+      (Array.isArray(item) || typeof item === "object") &&
+      (!item.type || item.type === "array" || item.type === "object")
       ? [
           <Column
-            key={'c-' + key}
+            key={"c-" + key}
             childKeys={childKeys.filter(isValidationKeyword)}
             path={colPath}
           />,
@@ -96,8 +96,12 @@ const InternalFinder: React.FC<FinderProps> = ({ schemas }) => {
   React.useEffect(() => {
     if (!path.length) return;
 
-    const lastColumn = document.querySelector(`#${path.join('-')}`);
-    lastColumn?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'end' });
+    const lastColumn = document.querySelector(`#${path.join("-")}`);
+    lastColumn?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "end",
+    });
   }, [path]);
 
   return (
@@ -115,7 +119,7 @@ const InternalFinder: React.FC<FinderProps> = ({ schemas }) => {
 };
 
 /**
- * OSX Finder-esque JSONSchema explorer
+ * OSX's Finder-esque JSONSchema explorer
  */
 export const Finder: React.FC<FinderProps> = (props) => {
   return (
