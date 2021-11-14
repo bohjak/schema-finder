@@ -1,7 +1,7 @@
 import type {JSONSchema7} from "json-schema";
 import React from "react";
 import styled from "styled-components";
-import {isSchemaObject, usePath, useSchema} from "./internal";
+import {DeepGet, isSchemaObject} from "./internal";
 
 const InfoWrapper = styled.div`
   padding: 1em;
@@ -35,15 +35,17 @@ const Code = styled.code`
     monospace;
 `;
 
-export const Info: React.FC = () => {
-  const [path] = usePath();
-  const {fromSchema} = useSchema();
+export interface InfoProps {
+  readonly path: string[];
+  readonly fromSchema: DeepGet;
+}
 
+export const Info: React.VFC<InfoProps> = ({path, fromSchema}) => {
   const key = path.slice(-1)[0];
 
   let item: Partial<JSONSchema7> = {};
   if (!isSchemaObject(key)) {
-    item = fromSchema(path);
+    item = fromSchema(path) ?? {};
   }
 
   const {

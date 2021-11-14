@@ -1,18 +1,18 @@
-import type {JSONSchema7} from "json-schema";
+import {JSONSchema7} from "json-schema";
 import React from "react";
-import styled from "styled-components";
 import {
-  Breadcrumbs,
-  Column,
+  Breadcrumb,
+  BreadcrumbWrapper,
+  cleverDeepGet,
+  ClickHandler,
+  Columns,
   ColumnWrapper,
-  Info,
-  isComplexKey,
-  isValidationKeyword,
-  PathProvider,
-  Property,
-  SchemaProvider,
-  usePath,
-  useSchema,
+  getColId,
+  InnerWrapper,
+  OuterWrapper,
+  PropertyWrapper,
+  Schema,
+  SmartPath,
 } from "./internal";
 
 export interface FinderProps {
@@ -20,83 +20,79 @@ export interface FinderProps {
   readonly schemas: Record<string, JSONSchema7>;
 }
 
-const OuterWrapper = styled.div`
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
+  const [activeSchema, setSchema] = React.useState<JSONSchema7>();
+  const [path, setPath] = React.useState<SmartPath>([]);
 
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
+  const roots = React.useMemo(
+    () =>
+      Object.entries(schemas).map((entry, idx) => {
+        const [key, schema] = entry;
 
-const InnerWrapper = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  border: thin black solid;
-  font-size: 12px;
-  height: 30em;
-`;
+        const inPath = path[0]?.[0] === key;
+        const lastInPath = inPath && path.length === 1;
 
-const Columns = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  flex: 2;
-  overflow-x: auto;
-`;
+        return (
+          <PropertyWrapper
+            key={`root-${idx}-${key}`}
+            hasChildren
+            onClick={() => {
+              console.log("Reset", key, schema);
+              setSchema(schema);
+              setPath([entry]);
+            }}
+            inPath={inPath}
+            lastInPath={lastInPath}
+          >
+            {key}
+          </PropertyWrapper>
+        );
+      }),
+    // TODO: would love to get rid of the dependency on path
+    [path, schemas, setSchema, setPath]
+  );
 
-const InternalFinder: React.FC<FinderProps> = ({schemas}) => {
-  const {setSchema, fromSchema} = useSchema();
-  const [path] = usePath();
+  const fromSchema = React.useCallback(cleverDeepGet(activeSchema), [
+    activeSchema,
+  ]);
 
-  const roots = Object.entries(schemas).map(([key, schema]) => (
-    <Property
-      path={[key]}
-      key={key}
-      hasChildren
-      onClick={() => setSchema(schema)}
-    >
-      {key}
-    </Property>
-  ));
+  const columns = path.map(([name, value], idx) => {
+    const handler: ClickHandler = (entry) => () => {
+      console.log("Set Path", entry, idx, path);
+      setPath((prev) => [...prev.slice(0, idx + 1), entry]);
+    };
 
-  const columns = path.flatMap((pItem, i, p) => {
-    const colPath = p.slice(0, i + 1);
-    const key = colPath.join(".");
-    const item = fromSchema(colPath);
+    return (
+      <Schema
+        key={`col-${idx}-${name}`}
+        fromSchema={fromSchema}
+        path={path}
+        schema={value}
+        clickHandler={handler}
+        idx={idx + 1}
+      />
+    );
+  });
 
-    const childKeys = Object.keys(item);
+  const breadcrumbs = path.map(([name], idx) => {
+    const handler = () => {
+      console.log("Set Path (Breadcrumb)", idx, name);
+      setPath((prev) => prev.slice(0, idx + 1));
+    };
 
-    if (isComplexKey(pItem)) {
-      return [
-        <Column
-          key={"c-" + key}
-          childKeys={childKeys}
-          path={colPath}
-          isComplex
-        />,
-      ];
-    }
-
-    return item &&
-      (Array.isArray(item) || typeof item === "object") &&
-      (!item.type || item.type === "array" || item.type === "object")
-      ? [
-          <Column
-            key={"c-" + key}
-            childKeys={childKeys.filter(isValidationKeyword)}
-            path={colPath}
-          />,
-        ]
-      : [];
+    return (
+      <Breadcrumb key={`bc-${idx}-${name}`} onClick={handler}>
+        {name}
+      </Breadcrumb>
+    );
   });
 
   React.useEffect(() => {
+    console.log("Scroll To", getColId(path.length));
+
     if (!path.length) return;
 
-    const lastColumn = document.querySelector(`#${path.join("-")}`);
+    const lastColumn = document.querySelector(`#${getColId(path.length)}`);
     lastColumn?.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
@@ -111,9 +107,8 @@ const InternalFinder: React.FC<FinderProps> = ({schemas}) => {
           <ColumnWrapper>{roots}</ColumnWrapper>
           {columns}
         </Columns>
-        <Info />
       </InnerWrapper>
-      {!!path.length && <Breadcrumbs />}
+      <BreadcrumbWrapper>{breadcrumbs}</BreadcrumbWrapper>
     </OuterWrapper>
   );
 };
@@ -121,14 +116,10 @@ const InternalFinder: React.FC<FinderProps> = ({schemas}) => {
 /**
  * OSX's Finder-esque JSONSchema explorer
  */
-export const Finder: React.FC<FinderProps> = (props) => {
+export const Finder: React.VFC<FinderProps> = (props) => {
   return (
     <div>
-      <PathProvider>
-        <SchemaProvider>
-          <InternalFinder {...props} />
-        </SchemaProvider>
-      </PathProvider>
+      <InternalFinder {...props} />
     </div>
   );
 };

@@ -14,17 +14,17 @@ const capFirstLetter = ([h, ...t]: string) => {
   h.toUpperCase() + t.join("").toLowerCase();
 };
 
-export const getNameFromRef = (ref?: string) =>
-  parseRef(ref)
-    ?.slice(-1)[0]
-    .replace(matchWord, splitWithSpaces)
-    .trim()
-    .split(" ")
-    .map(capFirstLetter)
-    .join(" ");
+export const getNameFromRef = (ref?: string) => parseRef(ref)?.slice(-1)[0];
+// .replace(matchWord, splitWithSpaces)
+// .trim()
+// .split(" ")
+// .map(capFirstLetter)
+// .join(" ");
 
-export const cleverDeepGet = (obj: JSONSchema7) => {
-  const deepGet = (path: string[] = []) => {
+export type DeepGet = (path?: string[]) => JSONSchema7 | undefined;
+
+export const cleverDeepGet = (obj?: JSONSchema7) => {
+  const deepGet: DeepGet = (path = []) => {
     let acc = obj;
 
     for (const key of path.slice(1)) {
@@ -32,8 +32,8 @@ export const cleverDeepGet = (obj: JSONSchema7) => {
       acc = acc[key];
 
       if (acc && typeof acc === "object" && "$ref" in acc) {
-        const {$ref, ...rest} = acc;
-        acc = {...rest, ...deepGet(parseRef($ref))};
+        const {$ref} = acc;
+        acc = {...acc, ...deepGet(parseRef($ref))};
       }
     }
 
@@ -43,7 +43,7 @@ export const cleverDeepGet = (obj: JSONSchema7) => {
   return deepGet;
 };
 
-const createMemberCheck =
+export const createMemberCheck =
   (arr: string[]) =>
   (key?: string): boolean =>
     !!key && arr.includes(key);
@@ -92,3 +92,5 @@ export const validationKeywords: (keyof JSONSchema7)[] = [
 export const isValidationKeyword = createMemberCheck(validationKeywords);
 
 export const canSkip = createMemberCheck([...schemaObjectKeys, ...simpleKeys]);
+
+export const getColId = (idx: number) => `col-${idx}`;
