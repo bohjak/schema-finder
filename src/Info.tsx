@@ -1,111 +1,98 @@
-import type {JSONSchema7} from "json-schema";
+import type {JSONSchema7, JSONSchema7Type} from "json-schema";
 import React from "react";
-import styled from "styled-components";
-import {DeepGet, isSchemaObject} from "./internal";
+import {Code, InfoWrapper, Name, SchemaEntry, Title, Type} from "./internal";
 
-const InfoWrapper = styled.div`
-  padding: 1em;
-  border-left: thin black solid;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
-  overflow-y: auto;
-  flex: 1;
-
-  p {
-    margin: 0;
-  }
-`;
-
-const Title = styled.p`
-  font-weight: bold;
-  font-size: 1.5em;
-`;
-
-const Type = styled.p`
-  font-style: italic;
-`;
-
-const Name = styled.span`
-  font-weight: bold;
-`;
-
-const Code = styled.code`
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-`;
-
-export interface InfoProps {
-  readonly path: string[];
-  readonly fromSchema: DeepGet;
+interface ExamplesProps {
+  /**
+   * This type is wrong.
+   *
+   * Should be `unknown[] | undefined`; see [RFC].
+   *
+   * [RFC]: https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-10.4
+   */
+  readonly examples: JSONSchema7["examples"];
 }
 
-export const Info: React.VFC<InfoProps> = ({path, fromSchema}) => {
-  const key = path.slice(-1)[0];
+const Examples: React.VFC<ExamplesProps> = ({examples}) => {
+  if (!examples) return null;
 
-  let item: Partial<JSONSchema7> = {};
-  if (!isSchemaObject(key)) {
-    item = fromSchema(path) ?? {};
-  }
-
-  const {
-    title = key,
-    description,
-    type,
-    enum: ienum,
-    examples,
-    required,
-  } = item;
-
-  console.log("examples", examples);
-
-  const renderExamples = (examples: JSONSchema7["examples"]) => {
-    if (!examples) return null;
-
-    if (Array.isArray(examples))
-      return examples.map((e) => (
-        <p>
-          <Code>{JSON.stringify(e)}</Code>
-        </p>
-      ));
-
-    if (typeof examples === "object")
-      return (
+  return (
+    <>
+      <p>
+        <Name>Examples:</Name>
+      </p>
+      {Array.isArray(examples) ? (
+        examples.map((ex) => (
+          <p>
+            <Code>{JSON.stringify(ex)}</Code>
+          </p>
+        ))
+      ) : typeof examples === "object" ? (
         <p>
           <Code>{JSON.stringify(examples)}</Code>
         </p>
-      );
+      ) : (
+        <p>
+          <Code>{examples}</Code>
+        </p>
+      )}
+    </>
+  );
+};
 
-    return (
-      <p>
-        <Code>examples</Code>
-      </p>
-    );
-  };
+interface ValueProps {
+  value: JSONSchema7Type[];
+}
+
+const Value: React.VFC<ValueProps> = ({value}) => {
+  if (!value.length) return null;
+
+  return (
+    <p>
+      <Name>Value:</Name>{" "}
+      {value.length === 1 ? (
+        value[0]
+      ) : (
+        <>
+          <i>oneOf</i> [{value.join(", ")}]
+        </>
+      )}
+    </p>
+  );
+};
+
+export interface InfoProps {
+  readonly entry: SchemaEntry;
+}
+
+export const Info: React.VFC<InfoProps> = ({entry}) => {
+  const {name, schema} = entry;
+  const {
+    description,
+    type,
+    enum: sEnum,
+    const: sConst,
+    examples,
+    required,
+  } = schema;
+
+  // TODO: Not sure this belongs here?
+  const value: JSONSchema7Type[] = [];
+  if (sConst) value.push(sConst);
+  if (sEnum) value.push(...sEnum);
 
   return (
     <InfoWrapper>
-      {title && <Title>{title}</Title>}
+      <Title>{name}</Title>
       {type && <Type>{Array.isArray(type) ? type.join(", ") : type}</Type>}
-      {description && <p className="InfoDescription">{description}</p>}
-      {ienum && (
-        <p>
-          <Name>Value(s):</Name> {ienum.join(", ")}
-        </p>
-      )}
+      {description && <p>{description}</p>}
+      <Value value={value} />
       {required && (
         <p>
           <Name>Required Properties:</Name> {required.join(", ")}
         </p>
       )}
-      {examples && (
-        <>
-          <p>
-            <Name>Examples:</Name>
-          </p>
-          {renderExamples(examples)}
-        </>
-      )}
+      <Examples examples={examples} />
     </InfoWrapper>
   );
 };

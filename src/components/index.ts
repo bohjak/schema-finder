@@ -88,14 +88,6 @@ export const Breadcrumb = styled.div`
   &:focus {
     background: #0003;
   }
-
-  &::before {
-    content: ".";
-  }
-
-  &:first-child::before {
-    content: "";
-  }
 `;
 
 export const ColumnWrapper = styled.div`
@@ -109,4 +101,36 @@ export const ColumnWrapper = styled.div`
   list-style-type: none;
   margin: 0;
   padding: 0;
+`;
+
+export const InfoWrapper = styled.div`
+  padding: 1em;
+  border-left: thin black solid;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  overflow-y: auto;
+  flex: 1;
+
+  p {
+    margin: 0;
+  }
+`;
+
+export const Title = styled.p`
+  font-weight: bold;
+  font-size: 1.5em;
+`;
+
+export const Type = styled.p`
+  font-style: italic;
+`;
+
+export const Name = styled.span`
+  font-weight: bold;
+`;
+
+export const Code = styled.code`
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 `;

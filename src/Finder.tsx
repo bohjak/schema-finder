@@ -1,5 +1,6 @@
 import {JSONSchema7} from "json-schema";
 import React from "react";
+import {Info} from "./Info";
 import {
   Breadcrumb,
   BreadcrumbWrapper,
@@ -7,12 +8,13 @@ import {
   ClickHandler,
   Columns,
   ColumnWrapper,
+  toSchemaEntry,
   getColId,
   InnerWrapper,
   OuterWrapper,
   PropertyWrapper,
   Schema,
-  SmartPath,
+  SchemaEntry,
 } from "./internal";
 
 export interface FinderProps {
@@ -22,14 +24,21 @@ export interface FinderProps {
 
 const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
   const [activeSchema, setSchema] = React.useState<JSONSchema7>();
-  const [path, setPath] = React.useState<SmartPath>([]);
+  const [path, setPath] = React.useState<SchemaEntry[]>([]);
+
+  const fromSchema = React.useCallback(cleverDeepGet(activeSchema), [
+    activeSchema,
+  ]);
+
+  const activeEntry = React.useMemo(() => path.slice(-1)[0], [path]);
 
   const roots = React.useMemo(
     () =>
       Object.entries(schemas).map((entry, idx) => {
-        const [key, schema] = entry;
+        const schemaEntry = toSchemaEntry(entry);
+        const {key, schema} = schemaEntry;
 
-        const inPath = path[0]?.[0] === key;
+        const inPath = path[0]?.key === key;
         const lastInPath = inPath && path.length === 1;
 
         return (
@@ -39,7 +48,7 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
             onClick={() => {
               console.log("Reset", key, schema);
               setSchema(schema);
-              setPath([entry]);
+              setPath([schemaEntry]);
             }}
             inPath={inPath}
             lastInPath={lastInPath}
@@ -52,44 +61,44 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
     [path, schemas, setSchema, setPath]
   );
 
-  const fromSchema = React.useCallback(cleverDeepGet(activeSchema), [
-    activeSchema,
-  ]);
+  const columns = React.useMemo(
+    () =>
+      path.map(({schema, key}, idx) => {
+        const handler: ClickHandler = (entry) => () => {
+          setPath((prev) => [...prev.slice(0, idx + 1), entry]);
+        };
 
-  const columns = path.map(([name, value], idx) => {
-    const handler: ClickHandler = (entry) => () => {
-      console.log("Set Path", entry, idx, path);
-      setPath((prev) => [...prev.slice(0, idx + 1), entry]);
-    };
+        return (
+          <Schema
+            key={`col-${idx}-${key}`}
+            fromSchema={fromSchema}
+            path={path}
+            schema={schema}
+            clickHandler={handler}
+            idx={idx + 1}
+          />
+        );
+      }),
+    [path, fromSchema, setPath]
+  );
 
-    return (
-      <Schema
-        key={`col-${idx}-${name}`}
-        fromSchema={fromSchema}
-        path={path}
-        schema={value}
-        clickHandler={handler}
-        idx={idx + 1}
-      />
-    );
-  });
+  const breadcrumbs = React.useMemo(
+    () =>
+      path.map(({key, name}, idx) => {
+        const handler = () => {
+          setPath((prev) => prev.slice(0, idx + 1));
+        };
 
-  const breadcrumbs = path.map(([name], idx) => {
-    const handler = () => {
-      console.log("Set Path (Breadcrumb)", idx, name);
-      setPath((prev) => prev.slice(0, idx + 1));
-    };
-
-    return (
-      <Breadcrumb key={`bc-${idx}-${name}`} onClick={handler}>
-        {name}
-      </Breadcrumb>
-    );
-  });
+        return (
+          <Breadcrumb key={`bc-${idx}-${key}`} onClick={handler}>
+            {name}
+          </Breadcrumb>
+        );
+      }),
+    [path, setPath]
+  );
 
   React.useEffect(() => {
-    console.log("Scroll To", getColId(path.length));
-
     if (!path.length) return;
 
     const lastColumn = document.querySelector(`#${getColId(path.length)}`);
@@ -107,8 +116,11 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
           <ColumnWrapper>{roots}</ColumnWrapper>
           {columns}
         </Columns>
+        {activeEntry && <Info entry={activeEntry} />}
       </InnerWrapper>
-      <BreadcrumbWrapper>{breadcrumbs}</BreadcrumbWrapper>
+      {!!breadcrumbs.length && (
+        <BreadcrumbWrapper>{breadcrumbs}</BreadcrumbWrapper>
+      )}
     </OuterWrapper>
   );
 };
