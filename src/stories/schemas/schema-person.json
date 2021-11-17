@@ -1,0 +1,19 @@
+{
+  "title": "Person",
+  "properties": {
+    "alias": {
+      "type": "string",
+      "description": "The person's login name."
+    },
+    "friends": {
+      "type": "array",
+      "description": "List of friends",
+      "items": {
+        "$ref": "#"
+      }
+    }
+  },
+  "required": [
+    "alias"
+  ]
+}

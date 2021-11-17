@@ -1,0 +1,10 @@
+export {default as config} from "./config.json";
+export {default as fds} from "./fds.json";
+export {default as i18n} from "./i18n.json";
+export {default as jsonSchema7} from "./json-schema-7.json";
+export {default as niem} from "./niem.json";
+export {default as hyperMeta} from "./schema-hyper-meta.json";
+export {default as linksMeta} from "./schema-links-meta.json";
+export {default as meta} from "./schema-meta.json";
+export {default as person} from "./schema-person.json";
+export {default as shopSelection} from "./schema-shop-selection.json";

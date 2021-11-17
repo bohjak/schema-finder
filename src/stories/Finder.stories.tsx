@@ -1,9 +1,18 @@
 import {Meta} from "@storybook/react";
 import React from "react";
 import {Finder} from "../internal";
-import config from "./assets/config.json";
-import fds from "./assets/fds.json";
-import i18n from "./assets/i18n.json";
+import {
+  config,
+  fds,
+  hyperMeta,
+  i18n,
+  jsonSchema7,
+  linksMeta,
+  meta,
+  niem,
+  person,
+  shopSelection,
+} from "./schemas";
 
 export default {
   component: Finder,
@@ -16,6 +25,19 @@ export const SingleSchema: React.VFC = () => (
 
 export const MultipleSchemas: React.VFC = () => (
   <Finder
-    schemas={{fds: fds as any, i18n: i18n as any, config: config as any}}
+    schemas={
+      {
+        config,
+        fds,
+        hyperMeta,
+        i18n,
+        jsonSchema7,
+        linksMeta,
+        meta,
+        niem,
+        person,
+        shopSelection,
+      } as any
+    }
   />
 );
