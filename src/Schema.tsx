@@ -2,15 +2,15 @@ import {JSONSchema7, JSONSchema7Definition} from "json-schema";
 import React from "react";
 import {
   ColumnWrapper,
-  DeepGet,
+  Deref,
   getColId,
   getNameFromRef,
+  isObject,
   isSupportedKeyword,
-  parseRef,
   PropertyWrapper,
+  SchemaEntry,
+  toSchemaEntry,
 } from "./internal";
-import {SchemaEntry} from "./types";
-import {toSchemaEntry} from "./utils";
 
 export const Schema: React.VFC<SchemaProps<JSONSchema7Definition>> = (
   props
@@ -86,21 +86,25 @@ const getNames = (entry: SchemaEntry): SchemaEntry => {
 
 export type ClickHandler = (schemaEntry: SchemaEntry) => () => void;
 
-// TODO: evaluate reimplementing cleverDeepGet here with support for entries
-const dereference =
-  (fromSchema: DeepGet) =>
+/**
+ * Dereference entry schema
+ */
+const derefEntry =
+  (deref: Deref) =>
   (entry: SchemaEntry): SchemaEntry => {
     const {schema} = entry;
 
-    if (!schema.$ref) return entry;
+    const [derefSchema, err] = deref(schema);
+    if (err) {
+      console.error("Error dereferencing entry", entry, err);
+    }
 
-    // FIXME: duplicated from cleverDeepGet
-    const derefSchema = {...schema, ...fromSchema(parseRef(schema.$ref))};
-
-    return {...entry, schema: derefSchema};
+    if (isObject(derefSchema)) {
+      return {...entry, schema: derefSchema};
+    } else {
+      return entry;
+    }
   };
-
-// const betterDereference = (globalSchema: JSONSchema7, )
 
 // TODO: to be expanded upon
 const getChildren = (schema: JSONSchema7): string[] => {
@@ -127,7 +131,6 @@ const Row: React.VFC<RowProps> = ({entry, path, idx, clickHandler}) => {
 
   return (
     <PropertyWrapper
-      key={`os-${idx}-${key}`}
       hasChildren={hasChildren}
       inPath={inPath}
       lastInPath={lastInPath}
@@ -152,7 +155,7 @@ const Row: React.VFC<RowProps> = ({entry, path, idx, clickHandler}) => {
 
 export interface SchemaProps<S = JSONSchema7> {
   readonly clickHandler: ClickHandler;
-  readonly fromSchema: DeepGet;
+  readonly dereference: Deref;
   /** Index of `schema` in `path` */
   readonly idx: number;
   readonly path: SchemaEntry[];
@@ -161,20 +164,26 @@ export interface SchemaProps<S = JSONSchema7> {
 
 export const ObjectSchema: React.VFC<SchemaProps> = ({
   clickHandler,
-  fromSchema,
   idx,
   path,
   schema,
+  dereference,
 }) => {
   const {properties = {}, additionalProperties, propertyNames} = schema;
 
   const props = Object.entries(properties)
     .flatMap(filterNonSchema)
     .map(toSchemaEntry)
-    .map(dereference(fromSchema))
+    .map(derefEntry(dereference))
     .map(getNames)
     .map((entry) => (
-      <Row idx={idx} clickHandler={clickHandler} path={path} entry={entry} />
+      <Row
+        key={`os-${idx}-${entry.key}`}
+        idx={idx}
+        clickHandler={clickHandler}
+        path={path}
+        entry={entry}
+      />
     ));
   // TODO: pattern additional props
 
@@ -194,6 +203,7 @@ export const ObjectSchema: React.VFC<SchemaProps> = ({
       {props}
       {showAddProps && (
         <Row
+          key={`os-${idx}-additionalProperties`}
           idx={idx}
           clickHandler={clickHandler}
           path={path}
@@ -206,6 +216,7 @@ export const ObjectSchema: React.VFC<SchemaProps> = ({
       )}
       {showPropNames && (
         <Row
+          key={`os-${idx}-propertyNames`}
           idx={idx}
           clickHandler={clickHandler}
           path={path}

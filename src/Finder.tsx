@@ -1,5 +1,6 @@
 import {JSONSchema7} from "json-schema";
 import React from "react";
+import {makeDeref} from "./dereference";
 import {Info} from "./Info";
 import {
   Breadcrumb,
@@ -7,7 +8,6 @@ import {
   ClickHandler,
   Columns,
   ColumnWrapper,
-  deepGet,
   getColId,
   InnerWrapper,
   OuterWrapper,
@@ -26,8 +26,7 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
   const [activeSchema, setSchema] = React.useState<JSONSchema7>();
   const [path, setPath] = React.useState<SchemaEntry[]>([]);
 
-  const fromSchema = React.useCallback(deepGet(activeSchema), [activeSchema]);
-
+  const deref = React.useCallback(makeDeref(activeSchema), [activeSchema]);
   const activeEntry = React.useMemo(() => path.slice(-1)[0], [path]);
 
   const roots = React.useMemo(
@@ -69,7 +68,7 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
         return (
           <Schema
             key={`col-${idx}-${key}`}
-            fromSchema={fromSchema}
+            dereference={deref}
             path={path}
             schema={schema}
             clickHandler={handler}
@@ -77,7 +76,7 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
           />
         );
       }),
-    [path, fromSchema, setPath]
+    [path, deref, setPath]
   );
 
   const breadcrumbs = React.useMemo(
