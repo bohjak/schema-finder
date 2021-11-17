@@ -2,6 +2,8 @@
 
 > A friendly companion for JSONSchema exploration
 
+Licensed under the [Unlicense].
+
 This package started as a drop-in replacement for [React JSON Schema Inspector]
 with proper support for references, arrays, titles, and any combination thereof.
 
@@ -13,7 +15,7 @@ with proper support for references, arrays, titles, and any combination thereof.
   - [x] Support properties
   - [ ] Support items
   - [ ] Support annotations
-  - [ ] Schema info
+  - [x] Schema info
   - [ ] Show if a property is required
   - [ ] (Optional) Generic object fallback path
 - [ ] Get rid of Storybook
@@ -44,3 +46,4 @@ with proper support for references, arrays, titles, and any combination thereof.
 
 [react json schema inspector]:
   https://github.com/CarstenWickner/react-jsonschema-inspector
+[unlicense]: ./LICENSE
