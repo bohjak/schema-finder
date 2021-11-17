@@ -19,7 +19,7 @@
     "build-storybook": "build-storybook",
     "storybook": "start-storybook -p 6006",
     "test": "storybook",
-    "format": "prettier --write 'src/*.{ts,tsx,json}'"
+    "format": "prettier --write 'src/**/*.{ts,tsx,json}'"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

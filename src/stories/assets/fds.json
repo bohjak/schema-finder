@@ -161,12 +161,7 @@
       }
     }
   },
-  "required": [
-    "fields",
-    "form",
-    "id",
-    "tenant"
-  ],
+  "required": ["fields", "form", "id", "tenant"],
   "definitions": {
     "FormConfiguration": {
       "description": "Configuration properties.",
@@ -203,9 +198,7 @@
                   "and": {
                     "salesGroupId": {
                       "30002": {
-                        "filter": [
-                          "E_SALES"
-                        ]
+                        "filter": ["E_SALES"]
                       }
                     }
                   }
@@ -217,9 +210,7 @@
                         "and": {
                           "trimName": {
                             "gte": {
-                              "filter": [
-                                "E_SALES"
-                              ]
+                              "filter": ["E_SALES"]
                             }
                           }
                         }
@@ -228,9 +219,7 @@
                         "and": {
                           "trimName": {
                             "e-golf": {
-                              "filter": [
-                                "E_SALES"
-                              ]
+                              "filter": ["E_SALES"]
                             }
                           }
                         }
@@ -245,9 +234,7 @@
                         "and": {
                           "trimName": {
                             "gte": {
-                              "filter": [
-                                "E_SALES"
-                              ]
+                              "filter": ["E_SALES"]
                             }
                           }
                         }
@@ -262,9 +249,7 @@
                         "and": {
                           "trimName": {
                             "gte": {
-                              "filter": [
-                                "E_SALES"
-                              ]
+                              "filter": ["E_SALES"]
                             }
                           }
                         }
@@ -336,9 +321,7 @@
       "properties": {
         "source": {
           "type": "string",
-          "enum": [
-            "fds"
-          ]
+          "enum": ["fds"]
         },
         "cid": {
           "description": "Also known as \"Content Id\" it is a value that will be sent when the form is posted to the Opportunity Service (OPS).",
@@ -353,11 +336,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "cid",
-        "source",
-        "value"
-      ]
+      "required": ["cid", "source", "value"]
     },
     "SessionStorage": {
       "description": "Value comes from session storage",
@@ -366,9 +345,7 @@
       "properties": {
         "source": {
           "type": "string",
-          "enum": [
-            "sessionStorage"
-          ]
+          "enum": ["sessionStorage"]
         },
         "cid": {
           "description": "Also known as \"Content Id\" it is a value that will be sent when the form is posted to the Opportunity Service (OPS).",
@@ -387,11 +364,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "cid",
-        "key",
-        "source"
-      ]
+      "required": ["cid", "key", "source"]
     },
     "CustomerData": {
       "description": "Value is taken from the customers data object",
@@ -400,9 +373,7 @@
       "properties": {
         "source": {
           "type": "string",
-          "enum": [
-            "customerData"
-          ]
+          "enum": ["customerData"]
         },
         "cid": {
           "description": "Also known as \"Content Id\" it is a value that will be sent when the form is posted to the Opportunity Service (OPS).",
@@ -421,11 +392,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "cid",
-        "profileMappingPath",
-        "source"
-      ]
+      "required": ["cid", "profileMappingPath", "source"]
     },
     "DealerSelectorHiddenValue": {
       "description": "Value is loaded via feature app connector from the Dealer Search Feature Service.",
@@ -434,9 +401,7 @@
       "properties": {
         "source": {
           "type": "string",
-          "enum": [
-            "dealer-selector"
-          ]
+          "enum": ["dealer-selector"]
         },
         "cidPrefix": {
           "description": "Also known as \"Content Id\" it is a value that will be sent when the form is posted to the Opportunity Service (OPS).",
@@ -446,10 +411,7 @@
           "$ref": "#/definitions/DealerSelectorConnectorMapping"
         }
       },
-      "required": [
-        "connectorMapping",
-        "source"
-      ]
+      "required": ["connectorMapping", "source"]
     },
     "DealerSelectorConnectorMapping": {
       "description": "Dealer selector value mapping from connector",
@@ -514,9 +476,7 @@
       "properties": {
         "source": {
           "type": "string",
-          "enum": [
-            "appointment-selector"
-          ]
+          "enum": ["appointment-selector"]
         },
         "cidPrefix": {
           "description": "Also known as \"Content Id\" it is a value that will be sent when the form is posted to the Opportunity Service (OPS).",
@@ -526,10 +486,7 @@
           "$ref": "#/definitions/AppointmentSelectorConnectorMapping"
         }
       },
-      "required": [
-        "connectorMapping",
-        "source"
-      ]
+      "required": ["connectorMapping", "source"]
     },
     "AppointmentSelectorConnectorMapping": {
       "description": "Appointment selector value mapping from connector",
@@ -556,9 +513,7 @@
       "properties": {
         "source": {
           "type": "string",
-          "enum": [
-            "car-configuration"
-          ]
+          "enum": ["car-configuration"]
         },
         "cidPrefix": {
           "description": "Also known as \"Content Id\" it is a value that will be sent when the form is posted to the Opportunity Service (OPS).",
@@ -568,10 +523,7 @@
           "$ref": "#/definitions/CarConfigurationConnectorMapping"
         }
       },
-      "required": [
-        "connectorMapping",
-        "source"
-      ]
+      "required": ["connectorMapping", "source"]
     },
     "CarConfigurationConnectorMapping": {
       "description": "Car configuration value mapping from connector",
@@ -618,9 +570,7 @@
       "properties": {
         "source": {
           "type": "string",
-          "enum": [
-            "marketingCode"
-          ]
+          "enum": ["marketingCode"]
         },
         "cid": {
           "description": "Also known as \"Content Id\" it is a value that will be sent when the form is posted to the Opportunity Service (OPS).",
@@ -635,10 +585,7 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "cid",
-        "source"
-      ]
+      "required": ["cid", "source"]
     },
     "Checkbox": {
       "description": "A checkbox allows the user to select one or more options of a limited number of choices. As the input this field has to appear inside a form group.",
@@ -647,9 +594,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "checkbox"
-          ]
+          "enum": ["checkbox"]
         },
         "label": {
           "description": "The i18n key or direct translation for the field label.",
@@ -716,12 +661,7 @@
           ]
         }
       },
-      "required": [
-        "cid",
-        "label",
-        "options",
-        "type"
-      ]
+      "required": ["cid", "label", "options", "type"]
     },
     "CheckboxOption": {
       "type": "object",
@@ -747,19 +687,14 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "label",
-        "value"
-      ]
+      "required": ["label", "value"]
     },
     "RequiredIf": {
       "type": "object",
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "requiredIf"
-          ]
+          "enum": ["requiredIf"]
         },
         "cid": {
           "description": "CID of the depended on field.",
@@ -774,19 +709,14 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "cid",
-        "type"
-      ]
+      "required": ["cid", "type"]
     },
     "VisibleIf": {
       "type": "object",
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "visibleIf"
-          ]
+          "enum": ["visibleIf"]
         },
         "cid": {
           "description": "CID of the depended on field.",
@@ -801,10 +731,7 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "cid",
-        "type"
-      ]
+      "required": ["cid", "type"]
     },
     "NoPrefilling": {
       "description": "No value will be prefilled",
@@ -812,14 +739,10 @@
       "properties": {
         "source": {
           "type": "string",
-          "enum": [
-            "noPrefilling"
-          ]
+          "enum": ["noPrefilling"]
         }
       },
-      "required": [
-        "source"
-      ]
+      "required": ["source"]
     },
     "FdsPrefilled": {
       "description": "With a value defined here in the form definition",
@@ -827,19 +750,14 @@
       "properties": {
         "source": {
           "type": "string",
-          "enum": [
-            "fds"
-          ]
+          "enum": ["fds"]
         },
         "value": {
           "description": "The field will be prefilled with this value",
           "type": "string"
         }
       },
-      "required": [
-        "source",
-        "value"
-      ]
+      "required": ["source", "value"]
     },
     "AuthservicePrefilled": {
       "description": "With a value taken from the Auth Service",
@@ -847,9 +765,7 @@
       "properties": {
         "source": {
           "type": "string",
-          "enum": [
-            "authservice"
-          ]
+          "enum": ["authservice"]
         },
         "profileMappingPath": {
           "description": "Path to value in the user profile data model",
@@ -860,10 +776,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "profileMappingPath",
-        "source"
-      ]
+      "required": ["profileMappingPath", "source"]
     },
     "FormGroup": {
       "description": "Enable group elements and provide specific title for an element group",
@@ -872,9 +785,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "form-group"
-          ]
+          "enum": ["form-group"]
         },
         "title": {
           "description": "The i18n key or direct translation for the field title",
@@ -944,10 +855,7 @@
           }
         }
       },
-      "required": [
-        "fields",
-        "type"
-      ]
+      "required": ["fields", "type"]
     },
     "Input": {
       "description": "The input field is the most basic general form element, showing just a simple input field for numbers or strings.",
@@ -956,9 +864,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "input"
-          ]
+          "enum": ["input"]
         },
         "label": {
           "description": "The i18n key or direct translation for the field label.",
@@ -986,13 +892,7 @@
         },
         "inputType": {
           "description": "date, email, url, number",
-          "enum": [
-            "date",
-            "email",
-            "number",
-            "text",
-            "url"
-          ],
+          "enum": ["date", "email", "number", "text", "url"],
           "type": "string"
         },
         "pattern": {
@@ -1031,12 +931,7 @@
           ]
         }
       },
-      "required": [
-        "cid",
-        "inputType",
-        "label",
-        "type"
-      ]
+      "required": ["cid", "inputType", "label", "type"]
     },
     "Radio": {
       "description": "The radio group behaves identically to the checkbox group in the form definition. The only difference is, that it has to have a single element in the OSS rather than an array.",
@@ -1045,9 +940,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "radio"
-          ]
+          "enum": ["radio"]
         },
         "label": {
           "description": "The i18n key or direct translation for the field label.",
@@ -1121,12 +1014,7 @@
           ]
         }
       },
-      "required": [
-        "cid",
-        "label",
-        "options",
-        "type"
-      ]
+      "required": ["cid", "label", "options", "type"]
     },
     "RadioOption": {
       "type": "object",
@@ -1144,10 +1032,7 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "label",
-        "value"
-      ]
+      "required": ["label", "value"]
     },
     "Richtext": {
       "description": "Rich Text is a field type that enables to create text content, supporting various text formats such as bold, italic, links, lists etc.",
@@ -1156,18 +1041,11 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "richtext"
-          ]
+          "enum": ["richtext"]
         },
         "target": {
           "description": "Where should the links open (_blank: new tab, _self: in the same tab, _parent: parent browsing context, _top: topmost browsing context).",
-          "enum": [
-            "_blank",
-            "_parent",
-            "_self",
-            "_top"
-          ],
+          "enum": ["_blank", "_parent", "_self", "_top"],
           "type": "string"
         },
         "value": {
@@ -1185,10 +1063,7 @@
           }
         }
       },
-      "required": [
-        "type",
-        "value"
-      ]
+      "required": ["type", "value"]
     },
     "MarketingConsentText": {
       "description": "Text field displaying the latest MEV (Marketing Einverständnis Erklärung - Marketing Consent Statement) texts from the IDK (VW Identity Kit)",
@@ -1197,18 +1072,11 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "mev-text"
-          ]
+          "enum": ["mev-text"]
         },
         "target": {
           "description": "Where should the links open (_blank: new tab, _self: in the same tab, _parent: parent browsing context, _top: topmost browsing context).",
-          "enum": [
-            "_blank",
-            "_parent",
-            "_self",
-            "_top"
-          ],
+          "enum": ["_blank", "_parent", "_self", "_top"],
           "type": "string"
         },
         "mdKey": {
@@ -1226,10 +1094,7 @@
           }
         }
       },
-      "required": [
-        "mdKey",
-        "type"
-      ]
+      "required": ["mdKey", "type"]
     },
     "Select": {
       "description": "A select field is a dropdown field containing different information to be selected by the customer. As the input this field has to appear inside a form group.",
@@ -1238,9 +1103,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "select"
-          ]
+          "enum": ["select"]
         },
         "label": {
           "description": "The i18n key or direct translation for the field label.",
@@ -1319,13 +1182,7 @@
           ]
         }
       },
-      "required": [
-        "cid",
-        "label",
-        "options",
-        "placeholder",
-        "type"
-      ]
+      "required": ["cid", "label", "options", "placeholder", "type"]
     },
     "Option": {
       "type": "object",
@@ -1339,10 +1196,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "label",
-        "value"
-      ]
+      "required": ["label", "value"]
     },
     "AppointmentSelectorSummaryField": {
       "description": "A summary field that can show information from appointment selector into the form",
@@ -1351,9 +1205,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "appointment-selector-summary"
-          ]
+          "enum": ["appointment-selector-summary"]
         },
         "label": {
           "description": "I18n key for the markdown label of the summary field. Label can contain %CID% placeholders that will be replaced with values from the form",
@@ -1379,12 +1231,7 @@
         },
         "target": {
           "description": "Where should the links open (_blank: new tab, _self: in the same tab, _parent: parent browsing context, _top: topmost browsing context).",
-          "enum": [
-            "_blank",
-            "_parent",
-            "_self",
-            "_top"
-          ],
+          "enum": ["_blank", "_parent", "_self", "_top"],
           "type": "string"
         },
         "dependencies": {
@@ -1394,9 +1241,7 @@
           }
         }
       },
-      "required": [
-        "type"
-      ]
+      "required": ["type"]
     },
     "DealerSelectorSummaryField": {
       "description": "A summary field that can show information from dealer selector into the form",
@@ -1405,9 +1250,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "dealer-selector-summary"
-          ]
+          "enum": ["dealer-selector-summary"]
         },
         "label": {
           "description": "I18n key for the markdown label of the summary field. Label can contain %CID% placeholders that will be replaced with values from the form",
@@ -1433,12 +1276,7 @@
         },
         "target": {
           "description": "Where should the links open (_blank: new tab, _self: in the same tab, _parent: parent browsing context, _top: topmost browsing context).",
-          "enum": [
-            "_blank",
-            "_parent",
-            "_self",
-            "_top"
-          ],
+          "enum": ["_blank", "_parent", "_self", "_top"],
           "type": "string"
         },
         "dependencies": {
@@ -1448,9 +1286,7 @@
           }
         }
       },
-      "required": [
-        "type"
-      ]
+      "required": ["type"]
     },
     "SummaryField": {
       "description": "A summary field that can show information that has been already entered by the user into the form",
@@ -1459,9 +1295,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "summary"
-          ]
+          "enum": ["summary"]
         },
         "label": {
           "description": "I18n key for the markdown label of the summary field. Label can contain %CID% placeholders that will be replaced with values from the form",
@@ -1487,12 +1321,7 @@
         },
         "target": {
           "description": "Where should the links open (_blank: new tab, _self: in the same tab, _parent: parent browsing context, _top: topmost browsing context).",
-          "enum": [
-            "_blank",
-            "_parent",
-            "_self",
-            "_top"
-          ],
+          "enum": ["_blank", "_parent", "_self", "_top"],
           "type": "string"
         },
         "dependencies": {
@@ -1502,9 +1331,7 @@
           }
         }
       },
-      "required": [
-        "type"
-      ]
+      "required": ["type"]
     },
     "DoubleSelect": {
       "description": "A double select field is a dropdown field containing different information to be selected by the customer.",
@@ -1513,9 +1340,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "double-select"
-          ]
+          "enum": ["double-select"]
         },
         "errorMessage": {
           "description": "The i18n key or direct translation for the errormessage if a validation fails.",
@@ -1555,12 +1380,7 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "options",
-        "primary",
-        "secondary",
-        "type"
-      ]
+      "required": ["options", "primary", "secondary", "type"]
     },
     "PrimarySelect": {
       "description": "Configuration for the first select",
@@ -1601,11 +1421,7 @@
           ]
         }
       },
-      "required": [
-        "cid",
-        "label",
-        "placeholder"
-      ]
+      "required": ["cid", "label", "placeholder"]
     },
     "SecondarySelect": {
       "description": "Configuration for the second select",
@@ -1646,11 +1462,7 @@
           ]
         }
       },
-      "required": [
-        "cid",
-        "label",
-        "placeholder"
-      ]
+      "required": ["cid", "label", "placeholder"]
     },
     "DoubleOption": {
       "type": "object",
@@ -1677,11 +1489,7 @@
           }
         }
       },
-      "required": [
-        "label",
-        "options",
-        "value"
-      ]
+      "required": ["label", "options", "value"]
     },
     "Textarea": {
       "description": "A textarea field represents a multi-line plain-text editing control, useful when you want to allow users to enter a sizeable amount of free-form text.",
@@ -1690,9 +1498,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "textarea"
-          ]
+          "enum": ["textarea"]
         },
         "label": {
           "description": "The i18n key or direct translation for the field label.",
@@ -1770,11 +1576,7 @@
           ]
         }
       },
-      "required": [
-        "cid",
-        "label",
-        "type"
-      ]
+      "required": ["cid", "label", "type"]
     },
     "DealerSelector": {
       "description": "A Feature App for search for and selecting a dealer",
@@ -1787,9 +1589,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "dealer-selector"
-          ]
+          "enum": ["dealer-selector"]
         },
         "contentConfig": {
           "description": "Provide Feature App Content Config in JSON format",
@@ -1799,10 +1599,7 @@
           "$ref": "#/definitions/DealerSelectorConnectorMapping"
         }
       },
-      "required": [
-        "connectorMapping",
-        "type"
-      ]
+      "required": ["connectorMapping", "type"]
     },
     "AppointmentSelector": {
       "description": "A Feature App for selecting a date and a time for an appointment",
@@ -1815,9 +1612,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "appointment-selector"
-          ]
+          "enum": ["appointment-selector"]
         },
         "contentConfig": {
           "description": "Provide Feature App Content Config in JSON format",
@@ -1827,10 +1622,7 @@
           "$ref": "#/definitions/AppointmentSelectorConnectorMapping"
         }
       },
-      "required": [
-        "connectorMapping",
-        "type"
-      ]
+      "required": ["connectorMapping", "type"]
     },
     "ModelSelector": {
       "description": "A Feature App for selecting a car configuration",
@@ -1843,9 +1635,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "model-selector"
-          ]
+          "enum": ["model-selector"]
         },
         "contentConfig": {
           "description": "Provide Feature App Content Config in JSON format",
@@ -1855,10 +1645,7 @@
           "$ref": "#/definitions/CarConfigurationConnectorMapping"
         }
       },
-      "required": [
-        "connectorMapping",
-        "type"
-      ]
+      "required": ["connectorMapping", "type"]
     },
     "FormStep": {
       "description": "Groups form fields into consecutive steps",
@@ -1867,9 +1654,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "form-step"
-          ]
+          "enum": ["form-step"]
         },
         "title": {
           "description": "Label of a checkmark shown in the next step",
@@ -1936,10 +1721,7 @@
           }
         }
       },
-      "required": [
-        "fields",
-        "type"
-      ]
+      "required": ["fields", "type"]
     }
   },
   "$schema": "http://json-schema.org/draft-07/schema#"

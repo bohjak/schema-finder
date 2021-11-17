@@ -19,10 +19,7 @@
       "type": "string"
     },
     "themeType": {
-      "enum": [
-        "inverted",
-        "main"
-      ],
+      "enum": ["inverted", "main"],
       "type": "string"
     },
     "headline": {
@@ -35,17 +32,10 @@
       "type": "string"
     }
   },
-  "required": [
-    "modeType"
-  ],
+  "required": ["modeType"],
   "definitions": {
     "ModeTypeSchema": {
-      "enum": [
-        "default",
-        "formInLayer",
-        "simpleFormTeaser",
-        "standalone"
-      ],
+      "enum": ["default", "formInLayer", "simpleFormTeaser", "standalone"],
       "type": "string"
     }
   },
