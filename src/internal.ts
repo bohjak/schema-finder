@@ -1,4 +1,5 @@
 export * from "./components";
+export * from "./deep-get";
 export * from "./Finder";
 export * from "./helpers";
 export * from "./Info";

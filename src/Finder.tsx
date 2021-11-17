@@ -4,17 +4,17 @@ import {Info} from "./Info";
 import {
   Breadcrumb,
   BreadcrumbWrapper,
-  cleverDeepGet,
   ClickHandler,
   Columns,
   ColumnWrapper,
-  toSchemaEntry,
+  deepGet,
   getColId,
   InnerWrapper,
   OuterWrapper,
   PropertyWrapper,
   Schema,
   SchemaEntry,
+  toSchemaEntry,
 } from "./internal";
 
 export interface FinderProps {
@@ -26,9 +26,7 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
   const [activeSchema, setSchema] = React.useState<JSONSchema7>();
   const [path, setPath] = React.useState<SchemaEntry[]>([]);
 
-  const fromSchema = React.useCallback(cleverDeepGet(activeSchema), [
-    activeSchema,
-  ]);
+  const fromSchema = React.useCallback(deepGet(activeSchema), [activeSchema]);
 
   const activeEntry = React.useMemo(() => path.slice(-1)[0], [path]);
 
