@@ -8,7 +8,16 @@ const createMemberCheck =
 /**
  * Keywords we're currently capable of handling and displaying
  */
-const supportedKeywords: (keyof JSONSchema7)[] = ["properties"];
+const supportedKeywords: (keyof JSONSchema7)[] = [
+  "$ref",
+  "additionalItems",
+  "additionalProperties",
+  "contains",
+  "items",
+  "patternProperties",
+  "properties",
+  "propertyNames",
+];
 
 export const isSupportedKeyword = createMemberCheck(supportedKeywords);
 

@@ -12,10 +12,17 @@ import {
   toSchemaEntry,
 } from "./internal";
 
-export const Schema: React.VFC<SchemaProps<JSONSchema7Definition>> = (
-  props
-) => {
-  const {schema} = props;
+export interface SchemaProps {
+  readonly clickHandler: ClickHandler;
+  readonly dereference: Deref;
+  /** Index of `schema` in `path` */
+  readonly idx: number;
+  readonly path: SchemaEntry[];
+  readonly schema: JSONSchema7Definition;
+}
+
+export const Schema: React.VFC<SchemaProps> = (props) => {
+  const {schema, idx} = props;
 
   if (typeof schema === "boolean") return null;
 
@@ -41,16 +48,39 @@ export const Schema: React.VFC<SchemaProps<JSONSchema7Definition>> = (
   // reasons, but that time is not now.
   // (Also that would require something like a custom renderer, so...)
 
-  switch (schema.type) {
-    case "object":
-      return <ObjectSchema {...props} />;
-    case "array":
-      return <ArraySchema {...props} />;
-    default: {
-      // Nothing?
-      return null;
-    }
-  }
+  const {
+    additionalItems = {},
+    additionalProperties = {},
+    contains = {},
+    items = [],
+    patternProperties = {},
+    properties = {},
+    propertyNames = {},
+  } = schema;
+
+  const renderRows = makeRenderer(props);
+
+  const propertyRows = renderRows(properties);
+  const patternRows = renderRows(patternProperties);
+  const addPropRows = renderRows({additionalProperties});
+  const propNamesRows = renderRows({propertyNames});
+  const itemRows = Array.isArray(items)
+    ? renderRows(items)
+    : renderRows({items});
+  const addItemRows = renderRows({additionalItems});
+  const containRows = renderRows({contains});
+
+  return (
+    <ColumnWrapper id={getColId(idx)}>
+      {addItemRows}
+      {addPropRows}
+      {containRows}
+      {itemRows}
+      {patternRows}
+      {propNamesRows}
+      {propertyRows}
+    </ColumnWrapper>
+  );
 };
 
 const isSchema = (prop?: JSONSchema7Definition): prop is JSONSchema7 =>
@@ -73,7 +103,7 @@ const filterNonSchema = ([key, prop]: [string, JSONSchema7Definition]): [
   return isSchema(prop) ? [[key, prop]] : [];
 };
 
-const getNames = (entry: SchemaEntry): SchemaEntry => {
+const getName = (entry: SchemaEntry): SchemaEntry => {
   const {schema} = entry;
   if (schema.title) return {...entry, name: schema.title};
   if (schema.$ref) {
@@ -86,12 +116,14 @@ const getNames = (entry: SchemaEntry): SchemaEntry => {
 
 export type ClickHandler = (schemaEntry: SchemaEntry) => () => void;
 
+type DerefEntry = (entry: SchemaEntry) => SchemaEntry;
+
 /**
  * Dereference entry schema
  */
 const derefEntry =
-  (deref: Deref) =>
-  (entry: SchemaEntry): SchemaEntry => {
+  (deref: Deref): DerefEntry =>
+  (entry) => {
     const {schema} = entry;
 
     const [derefSchema, err] = deref(schema);
@@ -112,13 +144,20 @@ const getChildren = (schema: JSONSchema7): string[] => {
 };
 
 interface RowProps {
-  readonly entry: SchemaEntry;
-  readonly path: SchemaEntry[];
-  readonly idx: number;
   readonly clickHandler: ClickHandler;
+  readonly entry: SchemaEntry;
+  readonly idx: number;
+  readonly isKeyword?: boolean;
+  readonly path: SchemaEntry[];
 }
 
-const Row: React.VFC<RowProps> = ({entry, path, idx, clickHandler}) => {
+const Row: React.VFC<RowProps> = ({
+  entry,
+  path,
+  idx,
+  clickHandler,
+  isKeyword,
+}) => {
   const isLastColumn = React.useMemo(() => {
     return idx === path.length - 1;
   }, [idx, path]);
@@ -131,6 +170,7 @@ const Row: React.VFC<RowProps> = ({entry, path, idx, clickHandler}) => {
 
   return (
     <PropertyWrapper
+      isKeyword={isKeyword}
       hasChildren={hasChildren}
       inPath={inPath}
       lastInPath={lastInPath}
@@ -141,96 +181,21 @@ const Row: React.VFC<RowProps> = ({entry, path, idx, clickHandler}) => {
   );
 };
 
-// const renderRows = (
-//   schema: JSONSchema7,
-//   commonProps: Omit<RowProps, "entry">
-// ): JSX.Element[] => {
-//   return Object.entries(schema)
-//     .flatMap(filterNonSchema)
-//     .map(toSchemaEntry)
-//     .map(dereference(fromSchema))
-//     .map(getNames)
-//     .map((entry) => <Row {...commonProps} entry={entry} />);
-// };
-
-export interface SchemaProps<S = JSONSchema7> {
-  readonly clickHandler: ClickHandler;
-  readonly dereference: Deref;
-  /** Index of `schema` in `path` */
-  readonly idx: number;
-  readonly path: SchemaEntry[];
-  readonly schema: S;
-}
-
-export const ObjectSchema: React.VFC<SchemaProps> = ({
-  clickHandler,
-  idx,
-  path,
-  schema,
-  dereference,
-}) => {
-  const {properties = {}, additionalProperties, propertyNames} = schema;
-
-  const props = Object.entries(properties)
-    .flatMap(filterNonSchema)
-    .map(toSchemaEntry)
-    .map(derefEntry(dereference))
-    .map(getNames)
-    .map((entry) => (
-      <Row
-        key={`os-${idx}-${entry.key}`}
-        idx={idx}
-        clickHandler={clickHandler}
-        path={path}
-        entry={entry}
-      />
-    ));
-  // TODO: pattern additional props
-
-  const showAddProps: boolean = React.useMemo(() => {
-    return (
-      isSchema(additionalProperties) &&
-      !!getChildren(additionalProperties).length
-    );
-  }, [additionalProperties]);
-
-  const showPropNames: boolean = React.useMemo(() => {
-    return isSchema(propertyNames) && !!getChildren(propertyNames).length;
-  }, [propertyNames]);
-
-  return (
-    <ColumnWrapper id={getColId(idx)}>
-      {props}
-      {showAddProps && (
+const makeRenderer =
+  ({clickHandler, dereference, idx, path}: SchemaProps) =>
+  (rows: Record<string, JSONSchema7Definition> | JSONSchema7Definition[]) => {
+    return Object.entries(rows)
+      .flatMap(filterNonSchema)
+      .map(toSchemaEntry)
+      .map(derefEntry(dereference))
+      .map(getName)
+      .map((entry) => (
         <Row
-          key={`os-${idx}-additionalProperties`}
+          key={`os-${idx}-${entry.key}`}
           idx={idx}
           clickHandler={clickHandler}
           path={path}
-          entry={{
-            key: "additionalProperties",
-            name: "additionalProperties",
-            schema: additionalProperties as JSONSchema7,
-          }}
+          entry={entry}
         />
-      )}
-      {showPropNames && (
-        <Row
-          key={`os-${idx}-propertyNames`}
-          idx={idx}
-          clickHandler={clickHandler}
-          path={path}
-          entry={{
-            key: "propertyNames",
-            name: "propertyNames",
-            schema: propertyNames as JSONSchema7,
-          }}
-        />
-      )}
-    </ColumnWrapper>
-  );
-};
-
-export const ArraySchema: React.VFC<SchemaProps> = ({idx}) => {
-  return <ColumnWrapper id={getColId(idx)}>Array</ColumnWrapper>;
-};
+      ));
+  };

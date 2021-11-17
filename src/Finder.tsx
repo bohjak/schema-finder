@@ -43,7 +43,6 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
             key={`root-${idx}-${key}`}
             hasChildren
             onClick={() => {
-              console.log("Reset", key, schema);
               setSchema(schema);
               setPath([schemaEntry]);
             }}

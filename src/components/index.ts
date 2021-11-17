@@ -30,12 +30,15 @@ export const Columns = styled.div`
 export interface PropertyWrapperProps {
   readonly hasChildren?: boolean;
   readonly inPath?: boolean;
+  readonly isKeyword?: boolean;
   readonly lastInPath?: boolean;
 }
 
 export const PropertyWrapper = styled.div<PropertyWrapperProps>`
   margin: 0;
   padding: 0.25em 0.5em;
+
+  font-style: ${({isKeyword}) => isKeyword && "italic"};
 
   &:hover,
   &:focus {
