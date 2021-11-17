@@ -1,12 +1,11 @@
 import {JSONSchema7, JSONSchema7Definition} from "json-schema";
 import React from "react";
-import styled from "styled-components";
 import {
   ColumnWrapper,
-  createMemberCheck,
   DeepGet,
   getColId,
   getNameFromRef,
+  isSupportedKeyword,
   parseRef,
   PropertyWrapper,
 } from "./internal";
@@ -102,13 +101,6 @@ const dereference =
   };
 
 // const betterDereference = (globalSchema: JSONSchema7, )
-
-/**
- * Keywords we're currently capable of handling and displaying
- */
-const supportedKeywords: (keyof JSONSchema7)[] = ["properties"];
-
-const isSupportedKeyword = createMemberCheck(supportedKeywords);
 
 // TODO: to be expanded upon
 const getChildren = (schema: JSONSchema7): string[] => {
