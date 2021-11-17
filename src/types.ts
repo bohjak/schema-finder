@@ -10,3 +10,5 @@ export type SchemaEntry = {
   /** Schema value */
   readonly schema: JSONSchema7;
 };
+
+export type R<V, E = Error> = [val: V, err?: E];

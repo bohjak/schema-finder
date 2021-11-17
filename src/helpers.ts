@@ -5,7 +5,15 @@ export const getRef = (schema?: JSONSchema7) =>
     ? schema.$ref
     : undefined;
 
-export const parseRef = (ref?: string) => ref?.split("/");
+/**
+ * Converts JSON pointer to array of strings path
+ *
+ * @param ref JSON pointer
+ *
+ * @example
+ * parseRef("#/definitions/field")  // -> ["definitions", "field"]
+ */
+export const parseRef = (ref?: string) => ref?.split("/").slice(1);
 
 const matchWord = /([A-Z-_]*[a-z]+)/g;
 const splitWithSpaces = (m: string) => m.replace(/[-_]/, "") + " ";
@@ -27,7 +35,7 @@ export const cleverDeepGet = (obj?: JSONSchema7) => {
   const deepGet: DeepGet = (path = []) => {
     let acc = obj;
 
-    for (const key of path.slice(1)) {
+    for (const key of path) {
       // @ts-expect-error Unsafe object manipulation
       acc = acc[key];
 
