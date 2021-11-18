@@ -3,6 +3,7 @@ import React from "react";
 import {makeDeref} from "./dereference";
 import {Info} from "./Info";
 import {
+  addHasChildren,
   Breadcrumb,
   BreadcrumbWrapper,
   ClickHandler,
@@ -29,42 +30,64 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
   const deref = React.useCallback(makeDeref(activeSchema), [activeSchema]);
   const activeEntry = React.useMemo(() => path.slice(-1)[0], [path]);
 
+  const rootSchemaEntries = React.useMemo(() => {
+    return Object.entries(schemas).map(toSchemaEntry).map(addHasChildren);
+  }, [schemas]);
+
+  // Need to do this in a useEffect because `roots` are dependent on `path`
+  React.useEffect(() => {
+    if (rootSchemaEntries.length === 1) {
+      const entry = rootSchemaEntries[0];
+      setSchema(entry.schema);
+      setPath([entry]);
+    }
+  }, [rootSchemaEntries]);
+
   const roots = React.useMemo(
-    () =>
-      Object.entries(schemas).map((entry, idx) => {
-        const schemaEntry = toSchemaEntry(entry);
-        const {key, schema} = schemaEntry;
+    () => {
+      if (rootSchemaEntries.length === 1) {
+        return null;
+      }
 
-        const inPath = path[0]?.key === key;
-        const lastInPath = inPath && path.length === 1;
+      return (
+        <ColumnWrapper>
+          {rootSchemaEntries.map((entry, idx) => {
+            const {key, schema, hasChildren} = entry;
+            const inPath = path[0]?.key === key;
+            const lastInPath = inPath && path.length === 1;
 
-        return (
-          <PropertyWrapper
-            key={`root-${idx}-${key}`}
-            hasChildren
-            onClick={() => {
-              setSchema(schema);
-              setPath([schemaEntry]);
-            }}
-            inPath={inPath}
-            lastInPath={lastInPath}
-          >
-            {key}
-          </PropertyWrapper>
-        );
-      }),
+            return (
+              <PropertyWrapper
+                key={`root-${idx}-${key}`}
+                hasChildren={hasChildren}
+                onClick={() => {
+                  setSchema(schema);
+                  setPath([entry]);
+                }}
+                inPath={inPath}
+                lastInPath={lastInPath}
+              >
+                {key}
+              </PropertyWrapper>
+            );
+          })}
+        </ColumnWrapper>
+      );
+    },
     // TODO: would love to get rid of the dependency on path
-    [path, schemas, setSchema, setPath]
+    [path, rootSchemaEntries, setSchema, setPath]
   );
 
   const columns = React.useMemo(
     () =>
-      path.map(({schema, key}, idx) => {
+      path.flatMap(({schema, key, hasChildren}, idx) => {
+        if (!hasChildren) return [];
+
         const handler: ClickHandler = (entry) => () => {
           setPath((prev) => [...prev.slice(0, idx + 1), entry]);
         };
 
-        return (
+        return [
           <Schema
             key={`col-${idx}-${key}`}
             dereference={deref}
@@ -72,8 +95,8 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
             schema={schema}
             clickHandler={handler}
             idx={idx + 1}
-          />
-        );
+          />,
+        ];
       }),
     [path, deref, setPath]
   );
@@ -109,7 +132,7 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
     <OuterWrapper>
       <InnerWrapper>
         <Columns>
-          <ColumnWrapper>{roots}</ColumnWrapper>
+          {roots}
           {columns}
         </Columns>
         {activeEntry && <Info entry={activeEntry} />}

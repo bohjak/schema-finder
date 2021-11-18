@@ -27,14 +27,24 @@ export const Columns = styled.div`
   overflow-x: auto;
 `;
 
+export const Row = styled.div`
+  margin: 0;
+  padding: 0.25em 0.5em;
+`;
+
+export const RowGroupTitle = styled(Row)`
+  font-style: italic;
+`;
+
 export interface PropertyWrapperProps {
   readonly hasChildren?: boolean;
   readonly inPath?: boolean;
   readonly isKeyword?: boolean;
   readonly lastInPath?: boolean;
+  readonly isRequired?: boolean;
 }
 
-export const PropertyWrapper = styled.div<PropertyWrapperProps>`
+export const PropertyWrapper = styled(Row)<PropertyWrapperProps>`
   margin: 0;
   padding: 0.25em 0.5em;
 
@@ -65,10 +75,15 @@ export const PropertyWrapper = styled.div<PropertyWrapperProps>`
     lastInPath &&
     css`
       color: white;
-      font-weight: bold;
 
       background: #000a !important;
       cursor: default !important;
+    `}
+
+  ${({isRequired}) =>
+    isRequired &&
+    css`
+      font-weight: bold;
     `}
 `;
 
@@ -136,4 +151,9 @@ export const Name = styled.span`
 export const Code = styled.code`
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+`;
+
+export const Divider = styled.hr`
+  width: 80%;
+  color: #0002;
 `;

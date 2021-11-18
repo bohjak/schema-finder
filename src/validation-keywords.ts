@@ -12,11 +12,18 @@ const supportedKeywords: (keyof JSONSchema7)[] = [
   "$ref",
   "additionalItems",
   "additionalProperties",
+  "allOf",
+  "anyOf",
   "contains",
+  "else",
+  "if",
   "items",
+  "not",
+  "oneOf",
   "patternProperties",
   "properties",
   "propertyNames",
+  "then",
 ];
 
 export const isSupportedKeyword = createMemberCheck(supportedKeywords);

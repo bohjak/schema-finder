@@ -13,10 +13,11 @@ with proper support for references, arrays, titles, and any combination thereof.
 - [ ] Component library injection
 - [ ] Simplify schema tree (stop showing _properties_ layers)
   - [x] Support properties
-  - [ ] Support items
-  - [ ] Support annotations
+  - [x] Support items
+  - [x] Support annotations
   - [x] Schema info
-  - [ ] Show if a property is required
+  - [x] Show if a property is required
+  - [ ] Have boolean and conditional keywords act on parent schemas
   - [ ] (Optional) Generic object fallback path
 - [ ] Get rid of Storybook
 - [ ] Separate the package from dev demo

@@ -1,6 +1,14 @@
 import type {JSONSchema7, JSONSchema7Type} from "json-schema";
 import React from "react";
-import {Code, InfoWrapper, Name, SchemaEntry, Title, Type} from "./internal";
+import {
+  Code,
+  Divider,
+  InfoWrapper,
+  Name,
+  SchemaEntry,
+  Title,
+  Type,
+} from "./internal";
 
 interface ExamplesProps {
   /**
@@ -54,7 +62,7 @@ const Value: React.VFC<ValueProps> = ({value}) => {
         value[0]
       ) : (
         <>
-          <i>oneOf</i> [{value.join(", ")}]
+          <i>oneOf:</i> {value.join(", ")}
         </>
       )}
     </p>
@@ -66,7 +74,7 @@ export interface InfoProps {
 }
 
 export const Info: React.VFC<InfoProps> = ({entry}) => {
-  const {name, schema} = entry;
+  const {name, schema, isRequired} = entry;
   const {
     description,
     type,
@@ -84,14 +92,25 @@ export const Info: React.VFC<InfoProps> = ({entry}) => {
   return (
     <InfoWrapper>
       <Title>{name}</Title>
-      {type && <Type>{Array.isArray(type) ? type.join(", ") : type}</Type>}
+      {isRequired && (
+        <p>
+          <i>Required</i>
+        </p>
+      )}
       {description && <p>{description}</p>}
+      <Divider />
       <Value value={value} />
+      {type && (
+        <p>
+          <Name>Type:</Name> {Array.isArray(type) ? type.join(", ") : type}
+        </p>
+      )}
       {required && (
         <p>
           <Name>Required Properties:</Name> {required.join(", ")}
         </p>
       )}
+      <Divider />
       <Examples examples={examples} />
     </InfoWrapper>
   );
