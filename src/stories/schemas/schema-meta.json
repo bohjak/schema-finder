@@ -44,10 +44,7 @@
       "default": []
     }
   },
-  "type": [
-    "object",
-    "boolean"
-  ],
+  "type": ["object", "boolean"],
   "properties": {
     "$id": {
       "type": "string",

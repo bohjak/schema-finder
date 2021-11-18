@@ -4,10 +4,7 @@
   "title": "Link Description Object",
   "allOf": [
     {
-      "required": [
-        "rel",
-        "href"
-      ]
+      "required": ["rel", "href"]
     },
     {
       "$ref": "#/definitions/noRequiredFields"

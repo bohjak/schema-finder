@@ -7,9 +7,10 @@ specifiers:
   '@storybook/addon-links': ^6.3.12
   '@storybook/react': ^6.3.12
   '@types/json-schema': ^7.0.9
-  '@types/styled-components': ^4.x
+  '@types/styled-components': ^5.1.15
   babel-loader: ^8.2.3
   esbuild: ^0.13.13
+  husky: ^7.0.0
   prettier: ^2.4.1
   react: ^17.0.2
   react-dom: ^17.0.2
@@ -23,9 +24,10 @@ devDependencies:
   '@storybook/addon-links': 6.3.12_react-dom@17.0.2+react@17.0.2
   '@storybook/react': 6.3.12_4c6e08f106c507054e583164043061aa
   '@types/json-schema': 7.0.9
-  '@types/styled-components': 4.4.3
+  '@types/styled-components': 5.1.15
   babel-loader: 8.2.3_@babel+core@7.16.0
   esbuild: 0.13.13
+  husky: 7.0.4
   prettier: 2.4.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
@@ -3077,12 +3079,6 @@ packages:
       '@types/react': 17.0.34
     dev: true
 
-  /@types/react-native/0.66.4:
-    resolution: {integrity: sha512-Aby37oZ0S8LS4abOVWbBgChfHLZsx3skcj2QJU9ZHPhA1h6+yBbdBH2wJLxIUXfYT1Ejkwuv8n5u+/VxLzzcmA==}
-    dependencies:
-      '@types/react': 17.0.34
-    dev: true
-
   /@types/react-syntax-highlighter/11.0.5:
     resolution: {integrity: sha512-VIOi9i2Oj5XsmWWoB72p3KlZoEbdRAcechJa8Ztebw7bDl2YmR+odxIqhtJGp1q2EozHs02US+gzxJ9nuf56qg==}
     dependencies:
@@ -3105,13 +3101,12 @@ packages:
     resolution: {integrity: sha512-K5K+yml8LTo9bWJI/rECfIPrGgxdpeNbj+d53lwN4QjW1MCwlkhUms+gtdzigTeUyBr09+u8BwOIY3MXvHdcsA==}
     dev: true
 
-  /@types/styled-components/4.4.3:
-    resolution: {integrity: sha512-U0udeNOZBfUkJycmGJwmzun0FBt11rZy08weVQmE2xfUNAbX8AGOEWxWna2d+qAUKxKgMlcG+TZT0+K2FfDcnQ==}
+  /@types/styled-components/5.1.15:
+    resolution: {integrity: sha512-4evch8BRI3AKgb0GAZ/sn+mSeB+Dq7meYtMi7J/0Mg98Dt1+r8fySOek7Sjw1W+Wskyjc93565o5xWAT/FdY0Q==}
     dependencies:
       '@types/hoist-non-react-statics': 3.3.1
       '@types/react': 17.0.34
-      '@types/react-native': 0.66.4
-      csstype: 2.6.18
+      csstype: 3.0.9
     dev: true
 
   /@types/tapable/1.0.8:
@@ -6362,6 +6357,12 @@ packages:
 
   /https-browserify/1.0.0:
     resolution: {integrity: sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=}
+    dev: true
+
+  /husky/7.0.4:
+    resolution: {integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==}
+    engines: {node: '>=12'}
+    hasBin: true
     dev: true
 
   /iconv-lite/0.4.24:

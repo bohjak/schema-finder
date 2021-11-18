@@ -13,7 +13,5 @@
       }
     }
   },
-  "required": [
-    "alias"
-  ]
+  "required": ["alias"]
 }
