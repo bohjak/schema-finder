@@ -19,6 +19,7 @@ import {
   SchemaEntry,
   toSchemaEntry,
 } from "./internal";
+import {RowGroup} from "./Schema";
 
 export interface FinderProps {
   /** Key/Value store; Key used for display name */
@@ -55,26 +56,28 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
 
       return (
         <ColumnWrapper>
-          {rootSchemaEntries.map((entry, idx) => {
-            const {key, schema, hasChildren} = entry;
-            const inPath = path[0]?.key === key;
-            const lastInPath = inPath && path.length === 1;
+          <RowGroup
+            rows={rootSchemaEntries.map((entry, idx) => {
+              const {key, schema, hasChildren} = entry;
+              const inPath = path[0]?.key === key;
+              const lastInPath = inPath && path.length === 1;
 
-            return (
-              <PropertyWrapper
-                key={`root-${idx}-${key}`}
-                hasChildren={hasChildren}
-                onClick={() => {
-                  setSchema(schema);
-                  setPath([entry]);
-                }}
-                inPath={inPath}
-                lastInPath={lastInPath}
-              >
-                {key}
-              </PropertyWrapper>
-            );
-          })}
+              return (
+                <PropertyWrapper
+                  key={`root-${idx}-${key}`}
+                  hasChildren={hasChildren}
+                  onClick={() => {
+                    setSchema(schema);
+                    setPath([entry]);
+                  }}
+                  inPath={inPath}
+                  lastInPath={lastInPath}
+                >
+                  {key}
+                </PropertyWrapper>
+              );
+            })}
+          />
         </ColumnWrapper>
       );
     },
@@ -84,24 +87,29 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
 
   const columns = React.useMemo(
     () =>
-      path.flatMap(({schema, key, hasChildren}, idx) => {
+      path.flatMap(({schema, key, hasChildren}, i) => {
         if (!hasChildren) return [];
 
+        // Because the path is a collection of selected items from columns.
+        // So the index of a column is always +1 from the index of the schema
+        // in path it takes its data from.
+        const colIdx = i + 1;
+
         const clickHandler: ClickHandler = (entry) => () => {
-          setPath((prev) => [...prev.slice(0, idx + 1), entry]);
+          setPath((prev) => [...prev.slice(0, colIdx), entry]);
         };
 
         const commonRowProps: CommonRowProps = {
           clickHandler,
           dereference,
-          idx,
+          colIdx,
           path,
         };
 
         return [
           <Schema
-            key={`col-${idx}-${key}`}
-            idx={idx + 1}
+            key={`col-${colIdx}-${key}`}
+            colIdx={colIdx}
             schema={schema}
             renderRowsWithProps={renderRows(commonRowProps)}
           />,

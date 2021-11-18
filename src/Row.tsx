@@ -142,7 +142,7 @@ export interface CommonRowProps {
   readonly clickHandler: ClickHandler;
   readonly dereference: Deref;
   /** Index of `schema` in `path` */
-  readonly idx: number;
+  readonly colIdx: number;
   readonly path: SchemaEntry[];
 }
 
@@ -165,8 +165,8 @@ export type RenderRows = (commonProps: CommonRowProps) => RenderRowsWithProps;
  * applied stages (well, at least one of them anyway)
  */
 export const renderRows: RenderRows = (commonProps) => (required) => (rows) => {
-  const {clickHandler, dereference, idx, path} = commonProps;
-  const keyPath = path.map((entry) => entry.key);
+  const {clickHandler, dereference, colIdx, path} = commonProps;
+  const keyPath = path.slice(0, colIdx).map((entry) => entry.key);
 
   return Object.entries(rows)
     .flatMap(filterNonSchema)
@@ -178,8 +178,8 @@ export const renderRows: RenderRows = (commonProps) => (required) => (rows) => {
     .map(addPath(keyPath))
     .map((entry) => (
       <Row
-        key={`os-${idx}-${entry.key}`}
-        idx={idx}
+        key={`os-${colIdx}-${entry.key}`}
+        idx={colIdx}
         clickHandler={clickHandler}
         path={path}
         entry={entry}

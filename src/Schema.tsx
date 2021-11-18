@@ -10,13 +10,13 @@ import {
 
 export interface SchemaProps {
   /** Index of `schema` in `path` */
-  readonly idx: number;
+  readonly colIdx: number;
   readonly schema: JSONSchema7Definition;
   readonly renderRowsWithProps: RenderRowsWithProps;
 }
 
 export const Schema: React.VFC<SchemaProps> = (props) => {
-  const {schema, idx, renderRowsWithProps} = props;
+  const {schema, colIdx, renderRowsWithProps} = props;
 
   if (!schema || typeof schema !== "object") return null;
 
@@ -87,7 +87,7 @@ export const Schema: React.VFC<SchemaProps> = (props) => {
   const elseRows = renderRows({else: sElse});
 
   return (
-    <ColumnWrapper id={getColId(idx)}>
+    <ColumnWrapper id={getColId(colIdx)}>
       <RowGroup rows={propertyRows} />
       <RowGroup rows={patternRows} />
       <RowGroup rows={addPropRows} title="additionalProperties" />
@@ -109,12 +109,12 @@ export const Schema: React.VFC<SchemaProps> = (props) => {
   );
 };
 
-interface RowGroupProps {
+export interface RowGroupProps {
   rows: JSX.Element[];
   title?: string;
 }
 
-const RowGroup: React.VFC<RowGroupProps> = ({rows, title}) => {
+export const RowGroup: React.VFC<RowGroupProps> = ({rows, title}) => {
   if (!rows.length) return null;
 
   return (

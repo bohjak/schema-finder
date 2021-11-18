@@ -99,7 +99,8 @@ export const Info: React.VFC<InfoProps> = ({entry}) => {
       )}
       {entryPath && !!entryPath.length && (
         <p>
-          <Name>Full Path:</Name> {entryPath.join(".")}
+          {/* TODO: replace the zero-width space with a proper CSS solution */}
+          <Name>Full Path:</Name> {entryPath.join("\u200B.")}
         </p>
       )}
       {description && <p>{description}</p>}
