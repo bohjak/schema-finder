@@ -10,14 +10,14 @@ with proper support for references, arrays, titles, and any combination thereof.
 ## Roadmap
 
 - [x] Styled Components migration
-- [ ] Component library injection
-- [ ] Simplify schema tree (stop showing _properties_ layers)
+- [x] Simplify schema tree (stop showing _properties_ layers)
   - [x] Support properties
   - [x] Support items
   - [x] Support annotations
   - [x] Schema info
   - [x] Show if a property is required
-  - [ ] Fix path
+  - [x] Fix path
+- [ ] Component library injection
 - [ ] Have boolean and conditional keywords act on parent schemas
 - [ ] Explore decoupling of JSONSchema specific code and supporting multiple
       schemas

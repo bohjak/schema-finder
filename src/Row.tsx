@@ -1,10 +1,11 @@
-import {JSONSchema7, JSONSchema7Definition} from "json-schema";
 import React from "react";
 import {
   Deref,
   getNameFromRef,
   isObject,
   isSupportedKeyword,
+  JSONSchema7,
+  JSONSchema7Definition,
   PropertyWrapper,
   SchemaEntry,
   toSchemaEntry,

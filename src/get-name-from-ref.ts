@@ -1,10 +1,3 @@
-import type {JSONSchema7} from "json-schema";
-
-export const getRef = (schema?: JSONSchema7) =>
-  schema && typeof schema === "object" && "$ref" in schema
-    ? schema.$ref
-    : undefined;
-
 /**
  * Converts JSON pointer to array of strings path
  *
@@ -28,5 +21,3 @@ export const getNameFromRef = (ref?: string) => parseRef(ref)?.slice(-1)[0];
 // .split(" ")
 // .map(capFirstLetter)
 // .join(" ");
-
-export const getColId = (idx: number) => `col-${idx}`;

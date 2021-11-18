@@ -1,13 +1,13 @@
-import type {JSONSchema7, JSONSchema7Type} from "json-schema";
 import React from "react";
 import {
   Code,
   Divider,
   InfoWrapper,
+  JSONSchema7,
+  JSONSchema7Type,
   Name,
   SchemaEntry,
   Title,
-  Type,
 } from "./internal";
 
 interface ExamplesProps {

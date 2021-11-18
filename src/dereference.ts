@@ -1,5 +1,4 @@
-import {JSONSchema7} from "json-schema";
-import {isObject, parseRef, R} from "./internal";
+import {isObject, JSONSchema7, parseRef, R} from "./internal";
 
 type DeepGet = (path?: string[]) => R<unknown>;
 /**

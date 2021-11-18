@@ -1,7 +1,4 @@
-import {JSONSchema7} from "json-schema";
 import React from "react";
-import {makeDeref} from "./dereference";
-import {Info} from "./Info";
 import {
   addHasChildren,
   Breadcrumb,
@@ -11,15 +8,18 @@ import {
   ColumnWrapper,
   CommonRowProps,
   getColId,
+  Info,
   InnerWrapper,
+  JSONSchema7,
+  makeDeref,
   OuterWrapper,
   PropertyWrapper,
   renderRows,
+  RowGroup,
   Schema,
   SchemaEntry,
   toSchemaEntry,
 } from "./internal";
-import {RowGroup} from "./Schema";
 
 export interface FinderProps {
   /** Key/Value store; Key used for display name */

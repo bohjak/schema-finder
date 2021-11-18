@@ -1,8 +1,8 @@
-import {JSONSchema7Definition} from "json-schema";
 import React from "react";
 import {
   ColumnWrapper,
   getColId,
+  JSONSchema7Definition,
   RenderRowsWithProps,
   RowGroupTitle,
   RowGroupWrapper,

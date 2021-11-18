@@ -1,4 +1,5 @@
 import {JSONSchema7} from "json-schema";
+export {JSONSchema7, JSONSchema7Definition, JSONSchema7Type} from "json-schema";
 
 export type SchemaEntry = {
   /** Key in parent schema */

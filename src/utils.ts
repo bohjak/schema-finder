@@ -1,5 +1,4 @@
-import {JSONSchema7} from "json-schema";
-import {SchemaEntry} from "./internal";
+import {JSONSchema7, SchemaEntry} from "./internal";
 
 export const id = <T>(x: T): T => x;
 export const noop = () => {};
@@ -18,3 +17,5 @@ export const toSchemaEntry = ([key, schema]: [
   schema,
   name: key,
 });
+
+export const getColId = (idx: number) => `col-${idx}`;
