@@ -3,6 +3,7 @@ export * from "./dereference";
 export * from "./Finder";
 export * from "./helpers";
 export * from "./Info";
+export * from "./Row";
 export * from "./Schema";
 export * from "./types";
 export * from "./utils";

@@ -17,10 +17,13 @@ with proper support for references, arrays, titles, and any combination thereof.
   - [x] Support annotations
   - [x] Schema info
   - [x] Show if a property is required
-  - [ ] Have boolean and conditional keywords act on parent schemas
-  - [ ] (Optional) Generic object fallback path
+  - [ ] Fix path
+- [ ] Have boolean and conditional keywords act on parent schemas
+- [ ] Explore decoupling of JSONSchema specific code and supporting multiple
+      schemas
 - [ ] Get rid of Storybook
 - [ ] Separate the package from dev demo
+- [ ] Add a flag for enabling URL based $ref resolution
 
 ## Dev Setup
 

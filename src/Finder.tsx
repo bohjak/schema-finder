@@ -9,10 +9,12 @@ import {
   ClickHandler,
   Columns,
   ColumnWrapper,
+  CommonRowProps,
   getColId,
   InnerWrapper,
   OuterWrapper,
   PropertyWrapper,
+  renderRows,
   Schema,
   SchemaEntry,
   toSchemaEntry,
@@ -27,7 +29,9 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
   const [activeSchema, setSchema] = React.useState<JSONSchema7>();
   const [path, setPath] = React.useState<SchemaEntry[]>([]);
 
-  const deref = React.useCallback(makeDeref(activeSchema), [activeSchema]);
+  const dereference = React.useCallback(makeDeref(activeSchema), [
+    activeSchema,
+  ]);
   const activeEntry = React.useMemo(() => path.slice(-1)[0], [path]);
 
   const rootSchemaEntries = React.useMemo(() => {
@@ -83,22 +87,27 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
       path.flatMap(({schema, key, hasChildren}, idx) => {
         if (!hasChildren) return [];
 
-        const handler: ClickHandler = (entry) => () => {
+        const clickHandler: ClickHandler = (entry) => () => {
           setPath((prev) => [...prev.slice(0, idx + 1), entry]);
+        };
+
+        const commonRowProps: CommonRowProps = {
+          clickHandler,
+          dereference,
+          idx,
+          path,
         };
 
         return [
           <Schema
             key={`col-${idx}-${key}`}
-            dereference={deref}
-            path={path}
-            schema={schema}
-            clickHandler={handler}
             idx={idx + 1}
+            schema={schema}
+            renderRowsWithProps={renderRows(commonRowProps)}
           />,
         ];
       }),
-    [path, deref, setPath]
+    [path, dereference, setPath]
   );
 
   const breadcrumbs = React.useMemo(

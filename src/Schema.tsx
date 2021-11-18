@@ -1,29 +1,22 @@
-import {JSONSchema7, JSONSchema7Definition} from "json-schema";
+import {JSONSchema7Definition} from "json-schema";
 import React from "react";
 import {
   ColumnWrapper,
-  Deref,
   getColId,
-  getNameFromRef,
-  isObject,
-  isSupportedKeyword,
-  PropertyWrapper,
+  RenderRowsWithProps,
   RowGroupTitle,
-  SchemaEntry,
-  toSchemaEntry,
+  RowGroupWrapper,
 } from "./internal";
 
 export interface SchemaProps {
-  readonly clickHandler: ClickHandler;
-  readonly dereference: Deref;
   /** Index of `schema` in `path` */
   readonly idx: number;
-  readonly path: SchemaEntry[];
   readonly schema: JSONSchema7Definition;
+  readonly renderRowsWithProps: RenderRowsWithProps;
 }
 
 export const Schema: React.VFC<SchemaProps> = (props) => {
-  const {schema, idx} = props;
+  const {schema, idx, renderRowsWithProps} = props;
 
   if (!schema || typeof schema !== "object") return null;
 
@@ -67,7 +60,7 @@ export const Schema: React.VFC<SchemaProps> = (props) => {
     required,
   } = schema;
 
-  const renderRows = makeRenderer(props, required);
+  const renderRows = renderRowsWithProps(required);
 
   /* 6.5 */
   const propertyRows = renderRows(properties);
@@ -95,23 +88,23 @@ export const Schema: React.VFC<SchemaProps> = (props) => {
 
   return (
     <ColumnWrapper id={getColId(idx)}>
-      {propertyRows}
-      {patternRows}
+      <RowGroup rows={propertyRows} />
+      <RowGroup rows={patternRows} />
       <RowGroup rows={addPropRows} title="additionalProperties" />
-      {propNamesRows}
+      <RowGroup rows={propNamesRows} />
 
-      {itemRows}
+      <RowGroup rows={itemRows} />
       <RowGroup rows={addItemRows} title="additionalItems" />
-      {containRows}
+      <RowGroup rows={containRows} />
 
       <RowGroup rows={allRows} title="allOf" />
       <RowGroup rows={anyRows} title="anyOf" />
       <RowGroup rows={oneRows} title="oneOf" />
-      {notRows}
+      <RowGroup rows={notRows} />
 
-      {ifRows}
-      {thenRows}
-      {elseRows}
+      <RowGroup rows={ifRows} />
+      <RowGroup rows={thenRows} />
+      <RowGroup rows={elseRows} />
     </ColumnWrapper>
   );
 };
@@ -125,147 +118,9 @@ const RowGroup: React.VFC<RowGroupProps> = ({rows, title}) => {
   if (!rows.length) return null;
 
   return (
-    <>
+    <RowGroupWrapper>
       {title && <RowGroupTitle>{title}</RowGroupTitle>}
       {rows}
-    </>
+    </RowGroupWrapper>
   );
 };
-
-const isSchema = (prop?: JSONSchema7Definition): prop is JSONSchema7 =>
-  typeof prop === "object" && !!Object.keys(prop).length;
-
-/**
- * Filters out anything that's not a useful schema.
- *
- * Use with `flatMap`.
- *
- * @param {Entry} PropEntry
- *
- * @example
- * Object.entries(schema.properties).flatMap(filterNonSchema);
- */
-const filterNonSchema = ([key, prop]: [string, JSONSchema7Definition]): [
-  string,
-  JSONSchema7
-][] => {
-  return isSchema(prop) ? [[key, prop]] : [];
-};
-
-export type ClickHandler = (schemaEntry: SchemaEntry) => () => void;
-
-interface RowProps {
-  readonly clickHandler: ClickHandler;
-  readonly entry: SchemaEntry;
-  readonly idx: number;
-  readonly isKeyword?: boolean;
-  readonly path: SchemaEntry[];
-}
-
-const Row: React.VFC<RowProps> = ({
-  entry,
-  path,
-  idx,
-  clickHandler,
-  isKeyword,
-}) => {
-  const isLastColumn = React.useMemo(() => {
-    return idx === path.length - 1;
-  }, [idx, path]);
-
-  const {key, name, hasChildren, isRequired} = entry;
-
-  const inPath = path[idx]?.key === key;
-  const lastInPath = inPath && isLastColumn;
-
-  return (
-    <PropertyWrapper
-      isKeyword={isKeyword}
-      hasChildren={hasChildren}
-      inPath={inPath}
-      lastInPath={lastInPath}
-      onClick={clickHandler(entry)}
-      isRequired={isRequired}
-    >
-      {name}
-    </PropertyWrapper>
-  );
-};
-
-type EntryDecorator = (entry: SchemaEntry) => SchemaEntry;
-
-/**
- * Dereference entry schema
- */
-const derefEntry =
-  (deref: Deref): EntryDecorator =>
-  (entry) => {
-    const {schema} = entry;
-
-    const [derefSchema, err] = deref(schema);
-    if (err) {
-      console.error("Error dereferencing entry", entry, err);
-    }
-
-    if (isObject(derefSchema)) {
-      return {...entry, schema: derefSchema};
-    } else {
-      return entry;
-    }
-  };
-
-const addName: EntryDecorator = (entry) => {
-  const {schema} = entry;
-  if (schema.title) return {...entry, name: schema.title};
-  if (schema.$ref) {
-    const name = getNameFromRef(schema.$ref);
-
-    if (name) return {...entry, name};
-  }
-  return entry;
-};
-
-export const addHasChildren: EntryDecorator = (entry) => {
-  const {schema} = entry;
-  const hasChildren = !!Object.keys(schema).filter(isSupportedKeyword).length;
-  return {...entry, hasChildren};
-};
-
-const addIsRequired =
-  (required?: string[]): EntryDecorator =>
-  (entry) => {
-    const {key} = entry;
-    const isRequired = required?.includes(key);
-    return {...entry, isRequired};
-  };
-
-const addPath =
-  (path: string[]): EntryDecorator =>
-  (entry) => {
-    const {key} = entry;
-    return {...entry, path: [...path, key]};
-  };
-
-const makeRenderer =
-  ({clickHandler, dereference, idx, path}: SchemaProps, required?: string[]) =>
-  (rows: Record<string, JSONSchema7Definition> | JSONSchema7Definition[]) => {
-    const keyPath = path.map((entry) => entry.key);
-
-    return Object.entries(rows)
-      .flatMap(filterNonSchema)
-      .map(toSchemaEntry)
-      .map(derefEntry(dereference))
-      .map(addName)
-      .map(addHasChildren)
-      .map(addIsRequired(required))
-      .map(addPath(keyPath))
-      .map((entry) => (
-        <Row
-          key={`os-${idx}-${entry.key}`}
-          idx={idx}
-          clickHandler={clickHandler}
-          path={path}
-          entry={entry}
-        />
-      ));
-  };

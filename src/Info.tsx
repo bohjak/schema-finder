@@ -74,7 +74,7 @@ export interface InfoProps {
 }
 
 export const Info: React.VFC<InfoProps> = ({entry}) => {
-  const {name, schema, isRequired} = entry;
+  const {name, schema, isRequired, path: entryPath} = entry;
   const {
     description,
     type,
@@ -95,6 +95,11 @@ export const Info: React.VFC<InfoProps> = ({entry}) => {
       {isRequired && (
         <p>
           <i>Required</i>
+        </p>
+      )}
+      {entryPath && !!entryPath.length && (
+        <p>
+          <Name>Full Path:</Name> {entryPath.join(".")}
         </p>
       )}
       {description && <p>{description}</p>}

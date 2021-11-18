@@ -27,7 +27,7 @@ export const Columns = styled.div`
   overflow-x: auto;
 `;
 
-export const Row = styled.div`
+const Row = styled.li`
   margin: 0;
   padding: 0.25em 0.5em;
 `;
@@ -111,12 +111,19 @@ export const Breadcrumb = styled.div`
 export const ColumnWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  list-style: none;
+  row-gap: 0.5em;
+
   width: 15em;
   min-width: 15em;
   border-right: thin #0002 solid;
   overflow-y: auto;
-  list-style-type: none;
+`;
+
+export const RowGroupWrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+
+  list-style: none;
   margin: 0;
   padding: 0;
 `;
