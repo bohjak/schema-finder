@@ -8,3 +8,4 @@ export {default as linksMeta} from "./schema-links-meta.json";
 export {default as meta} from "./schema-meta.json";
 export {default as person} from "./schema-person.json";
 export {default as shopSelection} from "./schema-shop-selection.json";
+export {default as stressTest} from "./stress-test.json";

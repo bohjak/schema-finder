@@ -1,5 +1,11 @@
 import {JSONSchema7} from "./internal";
 
+/**
+ * Type-safe wrapper for Array.prototype.includes
+ *
+ * When the array has specific values defined, argument to includes cannot be
+ * a generic string (i.e. TS won't let it)
+ */
 const createMemberCheck =
   (arr: string[]) =>
   (key?: string): boolean =>
@@ -9,6 +15,7 @@ const createMemberCheck =
  * Keywords we're currently capable of handling and displaying
  */
 const supportedKeywords: (keyof JSONSchema7)[] = [
+  // TODO: remove (dereference sooner?)
   "$ref",
   "additionalItems",
   "additionalProperties",
@@ -27,49 +34,3 @@ const supportedKeywords: (keyof JSONSchema7)[] = [
 ];
 
 export const isSupportedKeyword = createMemberCheck(supportedKeywords);
-
-/*
-export const schemaObjectKeys: (keyof JSONSchema7)[] = [
-  "properties",
-  "patternProperties",
-  "dependencies",
-];
-
-export const isSchemaObject = createMemberCheck(schemaObjectKeys);
-
-export const simpleKeys: (keyof JSONSchema7)[] = [
-  "items",
-  "additionalItems",
-  "additionalProperties",
-  "propertyNames",
-  "contains",
-  "if",
-  "then",
-  "else",
-  "not",
-];
-
-export const isSimpleKey = createMemberCheck(simpleKeys);
-
-export const schemaArrayKeys: (keyof JSONSchema7)[] = [
-  "allOf",
-  "anyOf",
-  "oneOf",
-];
-
-export const isSchemaArray = createMemberCheck(schemaArrayKeys);
-
-export const complexKeys = [...schemaObjectKeys, ...schemaArrayKeys];
-
-export const isComplexKey = createMemberCheck(complexKeys);
-
-export const validationKeywords: (keyof JSONSchema7)[] = [
-  ...schemaObjectKeys,
-  ...schemaArrayKeys,
-  ...simpleKeys,
-];
-
-export const isValidationKeyword = createMemberCheck(validationKeywords);
-
-export const canSkip = createMemberCheck([...schemaObjectKeys, ...simpleKeys]);
-*/

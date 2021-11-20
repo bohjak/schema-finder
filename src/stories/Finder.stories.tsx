@@ -12,6 +12,7 @@ import {
   niem,
   person,
   shopSelection,
+  stressTest,
 } from "./schemas";
 
 export default {
@@ -37,6 +38,7 @@ export const MultipleSchemas: React.VFC = () => (
         niem,
         person,
         shopSelection,
+        stressTest,
       } as any
     }
   />

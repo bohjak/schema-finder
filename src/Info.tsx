@@ -1,4 +1,5 @@
 import React from "react";
+import {ErrBound} from "./Err";
 import {
   Code,
   Divider,
@@ -49,22 +50,22 @@ const Examples: React.VFC<ExamplesProps> = ({examples}) => {
 };
 
 interface ValueProps {
-  value: JSONSchema7Type[];
+  sConst: JSONSchema7["const"];
+  sEnum: JSONSchema7["enum"];
 }
 
-const Value: React.VFC<ValueProps> = ({value}) => {
-  if (!value.length) return null;
+const Value: React.VFC<ValueProps> = ({sConst, sEnum}) => {
+  const vs: JSONSchema7Type[] = [];
+  if (sConst) vs.push(sConst);
+  if (sEnum) vs.push(...sEnum);
+
+  if (!vs.length) return null;
+
+  const displayValues = vs.map((v) => `"${v}"`).join(", ");
 
   return (
     <p>
-      <Name>Value:</Name>{" "}
-      {value.length === 1 ? (
-        value[0]
-      ) : (
-        <>
-          <i>oneOf:</i> {value.join(", ")}
-        </>
-      )}
+      <Name>Value:</Name> {vs.length > 1 && <i>(oneOf)</i>} {displayValues}
     </p>
   );
 };
@@ -75,6 +76,7 @@ export interface InfoProps {
 
 export const Info: React.VFC<InfoProps> = ({entry}) => {
   const {name, schema, isRequired, path: entryPath} = entry;
+  // Everything that comes from the schema can and will be of the wrong type
   const {
     description,
     type,
@@ -84,40 +86,45 @@ export const Info: React.VFC<InfoProps> = ({entry}) => {
     required,
   } = schema;
 
-  // TODO: Not sure this belongs here?
-  const value: JSONSchema7Type[] = [];
-  if (sConst) value.push(sConst);
-  if (sEnum) value.push(...sEnum);
-
   return (
-    <InfoWrapper>
-      <Title>{name}</Title>
-      {isRequired && (
-        <p>
-          <i>Required</i>
-        </p>
-      )}
-      {entryPath && !!entryPath.length && (
-        <p>
-          {/* TODO: replace the zero-width space with a proper CSS solution */}
-          <Name>Full Path:</Name> {entryPath.join("\u200B.")}
-        </p>
-      )}
-      {description && <p>{description}</p>}
-      <Divider />
-      <Value value={value} />
-      {type && (
-        <p>
-          <Name>Type:</Name> {Array.isArray(type) ? type.join(", ") : type}
-        </p>
-      )}
-      {required && (
-        <p>
-          <Name>Required Properties:</Name> {required.join(", ")}
-        </p>
-      )}
-      <Divider />
-      <Examples examples={examples} />
-    </InfoWrapper>
+    <ErrBound>
+      <InfoWrapper>
+        <Title>{name}</Title>
+        {isRequired && (
+          <p>
+            <i>Required</i>
+          </p>
+        )}
+        {!!entryPath?.length && (
+          <p>
+            {/* TODO: replace the zero-width space with a proper CSS solution */}
+            <Name>Full Path:</Name> {entryPath.join("\u200B.")}
+          </p>
+        )}
+        <ErrBound>{description && <p>{description}</p>}</ErrBound>
+        <Divider />
+        <ErrBound>
+          <Value sConst={sConst} sEnum={sEnum} />
+        </ErrBound>
+        <ErrBound>
+          {type && (
+            <p>
+              <Name>Type:</Name> {Array.isArray(type) ? type.join(", ") : type}
+            </p>
+          )}
+        </ErrBound>
+        <ErrBound>
+          {required && (
+            <p>
+              <Name>Required Properties:</Name> {required.join(", ")}
+            </p>
+          )}
+        </ErrBound>
+        <Divider />
+        <ErrBound>
+          <Examples examples={examples} />
+        </ErrBound>
+      </InfoWrapper>
+    </ErrBound>
   );
 };

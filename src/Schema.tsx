@@ -90,21 +90,21 @@ export const Schema: React.VFC<SchemaProps> = (props) => {
     <ColumnWrapper id={getColId(colIdx)}>
       <RowGroup rows={propertyRows} />
       <RowGroup rows={patternRows} />
-      <RowGroup rows={addPropRows} title="additionalProperties" />
       <RowGroup rows={propNamesRows} />
+      <RowGroup rows={addPropRows} title="additionalProperties" />
 
       <RowGroup rows={itemRows} />
-      <RowGroup rows={addItemRows} title="additionalItems" />
       <RowGroup rows={containRows} />
+      <RowGroup rows={addItemRows} title="additionalItems" />
 
       <RowGroup rows={allRows} title="allOf" />
       <RowGroup rows={anyRows} title="anyOf" />
       <RowGroup rows={oneRows} title="oneOf" />
-      <RowGroup rows={notRows} />
+      <RowGroup rows={notRows} title="not" />
 
-      <RowGroup rows={ifRows} />
-      <RowGroup rows={thenRows} />
-      <RowGroup rows={elseRows} />
+      <RowGroup rows={ifRows} title="if" />
+      <RowGroup rows={thenRows} title="then" />
+      <RowGroup rows={elseRows} title="else" />
     </ColumnWrapper>
   );
 };

@@ -1,0 +1,163 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$comment": "I'm pretty sure this should not validate anything ever.",
+  "title": "Stress Test",
+  "description": "Demonstrating all the features of JSONSchema",
+  "type": ["object", "array", "boolean", "null"],
+  "properties": {
+    "nameless": {
+      "$ref": "#/definitions/String-propertyWithout_title"
+    },
+    "named": {
+      "$ref": "#/definitions/value"
+    },
+    "combinedValue": {
+      "title": "Combined const value property",
+      "const": "Goodbye",
+      "enum": ["Cruel", "World"]
+    }
+  },
+  "additionalProperties": {
+    "$ref": "#"
+  },
+  "patternProperties": {
+    "hell*": {
+      "$ref": "#/definitions/anyOf"
+    }
+  },
+  "propertyNames": {
+    "type": "string"
+  },
+  "items": {
+    "anyOf": [
+      {
+        "$ref": "#/definitions/value"
+      },
+      {
+        "$ref": "#/definitions/tupleItems"
+      },
+      {
+        "$ref": "#/definitions/anyOf"
+      }
+    ],
+    "allOf": [
+      {
+        "$ref": "#/definitions/value"
+      },
+      {
+        "$ref": "#/definitions/tupleItems"
+      },
+      {
+        "$ref": "#/definitions/allOf"
+      }
+    ],
+    "oneOf": [
+      {
+        "$ref": "#/definitions/value"
+      },
+      {
+        "$ref": "#/definitions/tupleItems"
+      },
+      {
+        "$ref": "#/definitions/oneOf"
+      }
+    ]
+  },
+  "additionalItems": {
+    "$ref": "#/definitions/anyOf"
+  },
+  "contains": {},
+  "uniqueItems": true,
+  "definitions": {
+    "value": {
+      "title": "Simple value property",
+      "const": "value"
+    },
+    "String-propertyWithout_title": {
+      "type": "string"
+    },
+    "tupleItems": {
+      "type": "array",
+      "items": [
+        {
+          "$ref": "#/definitions/value"
+        },
+        {
+          "$ref": "#/definitions/String-propertyWithout_title"
+        },
+        {
+          "$ref": "#/definitions/anyOf"
+        },
+        {
+          "$ref": "#/definitions/oneOf"
+        },
+        {
+          "$ref": "#/definitions/allOf"
+        }
+      ]
+    },
+    "anyOf": {
+      "title": "Can be any of these",
+      "description": "I think this can be ignored‽",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/tupleItems"
+        },
+        {
+          "$ref": "#/definitions/anyOf"
+        },
+        {
+          "$ref": "#/definitions/anyOf"
+        },
+        {
+          "$ref": "#/definitions/allOf"
+        },
+        {
+          "$ref": "#/definitions/value"
+        }
+      ]
+    },
+    "oneOf": {
+      "title": "Can be only one of these",
+      "description": "I think this can be ignored‽‽",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/tupleItems"
+        },
+        {
+          "$ref": "#/definitions/oneOf"
+        },
+        {
+          "$ref": "#/definitions/anyOf"
+        },
+        {
+          "$ref": "#/definitions/allOf"
+        },
+        {
+          "$ref": "#/definitions/value"
+        }
+      ]
+    },
+    "allOf": {
+      "title": "Must be all of these",
+      "description": "I think this can be ignored‽‽‽",
+      "allOf": [
+        {
+          "$ref": "#/definitions/tupleItems"
+        },
+        {
+          "$ref": "#/definitions/oneOf"
+        },
+        {
+          "$ref": "#/definitions/anyOf"
+        },
+        {
+          "$ref": "#/definitions/allOf"
+        },
+        {
+          "$ref": "#/definitions/value"
+        }
+      ]
+    }
+  }
+}

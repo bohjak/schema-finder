@@ -1,5 +1,6 @@
 export * from "./components";
 export * from "./dereference";
+export * from "./Err";
 export * from "./Finder";
 export * from "./get-name-from-ref";
 export * from "./Info";
