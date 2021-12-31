@@ -1,4 +1,5 @@
 export {default as config} from "./config.json";
+export {default as fdsNeu} from "./fds-neu.json";
 export {default as fds} from "./fds.json";
 export {default as i18n} from "./i18n.json";
 export {default as jsonSchema7} from "./json-schema-7.json";

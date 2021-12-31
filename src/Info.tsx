@@ -25,6 +25,7 @@ interface ExamplesProps {
 const Examples: React.VFC<ExamplesProps> = ({examples}) => {
   if (!examples) return null;
 
+  // TODO: Could I maybe make a WASM JSON formatter?
   return (
     <>
       <p>
@@ -95,12 +96,6 @@ export const Info: React.VFC<InfoProps> = ({entry}) => {
             <i>Required</i>
           </p>
         )}
-        {!!entryPath?.length && (
-          <p>
-            {/* TODO: replace the zero-width space with a proper CSS solution */}
-            <Name>Full Path:</Name> {entryPath.join("\u200B.")}
-          </p>
-        )}
         <ErrBound>{description && <p>{description}</p>}</ErrBound>
         <Divider />
         <ErrBound>
@@ -120,10 +115,16 @@ export const Info: React.VFC<InfoProps> = ({entry}) => {
             </p>
           )}
         </ErrBound>
-        <Divider />
         <ErrBound>
           <Examples examples={examples} />
         </ErrBound>
+        <Divider />
+        {!!entryPath?.length && (
+          <p>
+            {/* TODO: replace the zero-width space with a proper CSS solution */}
+            <Name>Full Path:</Name> {entryPath.join("\u200B.")}
+          </p>
+        )}
       </InfoWrapper>
     </ErrBound>
   );

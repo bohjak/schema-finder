@@ -48,6 +48,7 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
     }
   }, [rootSchemaEntries]);
 
+  // TODO: remove
   const roots = React.useMemo(
     () => {
       if (rootSchemaEntries.length === 1) {
@@ -85,6 +86,15 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
     [path, rootSchemaEntries, setSchema, setPath]
   );
 
+  // TODO: This needs to be completely reengineered.
+  //       What I need is a global lazily evaluated (cached) AST-like tree.
+  //       Currently the entry data is completely managed by React in the DOM
+  //       and parts of it are "borrowed" by the global path state.
+  //       This prevents me from implementing a proper keyboard navigation,
+  //       makes it more difficult to handle certain cases where the children
+  //       nodes need to know what was in their parent (and vice versa), and is
+  //       tightly bound to the display format (couldn't easily be adapted
+  //       to render the whole schema).
   const columns = React.useMemo(
     () =>
       path.flatMap(({schema, key, hasChildren}, i) => {
@@ -145,10 +155,39 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
     });
   }, [path]);
 
+  const handleKeyDown: React.KeyboardEventHandler = React.useCallback((e) => {
+    switch (e.key) {
+      default: {
+        return;
+      }
+      case "ArrowLeft": {
+        setPath((prev) => prev.slice(0, prev.length - 1));
+        break;
+      }
+      case "ArrowRight": {
+        console.log("right");
+        break;
+      }
+      case "ArrowUp": {
+        console.log("up");
+        break;
+      }
+      case "ArrowDown": {
+        console.log("down");
+        break;
+      }
+      case "Home": {
+        setPath((prev) => prev.slice(0, 1));
+        break;
+      }
+    }
+    e.preventDefault();
+  }, []);
+
   return (
     <OuterWrapper>
       <InnerWrapper>
-        <Columns>
+        <Columns tabIndex={0} onKeyDown={handleKeyDown}>
           {roots}
           {columns}
         </Columns>

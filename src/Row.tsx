@@ -10,6 +10,7 @@ import {
   SchemaEntry,
   toSchemaEntry,
 } from "./internal";
+import {isTitleKeyword} from "./validation-keywords";
 
 export type ClickHandler = (schemaEntry: SchemaEntry) => () => void;
 
@@ -20,6 +21,10 @@ export interface RowProps {
   readonly isKeyword?: boolean;
   readonly path: SchemaEntry[];
 }
+
+const showName = (key: string): boolean => {
+  return isTitleKeyword(key) || !Number.isNaN(Number.parseInt(key));
+};
 
 export const Row: React.VFC<RowProps> = ({
   entry,
@@ -46,7 +51,7 @@ export const Row: React.VFC<RowProps> = ({
       onClick={clickHandler(entry)}
       isRequired={isRequired}
     >
-      {name}
+      {showName(key) ? name : key}
     </PropertyWrapper>
   );
 };
@@ -113,6 +118,8 @@ const addName: EntryDecorator = (entry) => {
  */
 export const addHasChildren: EntryDecorator = (entry) => {
   const {schema} = entry;
+  // FIXME: counts $ref as a supported keyword (no way to check whether
+  //        the dereferenced entry will be renderable)
   const hasChildren = !!Object.keys(schema).filter(isSupportedKeyword).length;
   return {...entry, hasChildren};
 };

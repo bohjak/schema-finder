@@ -4,6 +4,7 @@ import {Finder} from "../internal";
 import {
   config,
   fds,
+  fdsNeu,
   hyperMeta,
   i18n,
   jsonSchema7,
@@ -30,6 +31,7 @@ export const MultipleSchemas: React.VFC = () => (
       {
         config,
         fds,
+        fdsNeu,
         hyperMeta,
         i18n,
         jsonSchema7,

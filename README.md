@@ -7,6 +7,9 @@ Licensed under the [Unlicense].
 This package started as a drop-in replacement for [React JSON Schema Inspector]
 with proper support for references, arrays, titles, and any combination thereof.
 
+Developped against JSONSchema7 (shouldn't crashed when used with other versions,
+but may not show everything it should).
+
 ## Roadmap
 
 - [x] Styled Components migration

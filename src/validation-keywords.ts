@@ -34,3 +34,18 @@ const supportedKeywords: (keyof JSONSchema7)[] = [
 ];
 
 export const isSupportedKeyword = createMemberCheck(supportedKeywords);
+
+const titleKeywords: (keyof JSONSchema7)[] = [
+  "additionalItems",
+  "additionalProperties",
+  "allOf",
+  "anyOf",
+  "else",
+  "if",
+  "items",
+  "not",
+  "oneOf",
+  "then",
+];
+
+export const isTitleKeyword = createMemberCheck(titleKeywords);
