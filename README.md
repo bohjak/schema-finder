@@ -7,26 +7,7 @@ Licensed under the [Unlicense].
 This package started as a drop-in replacement for [React JSON Schema Inspector]
 with proper support for references, arrays, titles, and any combination thereof.
 
-Developped against JSONSchema7 (shouldn't crashed when used with other versions,
-but may not show everything it should).
-
-## Roadmap
-
-- [x] Styled Components migration
-- [x] Simplify schema tree (stop showing _properties_ layers)
-  - [x] Support properties
-  - [x] Support items
-  - [x] Support annotations
-  - [x] Schema info
-  - [x] Show if a property is required
-  - [x] Fix path
-- [ ] Component library injection
-- [ ] Have boolean and conditional keywords act on parent schemas
-- [ ] Explore decoupling of JSONSchema specific code and supporting multiple
-      schemas
-- [ ] Get rid of Storybook
-- [ ] Separate the package from dev demo
-- [ ] Add a flag for enabling URL based $ref resolution
+Developped against JSONSchema7.
 
 ## Dev Setup
 
