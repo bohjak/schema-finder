@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import {CleanButton, SchemaEntry} from "./internal";
+import {CleanButton} from "./button";
+import {SchemaEntry} from "./internal";
 
 const BreadcrumbWrapper = styled.div`
   display: flex;

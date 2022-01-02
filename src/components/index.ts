@@ -1,10 +1,10 @@
 export {
   Breadcrumbs,
-  BreadcrumbsProps,
+  type BreadcrumbsProps,
   Columns,
   ColumnWrapper,
   Info,
-  InfoProps,
+  type InfoProps,
   InnerWrapper,
   OuterWrapper,
   PropertyWrapper,
