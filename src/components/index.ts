@@ -1,6 +1,6 @@
 export {
-  Breadcrumb,
-  BreadcrumbWrapper,
+  Breadcrumbs,
+  BreadcrumbsProps,
   Columns,
   ColumnWrapper,
   Info,

@@ -1,8 +1,7 @@
 import React from "react";
 import {
   addHasChildren,
-  Breadcrumb,
-  BreadcrumbWrapper,
+  Breadcrumbs,
   ClickHandler,
   Columns,
   ColumnWrapper,
@@ -33,7 +32,7 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
   const dereference = React.useCallback(makeDeref(activeSchema), [
     activeSchema,
   ]);
-  const activeEntry = React.useMemo(() => path.slice(-1)[0], [path]);
+  const [activeEntry] = React.useMemo(() => path.slice(-1), [path]);
 
   const rootSchemaEntries = React.useMemo(() => {
     return Object.entries(schemas).map(toSchemaEntry).map(addHasChildren);
@@ -128,22 +127,6 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
     [path, dereference, setPath]
   );
 
-  const breadcrumbs = React.useMemo(
-    () =>
-      path.map(({key, name}, idx) => {
-        const handler = () => {
-          setPath((prev) => prev.slice(0, idx + 1));
-        };
-
-        return (
-          <Breadcrumb key={`bc-${idx}-${key}`} onClick={handler}>
-            {name}
-          </Breadcrumb>
-        );
-      }),
-    [path, setPath]
-  );
-
   React.useEffect(() => {
     if (!path.length) return;
 
@@ -193,9 +176,7 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
         </Columns>
         {activeEntry && <Info entry={activeEntry} />}
       </InnerWrapper>
-      {!!breadcrumbs.length && (
-        <BreadcrumbWrapper>{breadcrumbs}</BreadcrumbWrapper>
-      )}
+      <Breadcrumbs path={path} setPath={setPath} />
     </OuterWrapper>
   );
 };

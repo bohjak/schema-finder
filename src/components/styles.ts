@@ -87,27 +87,6 @@ export const PropertyWrapper = styled(Row)<PropertyWrapperProps>`
     `}
 `;
 
-export const BreadcrumbWrapper = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  border: thin black solid;
-  overflow-x: auto;
-`;
-
-export const Breadcrumb = styled.div`
-  cursor: pointer;
-  padding: 0.25em 0.5em;
-  position: relative;
-  display: flex;
-  align-items: center;
-  border-right: solid thin black;
-
-  &:hover,
-  &:focus {
-    background: #0003;
-  }
-`;
-
 export const ColumnWrapper = styled.div`
   display: flex;
   flex-direction: column;

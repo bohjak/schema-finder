@@ -26,7 +26,6 @@ const showName = (key: string): boolean => {
   return isTitleKeyword(key) || !Number.isNaN(Number.parseInt(key));
 };
 
-// TOOD: simplify to allow for injection
 export const Row: React.VFC<RowProps> = ({
   entry,
   path,
@@ -123,6 +122,14 @@ export const addHasChildren: EntryDecorator = (entry) => {
   //        the dereferenced entry will be renderable)
   const hasChildren = !!Object.keys(schema).filter(isSupportedKeyword).length;
   return {...entry, hasChildren};
+};
+
+export const addChildren: EntryDecorator = (entry) => {
+  const {schema} = entry;
+  const children = Object.entries(schema).filter(([key]) =>
+    isSupportedKeyword(key)
+  );
+  return {...entry, children};
 };
 
 /**
