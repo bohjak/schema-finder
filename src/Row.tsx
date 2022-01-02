@@ -26,6 +26,7 @@ const showName = (key: string): boolean => {
   return isTitleKeyword(key) || !Number.isNaN(Number.parseInt(key));
 };
 
+// TOOD: simplify to allow for injection
 export const Row: React.VFC<RowProps> = ({
   entry,
   path,

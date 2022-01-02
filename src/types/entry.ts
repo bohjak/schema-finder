@@ -1,9 +1,4 @@
-import type {JSONSchema7} from "json-schema";
-export type {
-  JSONSchema7,
-  JSONSchema7Definition,
-  JSONSchema7Type,
-} from "json-schema";
+import type {JSONSchema7} from "./internal";
 
 export type SchemaEntry = {
   /** Key in parent schema */
@@ -19,5 +14,3 @@ export type SchemaEntry = {
   /** Is this property required */
   readonly isRequired?: boolean;
 };
-
-export type R<V, E = Error> = [val: V, err?: E];

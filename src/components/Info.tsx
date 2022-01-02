@@ -1,5 +1,4 @@
 import React from "react";
-import {ErrBound} from "./Err";
 import {
   Code,
   Divider,
@@ -9,6 +8,7 @@ import {
   Name,
   SchemaEntry,
   Title,
+  ErrBound,
 } from "./internal";
 
 interface ExamplesProps {
