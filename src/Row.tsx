@@ -10,7 +10,6 @@ import {
   SchemaEntry,
   toSchemaEntry,
 } from "./internal";
-import {isTitleKeyword} from "./validation-keywords";
 
 export type ClickHandler = (schemaEntry: SchemaEntry) => () => void;
 
@@ -23,7 +22,7 @@ export interface RowProps {
 }
 
 const showName = (key: string): boolean => {
-  return isTitleKeyword(key) || !Number.isNaN(Number.parseInt(key));
+  return isSupportedKeyword(key) || !Number.isNaN(Number.parseInt(key));
 };
 
 export const Row: React.VFC<RowProps> = ({

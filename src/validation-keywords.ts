@@ -15,8 +15,6 @@ const createMemberCheck =
  * Keywords we're currently capable of handling and displaying
  */
 const supportedKeywords: (keyof JSONSchema7)[] = [
-  // TODO: remove (dereference sooner?)
-  "$ref",
   "additionalItems",
   "additionalProperties",
   "allOf",
@@ -34,18 +32,3 @@ const supportedKeywords: (keyof JSONSchema7)[] = [
 ];
 
 export const isSupportedKeyword = createMemberCheck(supportedKeywords);
-
-const titleKeywords: (keyof JSONSchema7)[] = [
-  "additionalItems",
-  "additionalProperties",
-  "allOf",
-  "anyOf",
-  "else",
-  "if",
-  "items",
-  "not",
-  "oneOf",
-  "then",
-];
-
-export const isTitleKeyword = createMemberCheck(titleKeywords);
