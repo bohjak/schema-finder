@@ -80,7 +80,7 @@ type EntryDecorator = (entry: SchemaEntry) => SchemaEntry;
 /**
  * Dereference entry schema
  */
-const derefEntry =
+export const derefEntry =
   (deref: Deref): EntryDecorator =>
   (entry) => {
     const {schema} = entry;

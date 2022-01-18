@@ -2,7 +2,6 @@ import {Meta} from "@storybook/react";
 import React from "react";
 import {Finder} from "../internal";
 import {
-  config,
   fds,
   fdsNeu,
   hyperMeta,
@@ -12,6 +11,7 @@ import {
   meta,
   niem,
   person,
+  rootRef,
   shopSelection,
   stressTest,
 } from "./schemas";
@@ -29,7 +29,6 @@ export const MultipleSchemas: React.VFC = () => (
   <Finder
     schemas={
       {
-        config,
         fds,
         fdsNeu,
         hyperMeta,
@@ -39,6 +38,7 @@ export const MultipleSchemas: React.VFC = () => (
         meta,
         niem,
         person,
+        rootRef,
         shopSelection,
         stressTest,
       } as any

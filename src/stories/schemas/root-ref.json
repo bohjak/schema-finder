@@ -1,0 +1,440 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "AcsSchema": {
+      "type": "object",
+      "properties": {
+        "tenant": {
+          "description": "Tenant",
+          "examples": ["vw-de"],
+          "type": "string"
+        },
+        "application": {
+          "description": "Application ID",
+          "examples": ["DEALERSEARCHFA"],
+          "type": "string"
+        },
+        "items": {
+          "$ref": "#/definitions/AcsItemsSchema",
+          "description": "Acs **Items** _Schema_"
+        }
+      },
+      "required": ["tenant", "application", "items"]
+    },
+    "AcsItemsSchema": {
+      "examples": [
+        {
+          "googleMaps": {
+            "apiKeyServer": "API KEY",
+            "apiKeyClient": "API KEY",
+            "clientId": "CLIENT ID",
+            "placesSuggestionType": "(regions)",
+            "initSettings": {
+              "zoom": 10,
+              "lat": 53.55,
+              "lon": 9.98
+            },
+            "routingBaseUrl": "google.com"
+          },
+          "search": {
+            "minimumAmountOfDealers": 10,
+            "searchRadius": 50,
+            "showHintWhenClickOutside": false,
+            "showHintInitially": true,
+            "showAppOverlayInitially": false
+          },
+          "address": {
+            "short": "%city% %country",
+            "long": "%street%\n%postalCode% %city% | %countryCode%"
+          },
+          "dealerListItem": {
+            "showRatings": true,
+            "contactOptions": {
+              "phone": true,
+              "email": false,
+              "website": true,
+              "fax": false
+            }
+          },
+          "showFavoriteDealer": true
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "googleMaps": {
+          "examples": [
+            {
+              "apiKeyServer": "API KEY",
+              "apiKeyClient": "API KEY",
+              "clientId": "CLIENT ID",
+              "placesSuggestionType": "(regions)",
+              "initSettings": {
+                "zoom": 10,
+                "lat": 53.55,
+                "lon": 9.98
+              },
+              "routingBaseUrl": "google.com"
+            }
+          ],
+          "description": "Configuration for google maps",
+          "$ref": "#/definitions/ConfigurationForGoogleMaps"
+        },
+        "search": {
+          "examples": [
+            {
+              "minimumAmountOfDealers": 10,
+              "searchRadius": 50,
+              "showHintWhenClickOutside": false,
+              "showHintInitially": true
+            }
+          ],
+          "description": "Configuration for search functionality",
+          "$ref": "#/definitions/ConfigurationForSearchFunctionality"
+        },
+        "address": {
+          "description": "Configuration template pattern for addresses",
+          "$ref": "#/definitions/ConfigurationTemplatePatternForAddresses"
+        },
+        "dealerListItem": {
+          "examples": [
+            {
+              "showRatings": true,
+              "contactOptions": {
+                "email": false,
+                "phone": true,
+                "website": true,
+                "fax": false
+              },
+              "distanceUnitScalingFactor": 0.621
+            }
+          ],
+          "description": "Configuration of dealer list item",
+          "$ref": "#/definitions/ConfigurationOfDealerListItem"
+        },
+        "services": {
+          "additionalProperties": false,
+          "type": "object",
+          "properties": {
+            "allowedServices": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": ["allowedServices"]
+        },
+        "showFavoriteDealer": {
+          "description": "Show favorite dealer button to logged in users",
+          "type": "boolean"
+        },
+        "showFavoriteDealerLoggedOut": {
+          "description": "Show favorite dealer button with log in prompt to logged out users. Only takes effect if `showFavoriteDealer` is true",
+          "type": "boolean"
+        },
+        "showKingDealer": {
+          "description": "Enable king dealer functionality",
+          "type": "boolean"
+        },
+        "summaryModeOptions": {
+          "examples": [
+            {
+              "contactOptions": {
+                "phone": true
+              }
+            }
+          ],
+          "description": "Options for when displayed as a summary field inside Forms FA",
+          "$ref": "#/definitions/SummaryModeOptions"
+        }
+      },
+      "required": [
+        "googleMaps",
+        "search",
+        "address",
+        "dealerListItem",
+        "services",
+        "showFavoriteDealer",
+        "showFavoriteDealerLoggedOut",
+        "showKingDealer",
+        "summaryModeOptions"
+      ]
+    },
+    "ConfigurationForGoogleMaps": {
+      "examples": [
+        {
+          "apiKeyServer": "API KEY",
+          "apiKeyClient": "API KEY",
+          "clientId": "CLIENT ID",
+          "placesSuggestionType": "(regions)",
+          "initSettings": {
+            "zoom": 10,
+            "lat": 53.55,
+            "lon": 9.98
+          },
+          "routingBaseUrl": "google.com"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "addressPattern": {
+          "type": "string"
+        },
+        "apiKeyServer": {
+          "description": "Api key for google maps to be used on server",
+          "type": "string"
+        },
+        "apiKeyClient": {
+          "description": "Api key for google maps to be used on client for showing map",
+          "type": "string"
+        },
+        "clientId": {
+          "description": "Client id for google maps API",
+          "type": "string"
+        },
+        "placesSuggestionType": {
+          "description": "Google maps places autocomplete API value for type parameter",
+          "examples": [
+            "(regions)",
+            "establishment",
+            "(cities)",
+            "address",
+            "geocode"
+          ],
+          "enum": [
+            "(cities)",
+            "(regions)",
+            "address",
+            "establishment",
+            "geocode"
+          ],
+          "type": "string"
+        },
+        "initSettings": {
+          "description": "Initial settings for Google Map viewport",
+          "examples": [
+            {
+              "zoom": 10,
+              "lat": 53.55,
+              "lon": 9.98
+            }
+          ],
+          "type": "object",
+          "properties": {
+            "zoom": {
+              "description": "Initial zoom level, value between 3 an 18",
+              "type": "number"
+            },
+            "lat": {
+              "description": "Initial center of map LAT",
+              "type": "number"
+            },
+            "lon": {
+              "description": "Initial center of map LAT",
+              "type": "number"
+            }
+          },
+          "required": ["zoom", "lat", "lon"]
+        },
+        "routingBaseUrl": {
+          "description": "base url for google maps",
+          "type": "string"
+        },
+        "countryCodes": {
+          "description": "Country codes for component filtering in the Places Autocomplete API request.\n\n*IMPORTANT:* Only up to 5 countries can be specified. Anything beyond that will be ignored.\n\nhttps://developers.google.com/maps/documentation/places/web-service/autocomplete\n\nCountry codes should follow the ISO 3166-1 standard\nhttps://en.wikipedia.org/wiki/ISO_3166-1",
+          "examples": ["de", ["fr", "gp", "re", "mq", "gf"]],
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [
+        "addressPattern",
+        "apiKeyServer",
+        "apiKeyClient",
+        "clientId",
+        "placesSuggestionType",
+        "initSettings",
+        "routingBaseUrl",
+        "countryCodes"
+      ]
+    },
+    "ConfigurationForSearchFunctionality": {
+      "examples": [
+        {
+          "minimumAmountOfDealers": 10,
+          "searchRadius": 50,
+          "showHintWhenClickOutside": false,
+          "showHintInitially": true
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "minimumAmountOfDealers": {
+          "description": "Minimum amount of dealers",
+          "type": "number"
+        },
+        "searchRadius": {
+          "description": "How long is the search radius in KM",
+          "type": "number"
+        },
+        "showHintWhenClickOutside": {
+          "description": "Show hint notification when no search item selected, default eq to true",
+          "type": "boolean"
+        },
+        "showHintInitially": {
+          "description": "Show hint notification when page is loaded, default eq to false",
+          "type": "boolean"
+        },
+        "showAppOverlayInitially": {
+          "description": "Show map overlay with search input when page is loaded, default eq to false",
+          "type": "boolean"
+        },
+        "showDealerSuggestionsFirst": {
+          "description": "If true, dealer suggestions will be shown above location suggestions in the search suggestions list",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "minimumAmountOfDealers",
+        "searchRadius",
+        "showHintWhenClickOutside",
+        "showHintInitially",
+        "showAppOverlayInitially",
+        "showDealerSuggestionsFirst"
+      ]
+    },
+    "ConfigurationTemplatePatternForAddresses": {
+      "description": "Possible values to use: %city% %country% %countryCode% %street% %postalCode% %phone% %email% %phoneNumber% %faxNumber% %website% %person%",
+      "type": "object",
+      "additionalProperties": {},
+      "properties": {
+        "short": {
+          "description": "template pattern for short address",
+          "type": "string"
+        },
+        "long": {
+          "description": "template pattern for ling address",
+          "type": "string"
+        },
+        "secondary": {
+          "description": "template pattern for secondary info",
+          "type": "string"
+        }
+      },
+      "required": ["short", "long", "secondary"]
+    },
+    "ConfigurationOfDealerListItem": {
+      "examples": [
+        {
+          "showRatings": true,
+          "contactOptions": {
+            "email": false,
+            "phone": true,
+            "website": true,
+            "fax": false
+          },
+          "distanceUnitScalingFactor": 0.621
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "showReviewerNameInRatings": {
+          "description": "Show reviewer name in ratings",
+          "type": "boolean"
+        },
+        "showRatings": {
+          "description": "Show rating stars for each dealer item",
+          "type": "boolean"
+        },
+        "contactOptions": {
+          "examples": [
+            {
+              "phone": true,
+              "website": true,
+              "fax": false,
+              "email": false
+            }
+          ],
+          "description": "Contact options",
+          "$ref": "#/definitions/ContactOptions"
+        },
+        "distanceUnitScalingFactor": {
+          "description": "Scaling factor to convert kilometers to market`s unit",
+          "type": "number"
+        }
+      },
+      "required": [
+        "showReviewerNameInRatings",
+        "showRatings",
+        "contactOptions",
+        "distanceUnitScalingFactor"
+      ]
+    },
+    "ContactOptions": {
+      "examples": [
+        {
+          "phone": true,
+          "website": true,
+          "fax": false,
+          "email": false
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "phone": {
+          "description": "Show phone",
+          "type": "boolean"
+        },
+        "email": {
+          "description": "Show email",
+          "type": "boolean"
+        },
+        "website": {
+          "description": "Show website",
+          "type": "boolean"
+        },
+        "fax": {
+          "description": "Show fax",
+          "type": "boolean"
+        }
+      },
+      "required": ["phone", "email", "website", "fax"]
+    },
+    "SummaryModeOptions": {
+      "examples": [
+        {
+          "contactOptions": {
+            "phone": true
+          }
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "contactOptions": {
+          "examples": [
+            {
+              "phone": true,
+              "website": true,
+              "fax": false,
+              "email": false
+            }
+          ],
+          "description": "Contact options",
+          "$ref": "#/definitions/ContactOptions"
+        }
+      },
+      "required": ["contactOptions"]
+    }
+  },
+  "$ref": "#/definitions/AcsSchema",
+  "description": "Acs Schema"
+}

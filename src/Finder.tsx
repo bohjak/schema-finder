@@ -6,6 +6,7 @@ import {
   Columns,
   ColumnWrapper,
   CommonRowProps,
+  derefEntry,
   getColId,
   Info,
   InnerWrapper,
@@ -35,7 +36,10 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
   const [activeEntry] = React.useMemo(() => path.slice(-1), [path]);
 
   const rootSchemaEntries = React.useMemo(() => {
-    return Object.entries(schemas).map(toSchemaEntry).map(addHasChildren);
+    return Object.entries(schemas)
+      .map(toSchemaEntry)
+      .map((e) => derefEntry(makeDeref(e.schema))(e))
+      .map(addHasChildren);
   }, [schemas]);
 
   // Need to do this in a useEffect because `roots` are dependent on `path`
