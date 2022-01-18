@@ -129,6 +129,7 @@ export const InfoWrapper = styled.div`
 export const Title = styled.p`
   font-weight: bold;
   font-size: 1.5em;
+  overflow-wrap: break-word;
 `;
 
 export const Type = styled.p`
