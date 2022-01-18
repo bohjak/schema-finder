@@ -2,13 +2,14 @@ import React from "react";
 import {
   Code,
   Divider,
+  ErrBound,
   InfoWrapper,
   JSONSchema7,
   JSONSchema7Type,
   Name,
   SchemaEntry,
   Title,
-  ErrBound,
+  transformMd,
 } from "./internal";
 
 interface ExamplesProps {
@@ -25,7 +26,6 @@ interface ExamplesProps {
 const Examples: React.VFC<ExamplesProps> = ({examples}) => {
   if (!examples) return null;
 
-  // TODO: Could I maybe make a WASM JSON formatter?
   return (
     <>
       <p>
@@ -34,12 +34,12 @@ const Examples: React.VFC<ExamplesProps> = ({examples}) => {
       {Array.isArray(examples) ? (
         examples.map((ex) => (
           <p>
-            <Code>{JSON.stringify(ex)}</Code>
+            <Code>{JSON.stringify(ex, null, "\t")}</Code>
           </p>
         ))
       ) : typeof examples === "object" ? (
         <p>
-          <Code>{JSON.stringify(examples)}</Code>
+          <Code>{JSON.stringify(examples, null, "\t")}</Code>
         </p>
       ) : (
         <p>
@@ -96,7 +96,7 @@ export const Info: React.VFC<InfoProps> = ({entry}) => {
             <i>Required</i>
           </p>
         )}
-        <ErrBound>{description && <p>{description}</p>}</ErrBound>
+        <ErrBound>{description && transformMd(description)}</ErrBound>
         <Divider />
         <ErrBound>
           <Value sConst={sConst} sEnum={sEnum} />
