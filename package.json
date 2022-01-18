@@ -13,6 +13,7 @@
   "license": "Unlicense",
   "author": "jamesbohacek <jamesbohacek@outlook.com>",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "node build.mjs && tsc",
     "tsc": "tsc --project tsconfig.json",
