@@ -1,13 +1,15 @@
 export {
   Breadcrumbs,
-  type BreadcrumbsProps,
   Columns,
   ColumnWrapper,
+  EntryIcon,
+  EntryName,
   Info,
-  type InfoProps,
   InnerWrapper,
   OuterWrapper,
   PropertyWrapper,
   RowGroupTitle,
   RowGroupWrapper,
+  type BreadcrumbsProps,
+  type InfoProps,
 } from "./internal";

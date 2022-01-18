@@ -1,5 +1,5 @@
 import React from "react";
-import {PropertyWrapper, SchemaEntry} from "./internal";
+import {PropertyWrapper, SchemaEntry, EntryName, EntryIcon} from "./internal";
 
 export interface RowProps {
   readonly entry: SchemaEntry;
@@ -31,7 +31,8 @@ export const Row: React.VFC<RowProps> = ({
       onClick={clickHandler}
       isRequired={isRequired}
     >
-      {type !== "property" ? name : key}
+      <EntryName>{type !== "property" ? name : key}</EntryName>
+      {hasChildren && <EntryIcon>&gt;</EntryIcon>}
     </PropertyWrapper>
   );
 };

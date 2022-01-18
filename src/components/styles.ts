@@ -47,6 +47,10 @@ export interface PropertyWrapperProps {
 export const PropertyWrapper = styled(Row)<PropertyWrapperProps>`
   margin: 0;
   padding: 0.25em 0.5em;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.25em;
+  overflow: hidden;
 
   font-style: ${({isKeyword}) => isKeyword && "italic"};
 
@@ -55,15 +59,6 @@ export const PropertyWrapper = styled(Row)<PropertyWrapperProps>`
     cursor: pointer;
     background: #0003;
   }
-
-  ${({hasChildren}) =>
-    hasChildren &&
-    css`
-      &::after {
-        content: ">";
-        float: right;
-      }
-    `}
 
   ${({inPath}) =>
     inPath &&
@@ -86,6 +81,16 @@ export const PropertyWrapper = styled(Row)<PropertyWrapperProps>`
       font-weight: bold;
     `}
 `;
+
+export const EntryName = styled.span`
+  text-overflow: ellipsis;
+  flex: 1;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
+export const EntryIcon = styled.span``;
 
 export const ColumnWrapper = styled.div`
   display: flex;

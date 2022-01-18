@@ -8,6 +8,8 @@ import {
   CommonRowProps,
   derefEntry,
   getColId,
+  EntryIcon,
+  EntryName,
   Info,
   InnerWrapper,
   JSONSchema7,
@@ -77,7 +79,8 @@ const InternalFinder: React.VFC<FinderProps> = ({schemas}) => {
                   inPath={inPath}
                   lastInPath={lastInPath}
                 >
-                  {key}
+                  <EntryName>{key}</EntryName>
+                  {hasChildren && <EntryIcon>&gt;</EntryIcon>}
                 </PropertyWrapper>
               );
             })}

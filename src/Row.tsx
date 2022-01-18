@@ -1,6 +1,8 @@
 import React from "react";
 import {
   Deref,
+  EntryIcon,
+  EntryName,
   getNameFromRef,
   isObject,
   isSupportedKeyword,
@@ -50,7 +52,8 @@ export const Row: React.VFC<RowProps> = ({
       onClick={clickHandler(entry)}
       isRequired={isRequired}
     >
-      {showName(key) ? name : key}
+      <EntryName>{showName(key) ? name : key}</EntryName>
+      {hasChildren && <EntryIcon>&gt;</EntryIcon>}
     </PropertyWrapper>
   );
 };
