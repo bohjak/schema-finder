@@ -11,11 +11,13 @@ build({
   outdir: "dist",
   platform: "node",
   target: "node14",
+  format: "esm",
   external: ["react", "react-dom", "styled-components"],
   metafile: true,
 })
   .then(({metafile}) => analyzeMetafile(metafile))
   .then(console.log)
+  .catch(() => process.exit(1))
   .finally(() =>
     console.log(`⚡  Built in ${Math.round(performance.now() - start)}ms.`)
   );
