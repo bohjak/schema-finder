@@ -16,7 +16,7 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "pnpm clear && node build.mjs && tsc",
+    "build": "pnpm clear && node build.js && tsc",
     "clear": "rm -rf dist",
     "tsc": "tsc --project tsconfig.json",
     "build-storybook": "build-storybook",
