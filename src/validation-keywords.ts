@@ -32,3 +32,10 @@ const supportedKeywords: (keyof JSONSchema7)[] = [
 ];
 
 export const isSupportedKeyword = createMemberCheck(supportedKeywords);
+
+/**
+ * Keywords that act on their parent nodes
+ */
+const retroactiveKeywords: (keyof JSONSchema7)[] = ["anyOf", "oneOf", "allOf"];
+
+export const isRetroKeyword = createMemberCheck(retroactiveKeywords);

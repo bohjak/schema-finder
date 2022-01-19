@@ -11,7 +11,6 @@ build({
   outdir: "dist",
   platform: "node",
   target: "node14",
-  format: "esm",
   external: ["react", "react-dom", "styled-components"],
   metafile: true,
 })

@@ -1,4 +1,7 @@
-export {
+export type {
+  Deref,
+  DerefBuilder,
+  DerefOptions,
   R,
   JSONSchema7,
   JSONSchema7Definition,

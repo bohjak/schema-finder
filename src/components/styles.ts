@@ -37,7 +37,6 @@ export const RowGroupTitle = styled(Row)`
 `;
 
 export interface PropertyWrapperProps {
-  readonly hasChildren?: boolean;
   readonly inPath?: boolean;
   readonly isKeyword?: boolean;
   readonly lastInPath?: boolean;

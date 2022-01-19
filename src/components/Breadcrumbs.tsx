@@ -40,16 +40,19 @@ const Breadcrumb = styled(CleanButton)`
 `;
 
 export interface BreadcrumbsProps {
-  path: SchemaEntry[];
-  setPath: (value: React.SetStateAction<SchemaEntry[]>) => void;
+  entries: SchemaEntry[];
+  setPath: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-export const Breadcrumbs: React.VFC<BreadcrumbsProps> = ({path, setPath}) => {
-  if (!path.length) return null;
+export const Breadcrumbs: React.VFC<BreadcrumbsProps> = ({
+  entries,
+  setPath,
+}) => {
+  if (!entries.length) return null;
 
   return (
     <BreadcrumbWrapper>
-      {path.map(({key, name}, idx) => {
+      {entries.map(({key, name}, idx) => {
         const handler = () => {
           setPath((prev) => prev.slice(0, idx + 1));
         };
