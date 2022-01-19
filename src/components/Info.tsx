@@ -32,19 +32,11 @@ const Examples: React.VFC<ExamplesProps> = ({examples}) => {
         <Name>Examples:</Name>
       </p>
       {Array.isArray(examples) ? (
-        examples.map((ex) => (
-          <p>
-            <Code>{JSON.stringify(ex, null, "\t")}</Code>
-          </p>
-        ))
+        examples.map((ex) => <Code>{JSON.stringify(ex, null, "\t")}</Code>)
       ) : typeof examples === "object" ? (
-        <p>
-          <Code>{JSON.stringify(examples, null, "\t")}</Code>
-        </p>
+        <Code>{JSON.stringify(examples, null, "\t")}</Code>
       ) : (
-        <p>
-          <Code>{examples}</Code>
-        </p>
+        <Code>{examples}</Code>
       )}
     </>
   );

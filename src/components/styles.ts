@@ -143,6 +143,8 @@ export const Name = styled.span`
 export const Code = styled.code`
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+  white-space: pre-wrap;
+  tab-size: 2;
 `;
 
 export const Divider = styled.hr`
