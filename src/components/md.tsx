@@ -1,10 +1,14 @@
 import React from "react";
 
-/**
- * So, this is obviously awful. But it seems to work for now. Refactor as needed
- * @param s Markdown string
- */
-export function transformMd(s: string): JSX.Element {
+const getKey = (i: number, path = "") => `desc-${path}-${i}`;
+
+export interface MdProps {
+  /** Markdown string */
+  s: string;
+  /** Path for creating a unique key */
+  path?: string;
+}
+export const Md: React.VFC<MdProps> = ({s, path}) => {
   const body: JSX.Element[] = [];
   let text = "";
 
@@ -15,7 +19,7 @@ export function transformMd(s: string): JSX.Element {
     switch (s[i]) {
       case "`": {
         if (inCode) {
-          body.push(<code>{text}</code>);
+          body.push(<code key={getKey(i, path)}>{text}</code>);
           text = "";
         } else {
           body.push(<>{text}</>);
@@ -27,7 +31,7 @@ export function transformMd(s: string): JSX.Element {
       case "_": {
         if (s[i + 1] === "_") {
           if (inBold) {
-            body.push(<strong>{text}</strong>);
+            body.push(<strong key={getKey(i, path)}>{text}</strong>);
             text = "";
           } else {
             body.push(<>{text}</>);
@@ -37,7 +41,7 @@ export function transformMd(s: string): JSX.Element {
           ++i;
         } else {
           if (inItal) {
-            body.push(<i>{text}</i>);
+            body.push(<i key={getKey(i, path)}>{text}</i>);
             text = "";
           } else {
             body.push(<>{text}</>);
@@ -50,7 +54,7 @@ export function transformMd(s: string): JSX.Element {
       case "*": {
         if (s[i + 1] === "*") {
           if (inBold) {
-            body.push(<strong>{text}</strong>);
+            body.push(<strong key={getKey(i, path)}>{text}</strong>);
             text = "";
           } else {
             body.push(<>{text}</>);
@@ -60,7 +64,7 @@ export function transformMd(s: string): JSX.Element {
           ++i;
         } else {
           if (inItal) {
-            body.push(<i>{text}</i>);
+            body.push(<i key={getKey(i, path)}>{text}</i>);
             text = "";
           } else {
             body.push(<>{text}</>);
@@ -79,4 +83,4 @@ export function transformMd(s: string): JSX.Element {
   body.push(<>{text}</>);
 
   return <p>{body}</p>;
-}
+};

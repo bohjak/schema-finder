@@ -9,7 +9,7 @@ import {
   Name,
   SchemaEntry,
   Title,
-  transformMd,
+  Md,
 } from "./internal";
 
 interface ExamplesProps {
@@ -21,9 +21,13 @@ interface ExamplesProps {
    * [RFC]: https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-10.4
    */
   readonly examples: JSONSchema7["examples"];
+  /**
+   * To make a unique key out of
+   */
+  readonly path?: string;
 }
 
-const Examples: React.VFC<ExamplesProps> = ({examples}) => {
+const Examples: React.VFC<ExamplesProps> = ({examples, path}) => {
   if (!examples) return null;
 
   return (
@@ -32,7 +36,9 @@ const Examples: React.VFC<ExamplesProps> = ({examples}) => {
         <Name>Examples:</Name>
       </p>
       {Array.isArray(examples) ? (
-        examples.map((ex) => <Code>{JSON.stringify(ex, null, "\t")}</Code>)
+        examples.map((ex, i) => (
+          <Code key={`ex-${path}-${i}`}>{JSON.stringify(ex, null, "\t")}</Code>
+        ))
       ) : typeof examples === "object" ? (
         <Code>{JSON.stringify(examples, null, "\t")}</Code>
       ) : (
@@ -88,7 +94,9 @@ export const Info: React.VFC<InfoProps> = ({entry}) => {
             <i>Required</i>
           </p>
         )}
-        <ErrBound>{description && transformMd(description)}</ErrBound>
+        <ErrBound>
+          {description && <Md s={description} path={entryPath?.join(".")} />}
+        </ErrBound>
         <Divider />
         <ErrBound>
           <Value sConst={sConst} sEnum={sEnum} />
@@ -108,7 +116,7 @@ export const Info: React.VFC<InfoProps> = ({entry}) => {
           )}
         </ErrBound>
         <ErrBound>
-          <Examples examples={examples} />
+          <Examples examples={examples} path={entryPath?.join(".")} />
         </ErrBound>
         <Divider />
         {!!entryPath?.length && (

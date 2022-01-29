@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {CleanButton} from "./button";
-import {SchemaEntry} from "./internal";
+import {SchemaEntry, showName} from "./internal";
 
 const BreadcrumbWrapper = styled.div`
   display: flex;
@@ -59,7 +59,7 @@ export const Breadcrumbs: React.VFC<BreadcrumbsProps> = ({
 
         return (
           <Breadcrumb key={`bc-${idx}-${key}`} onClick={handler}>
-            {name}
+            {showName(key) ? name : key}
           </Breadcrumb>
         );
       })}
