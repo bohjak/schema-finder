@@ -21,6 +21,15 @@ export interface ColumnProps {
   readonly focus?: boolean;
 }
 
+const showGroup = (group: string, entries: SchemaEntry[]) => {
+  return (
+    group !== DEFAULT &&
+    entries.length === 1 &&
+    showName(entries[0].key) &&
+    entries[0].name !== group
+  );
+};
+
 export const Column: React.VFC<ColumnProps> = ({
   entries,
   isLast,
@@ -51,7 +60,7 @@ export const Column: React.VFC<ColumnProps> = ({
       {Object.entries(byGroup).map(([group, entries]) => {
         return (
           <RowGroupWrapper key={`gr-${colIdx}-${group}`}>
-            {group !== DEFAULT && group !== "properties" && (
+            {showGroup(group, entries) && (
               <RowGroupTitle>{group}</RowGroupTitle>
             )}
             {entries.map((entry) => {

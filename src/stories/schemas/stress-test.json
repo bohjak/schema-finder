@@ -4,6 +4,19 @@
   "title": "Stress Test",
   "description": "Demonstrating all the features of JSONSchema",
   "type": ["object", "array", "boolean", "null"],
+  "properties": {
+    "nameless": {
+      "$ref": "#/definitions/String-propertyWithout_title"
+    },
+    "named": {
+      "$ref": "#/definitions/value"
+    },
+    "combinedValue": {
+      "title": "Combined const value property",
+      "const": "Goodbye",
+      "enum": ["Cruel", "World"]
+    }
+  },
   "additionalProperties": {
     "$ref": "#"
   },
