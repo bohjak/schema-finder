@@ -70,7 +70,14 @@ function evaljp(j: JSONSchema7, keys: string[]): [unknown, Error?] {
   if (!keys.length) return [j];
 
   const [key, ...rest] = keys;
-  if (!(key in j)) return [j, new Error(`No key "${key}" in given object`)];
+  if (!key.length) return [j];
+  if (!(key in j))
+    return [
+      j,
+      new Error(
+        `No key "${key}" in given object: ${JSON.stringify(j, undefined, "\t")}`
+      ),
+    ];
 
   // @ts-expect-error Indexing with {string}
   return evaljp(j[key], rest);

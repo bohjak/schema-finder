@@ -6,5 +6,6 @@ export type {
   JSONSchema7,
   JSONSchema7Definition,
   JSONSchema7Type,
+  JSONSchema7Object,
   SchemaEntry,
 } from "./internal";

@@ -3,8 +3,8 @@ import {Deref, JSONSchema7, SchemaEntry} from "./internal";
 export const id = <T>(x: T): T => x;
 export const noop = () => {};
 
-export const isObject = (x: unknown): x is Record<string, unknown> =>
-  !!(x && typeof x === "object");
+export const isObj = (prop?: unknown): prop is Record<string, unknown> =>
+  prop !== null && typeof prop === "object" && !!Object.keys(prop).length;
 
 /**
  * Transforms key/schema entry into {SchemaEntry}

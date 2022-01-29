@@ -1,117 +1,88 @@
-import {JSONSchema7} from "json-schema";
-import {createColumn} from "../entries";
+import {buildSchemaEntries} from "../entries";
+import {SchemaEntry} from "../internal";
 
-const deref = <T>(x: T): [T] => {
-  return [x];
-};
-
-describe("createColumn", () => {
-  describe("given a schema with no properties", () => {
-    const schema: JSONSchema7 = {
-      properties: {},
+describe("buildSchemaEntries", () => {
+  it("dereferences sub schemas", async () => {
+    const deref = jest.fn().mockResolvedValue([{}]);
+    const $ref = "https://example.com";
+    const parent: SchemaEntry = {
+      deref,
+      key: "parent",
+      name: "Parent Node",
+      schema: {properties: {foo: {$ref}}, items: [{$ref}]},
     };
 
-    it("returns an empty array", () => {
-      const result = createColumn(deref, [], schema);
+    await buildSchemaEntries(parent);
 
-      expect(result).toHaveLength(0);
-    });
+    expect(deref).toHaveBeenCalledTimes(2);
+    expect(deref).toHaveBeenCalledWith($ref);
   });
 
-  describe("given a schema with one property", () => {
-    const schema: JSONSchema7 = {
-      properties: {
-        prop1: {
-          title: "Title",
-          type: "string",
-        },
-      },
-      required: ["prop1"],
+  it("folds in child anyOf", async () => {
+    const deref = jest.fn().mockResolvedValue([{}]);
+    const parent: SchemaEntry = {
+      deref,
+      key: "parent",
+      name: "Parent Node",
+      schema: {items: {anyOf: [{title: "Foo"}, {title: "Bar"}]}},
     };
 
-    it("creates an entry", () => {
-      const result = createColumn(deref, ["#"], schema);
+    const result = await buildSchemaEntries(parent);
 
-      expect(result).toHaveLength(1);
-      expect(result[0]).toMatchInlineSnapshot(`
-        Object {
-          "group": "properties",
-          "hasChildren": false,
-          "idx": 0,
-          "isRequired": true,
-          "key": "prop1",
-          "name": "Title",
-          "path": Array [
-            "#",
-            "prop1",
-          ],
-          "schema": Object {
-            "title": "Title",
-            "type": "string",
-          },
-        }
-      `);
-    });
-  });
-
-  describe("given a nested schema", () => {
-    const schema: JSONSchema7 = {
-      properties: {
-        prop1: {
-          type: "object",
-          properties: {
-            prop11: {
-              type: "string",
-            },
-          },
-        },
-        prop2: {
-          type: "object",
-          properties: {},
-        },
-      },
-    };
-
-    it("identifies props with children", () => {
-      const result = createColumn(deref, ["#"], schema);
-
-      expect(result).toHaveLength(2);
-      expect(result[0].hasChildren).toBeTruthy();
-      expect(result[1].hasChildren).toBeFalsy();
-    });
-  });
-
-  describe("given a schema with arrays", () => {
-    const schema: JSONSchema7 = {
-      items: {
-        anyOf: [{title: "A"}, {title: "B"}],
-      },
-    };
-
-    it("works", () => {
-      expect(createColumn(deref, [], schema)).toMatchInlineSnapshot(`
+    expect(result.map((e) => [e.name, e.schema])).toMatchInlineSnapshot(`
+      Array [
         Array [
+          "Foo",
           Object {
-            "group": "items",
-            "hasChildren": false,
-            "idx": 0,
-            "isRequired": undefined,
-            "key": "anyOf",
-            "name": "anyOf",
-            "path": Array [
-              "anyOf",
-            ],
-            "schema": Array [
-              Object {
-                "title": "A",
-              },
-              Object {
-                "title": "B",
-              },
-            ],
+            "title": "Foo",
           },
-        ]
-      `);
-    });
+        ],
+        Array [
+          "Bar",
+          Object {
+            "title": "Bar",
+          },
+        ],
+      ]
+    `);
+  });
+
+  it("dereferences and folds in child anyOf", async () => {
+    const title = "Baz";
+    const deref = jest.fn().mockResolvedValue([{title}]);
+    const parent: SchemaEntry = {
+      deref,
+      key: "parent",
+      name: "Parent Node",
+      schema: {
+        items: {anyOf: [{$ref: "reference"}]},
+      },
+    };
+
+    const result = await buildSchemaEntries(parent);
+
+    expect(deref).toHaveBeenCalledTimes(1);
+
+    expect(result).toHaveLength(1);
+    expect(result[0].schema).toMatchInlineSnapshot(`
+      Object {
+        "$ref": "reference",
+        "title": "Baz",
+      }
+    `);
+  });
+
+  it("dereferences direct descendants", async () => {
+    const deref = jest.fn().mockResolvedValue([{}]);
+    const parent: SchemaEntry = {
+      deref,
+      key: "parent",
+      name: "Parent Node",
+      schema: {
+        additionalProperties: {
+          $ref: "#",
+        },
+      },
+    };
   });
 });

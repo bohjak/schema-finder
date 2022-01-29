@@ -1,5 +1,6 @@
 export {
   Breadcrumbs,
+  Column,
   Columns,
   ColumnWrapper,
   EntryIcon,

@@ -3,12 +3,11 @@ import {
   ColumnWrapper,
   EntryIcon,
   EntryName,
-  getColId,
-  isSupportedKeyword,
   PropertyWrapper,
   RowGroupTitle,
   RowGroupWrapper,
   SchemaEntry,
+  showName,
 } from "./internal";
 
 const DEFAULT = "default";
@@ -21,10 +20,6 @@ export interface ColumnProps {
   readonly clickHandler: (entry: SchemaEntry) => () => void;
   readonly focus?: boolean;
 }
-
-const showName = (key: string): boolean => {
-  return isSupportedKeyword(key) || !Number.isNaN(Number.parseInt(key));
-};
 
 export const Column: React.VFC<ColumnProps> = ({
   entries,
@@ -52,7 +47,7 @@ export const Column: React.VFC<ColumnProps> = ({
   };
 
   return (
-    <ColumnWrapper id={getColId(colIdx)} ref={colRef}>
+    <ColumnWrapper id={`col-${colIdx}`} ref={colRef}>
       {Object.entries(byGroup).map(([group, entries]) => {
         return (
           <RowGroupWrapper key={`gr-${colIdx}-${group}`}>

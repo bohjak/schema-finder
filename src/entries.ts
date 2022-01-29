@@ -1,32 +1,18 @@
 import {
+  asyncFlatMap,
   buildDeref,
   Deref,
   DerefOptions,
   getNameFromRef,
-  isObject,
+  isJsonSchemaKeyword,
+  isObj,
   isRetroKeyword,
   isSupportedKeyword,
   JSONSchema7,
-  JSONSchema7Definition,
+  JSONSchema7Object,
   SchemaEntry,
   toSchemaEntry,
 } from "./internal";
-
-export const isObj = (prop?: unknown): prop is object =>
-  prop !== null && typeof prop === "object" && !!Object.keys(prop).length;
-
-/**
- * Filters out anything that's not a useful schema
- *
- * @example
- * Object.entries(schema.properties).flatMap(filterNonSchema);
- */
-const filterNonSchema = ([key, prop]: [string, JSONSchema7Definition]): [
-  string,
-  JSONSchema7
-][] => {
-  return isObj(prop) ? [[key, prop]] : [];
-};
 
 type EntryDecorator = (
   entry: SchemaEntry
@@ -38,13 +24,13 @@ type EntryDecorator = (
 const derefEntry: EntryDecorator = async (entry) => {
   const {schema, deref} = entry;
 
-  const [derefSchema, err] = await deref(schema.$ref);
+  const [derefed, err] = await deref(schema.$ref);
   if (err) {
-    console.error("Error dereferencing entry", entry, err);
+    console.warn("Error dereferencing entry", entry, err);
   }
 
-  if (isObject(derefSchema)) {
-    return {...entry, schema: {...schema, ...derefSchema}};
+  if (isObj(derefed)) {
+    return {...entry, schema: {...schema, ...derefed}};
   } else {
     return entry;
   }
@@ -145,6 +131,7 @@ export function buildSchemaEntry({
     .then(addIdx(idx));
 }
 
+// TODO: define test cases
 export function buildSchemaEntries(
   parent?: SchemaEntry
 ): Promise<SchemaEntry[]> {
@@ -152,29 +139,65 @@ export function buildSchemaEntries(
   const {path, schema, deref} = parent;
   const {required} = schema;
   let i = 0;
-  const columnPromise = Object.entries(schema)
-    .filter(([key, val]) => isSupportedKeyword(key) && isObj(val))
-    .flatMap((prop) => {
-      const [, val] = prop;
-      // FIXME: this could contain a $ref
-      if (Object.keys(val).some((key) => isRetroKeyword(key))) {
-        return Object.entries(val);
-      }
-      return [prop];
-    })
-    .flatMap(([group, props]) => {
-      // FIXME: fix types
-      return Object.entries(props as any).map((entry) =>
-        buildSchemaEntry({
-          entry: entry as [string, JSONSchema7],
-          deref,
-          group,
-          idx: i++,
-          path,
-          required,
-        })
-      );
-    });
 
-  return Promise.all(columnPromise);
+  const supported = typedEntries(schema).flatMap(
+    ([key, val]): [keyof JSONSchema7, JSONSchema7Object | JSONSchema7][] => {
+      return isSupportedKeyword(key) && isObj(val) ? [[key, val]] : [];
+    }
+  );
+  const schemaEntries = asyncFlatMap(supported, async (entry) => {
+    let [key, schema] = entry;
+    console.log("what is going on", key, schema);
+    schema = await derefSchema(deref, schema as Record<string, unknown>);
+    if (Object.keys(schema).some(isRetroKeyword)) {
+      return Object.entries(schema);
+    }
+    return [[key, schema] as [keyof JSONSchema7, JSONSchema7]];
+  }).then((entries) => {
+    return Promise.all(
+      entries.flatMap((entry) => {
+        let [group, props] = entry;
+        if (isJsonSchema(props)) {
+          props = {[group]: props};
+        }
+        return Object.entries(props).map((entry) =>
+          buildSchemaEntry({
+            entry: entry as [string, JSONSchema7],
+            deref,
+            group: group.toString(),
+            idx: i++,
+            path,
+            required,
+          })
+        );
+      })
+    );
+  });
+
+  return schemaEntries;
 }
+
+export async function derefSchema<S extends Record<string, unknown>>(
+  deref: Deref,
+  schema: S
+): Promise<S> {
+  if ("$ref" in schema && typeof schema.$ref === "string") {
+    const [derefed, err] = await deref(schema.$ref);
+    if (err !== undefined) {
+      console.warn(err);
+    }
+
+    if (isObj(derefed)) {
+      return {...schema, ...derefed};
+    }
+  }
+  return schema;
+}
+
+export function typedEntries<O extends object>(o: O): [keyof O, O[keyof O]][] {
+  return Object.entries(o) as [keyof O, O[keyof O]][];
+}
+
+const isJsonSchema = (o: any): o is JSONSchema7 => {
+  return Object.keys(o).every(isJsonSchemaKeyword);
+};
