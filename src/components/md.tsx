@@ -9,7 +9,7 @@ export interface MdProps {
   path?: string;
 }
 export const Md: React.VFC<MdProps> = ({s, path}) => {
-  const body: JSX.Element[] = [];
+  const body: (JSX.Element | string)[] = [];
   let text = "";
 
   let inCode = false;
@@ -22,7 +22,7 @@ export const Md: React.VFC<MdProps> = ({s, path}) => {
           body.push(<code key={getKey(i, path)}>{text}</code>);
           text = "";
         } else {
-          body.push(<>{text}</>);
+          body.push(text);
           text = "";
         }
         inCode = !inCode;
@@ -34,7 +34,7 @@ export const Md: React.VFC<MdProps> = ({s, path}) => {
             body.push(<strong key={getKey(i, path)}>{text}</strong>);
             text = "";
           } else {
-            body.push(<>{text}</>);
+            body.push(text);
             text = "";
           }
           inBold = !inBold;
@@ -44,7 +44,7 @@ export const Md: React.VFC<MdProps> = ({s, path}) => {
             body.push(<i key={getKey(i, path)}>{text}</i>);
             text = "";
           } else {
-            body.push(<>{text}</>);
+            body.push(text);
             text = "";
           }
           inItal = !inItal;
@@ -57,7 +57,7 @@ export const Md: React.VFC<MdProps> = ({s, path}) => {
             body.push(<strong key={getKey(i, path)}>{text}</strong>);
             text = "";
           } else {
-            body.push(<>{text}</>);
+            body.push(text);
             text = "";
           }
           inBold = !inBold;
@@ -67,7 +67,7 @@ export const Md: React.VFC<MdProps> = ({s, path}) => {
             body.push(<i key={getKey(i, path)}>{text}</i>);
             text = "";
           } else {
-            body.push(<>{text}</>);
+            body.push(text);
             text = "";
           }
           inItal = !inItal;
@@ -80,7 +80,7 @@ export const Md: React.VFC<MdProps> = ({s, path}) => {
       }
     }
   }
-  body.push(<>{text}</>);
+  body.push(text);
 
   return <p>{body}</p>;
 };
