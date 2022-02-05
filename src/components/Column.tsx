@@ -64,23 +64,60 @@ export const Column: React.VFC<ColumnProps> = ({
               <RowGroupTitle>{group}</RowGroupTitle>
             )}
             {entries.map((entry) => {
-              const {key, hasChildren, isRequired, idx: rowIdx, name} = entry;
               return (
-                <PropertyWrapper
-                  key={`row-${colIdx}-${rowIdx}`}
-                  inPath={rowIdx === selectedRow}
-                  lastInPath={isLast && rowIdx === selectedRow}
-                  isRequired={isRequired}
-                  onClick={clickHandler(entry)}
-                >
-                  <EntryName>{showName(key) ? name : key}</EntryName>
-                  {hasChildren && <EntryIcon>&gt;</EntryIcon>}
-                </PropertyWrapper>
+                <Row
+                  clickHandler={clickHandler}
+                  colIdx={colIdx}
+                  entry={entry}
+                  isLast={isLast}
+                  selectedRow={selectedRow}
+                />
               );
             })}
           </RowGroupWrapper>
         );
       })}
     </ColumnWrapper>
+  );
+};
+
+export interface RowProps {
+  readonly clickHandler: (entry: SchemaEntry) => () => void;
+  readonly colIdx: number;
+  readonly entry: SchemaEntry;
+  readonly isLast?: boolean;
+  readonly selectedRow?: number;
+}
+
+export const Row: React.VFC<RowProps> = ({
+  clickHandler,
+  colIdx,
+  entry,
+  isLast,
+  selectedRow,
+}) => {
+  const {key, hasChildren, isRequired, idx: rowIdx, name} = entry;
+
+  const ref = React.useRef<HTMLLIElement>(null);
+
+  React.useEffect(() => {
+    if (isLast && selectedRow === rowIdx) {
+      ref.current?.focus();
+    }
+  }, [selectedRow, isLast]);
+
+  return (
+    <PropertyWrapper
+      key={`row-${colIdx}-${rowIdx}`}
+      ref={ref}
+      tabIndex={-1}
+      inPath={rowIdx === selectedRow}
+      lastInPath={isLast && rowIdx === selectedRow}
+      isRequired={isRequired}
+      onClick={clickHandler(entry)}
+    >
+      <EntryName>{showName(key) ? name : key}</EntryName>
+      {hasChildren && <EntryIcon>&gt;</EntryIcon>}
+    </PropertyWrapper>
   );
 };
