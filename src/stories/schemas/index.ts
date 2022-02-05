@@ -1,5 +1,6 @@
 export {default as fdsNeu} from "./fds-neu.json";
 export {default as fds} from "./fds.json";
+export {default as githubAction} from "./github-action.json";
 export {default as i18n} from "./i18n.json";
 export {default as jsonSchema7} from "./json-schema-7.json";
 export {default as niem} from "./niem.json";
