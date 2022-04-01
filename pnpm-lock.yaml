@@ -10,16 +10,24 @@ importers:
 
   packages/example:
     specifiers:
+      '@types/react': ^16.8.0
+      '@types/react-dom': ^16.8.0
       esbuild: ^0.14.10
       react: ^16.8.0
       react-dom: ^16.8.0
+      schema-finder: workspace:*
       styled-components: ^4.0.0
+      typescript: ^4.5.4
     dependencies:
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
+      schema-finder: link:../finder
       styled-components: 4.4.1_react-dom@16.14.0+react@16.14.0
     devDependencies:
+      '@types/react': 16.14.24
+      '@types/react-dom': 16.9.14
       esbuild: 0.14.21
+      typescript: 4.5.5
 
   packages/finder:
     specifiers:
@@ -174,6 +182,20 @@ packages:
 
   /@types/prop-types/15.7.4:
     resolution: {integrity: sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==}
+    dev: true
+
+  /@types/react-dom/16.9.14:
+    resolution: {integrity: sha512-FIX2AVmPTGP30OUJ+0vadeIFJJ07Mh1m+U0rxfgyW34p3rTlXI+nlenvAxNn4BP36YyI9IJ/+UJ7Wu22N1pI7A==}
+    dependencies:
+      '@types/react': 16.14.24
+    dev: true
+
+  /@types/react/16.14.24:
+    resolution: {integrity: sha512-e7U2WC8XQP/xfR7bwhOhNFZKPTfW1ph+MiqtudKb8tSV8RyCsovQx2sNVtKoOryjxFKpHPPC/yNiGfdeVM5Gyw==}
+    dependencies:
+      '@types/prop-types': 15.7.4
+      '@types/scheduler': 0.16.2
+      csstype: 3.0.10
     dev: true
 
   /@types/react/17.0.39:

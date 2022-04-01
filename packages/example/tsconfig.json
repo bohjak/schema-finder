@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "jsx" :"preserve",
+    "lib": ["esnext", "DOM"],
+    "moduleResolution": "node",
+    "strict": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/index.ts"],
+}
