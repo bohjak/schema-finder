@@ -1,0 +1,16 @@
+{
+  "name": "example",
+  "version": "0.0.0",
+  "description": "An example app to show and test the SchemaFinder component.",
+  "main": "www/dist/index.js",
+  "scripts": {},
+  "license": "Unlicense",
+  "dependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "styled-components": "^4.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.10"
+  }
+}

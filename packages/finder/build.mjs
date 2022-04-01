@@ -1,3 +1,5 @@
+#!/bin/env node
+
 // @ts-check
 import {build, analyzeMetafile} from "esbuild";
 import {performance} from "perf_hooks";
