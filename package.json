@@ -1,7 +1,7 @@
 {
   "name": "schema-finder",
-  "version": "0.2.10",
-  "description": "A simple component for displaying JSONSchema in a human readable format",
+  "private": true,
+  "description": "Explore, modify, and create JSONSchema instances.",
   "homepage": "https://github.com/jamesbohacek/schema-finder#readme",
   "bugs": {
     "url": "https://github.com/jamesbohacek/schema-finder/issues"
@@ -11,29 +11,13 @@
     "url": "git+https://github.com/jamesbohacek/schema-finder.git"
   },
   "license": "Unlicense",
-  "author": "jamesbohacek <jamesbohacek@outlook.com>",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "author": "jakub.bohacek <jamesbohacek@outlook.com>",
   "scripts": {
-    "build": "pnpm clear; node build.mjs & tsc; echo Declarations generated",
-    "clear": "rm -rf dist",
-    "tsc": "tsc --project tsconfig.json",
-    "format": "prettier --write 'src/**/*.{ts,tsx,json}'",
+    "build": "pnpm -r build",
+    "format": "prettier --write 'packages/**/src/**/*.{ts,tsx,json}'",
     "format:verify": "prettier --list-different 'src/**/*.{ts,tsx,json}'"
   },
   "devDependencies": {
-    "@types/json-schema": "^7.0.9",
-    "@types/styled-components": "^5.1.19",
-    "esbuild": "^0.14.10",
-    "prettier": "^2.5.1",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
-    "styled-components": "^4.0.0",
-    "typescript": "^4.5.4"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0",
-    "styled-components": "^4.0.0 || ^5.0.0"
+    "prettier": "^2.5.1"
   }
 }

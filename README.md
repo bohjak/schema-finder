@@ -1,37 +1,32 @@
 # Schema Finder
 
-> A friendly companion for JSONSchema exploration
+> Explore, modify, and create JSONSchema instances.
 
 Licensed under the [Unlicense].
 
-This package started as a drop-in replacement for [React JSON Schema Inspector]
-with proper support for references, arrays, titles, and any combination thereof.
+This library started out as a drop-in replacement for [React JSON Schema
+Inspector] with better support for complex array types. It is being developed
+against the [JSONSchema Draft 7], so it doesn't have a full support for some of
+the features of the newer drafts, but should still display them reasonably well.
 
-Developped against JSONSchema7.
+## Development
 
-## Dev Setup
+```sh
+# Clone
+git clone https://github.com/jamesbohacek/schema-finder.git
+cd schema-finder
 
-1. Install packages with `pnpm`
-   ```
-   pnpm i
-   ```
-1. Run Storybook on port `6006` (HMR seems to be somewhat broken)
-   ```
-   pnpm storybook
-   ```
+# Install packages
+pnpm i
 
-## Publish
+# Run dev server with an example page
+pnpm dev
 
-1. Install packages
-   ```
-   pnpm i
-   ```
-1. Build
-   ```
-   pnpm build
-   ```
-1. Publish (for the time being both versioning and publishing is done manually)
+# Build
+pnpm build
+```
 
 [react json schema inspector]:
   https://github.com/CarstenWickner/react-jsonschema-inspector
 [unlicense]: ./LICENSE
+[jsonschema draft 7]: https://json-schema.org/specification-links.html#draft-7
