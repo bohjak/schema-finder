@@ -15,13 +15,19 @@ function getNextPath(
     default: {
       return;
     }
+
+    case "h":
     case "ArrowLeft": {
       return path.slice(0, -1);
     }
+
+    case "l":
     case "ArrowRight": {
       if (path.length === entries.length) return path;
       return [...path, 0];
     }
+
+    case "k":
     case "ArrowUp": {
       let next: number;
       if (e.ctrlKey) {
@@ -32,6 +38,8 @@ function getNextPath(
 
       return [...path.slice(0, -1), next];
     }
+
+    case "j":
     case "ArrowDown": {
       let next: number;
       if (e.ctrlKey || !path.length) {
@@ -43,6 +51,15 @@ function getNextPath(
 
       return [...path.slice(0, -1), next];
     }
+
+    case "g": {
+      return [...path.slice(0, -1), 0];
+    }
+
+    case "G": {
+      return [...path.slice(0, -1), entries[Math.max(lastCol, 0)].length - 1];
+    }
+
     case "Home": {
       return path.slice(0, 1);
     }
