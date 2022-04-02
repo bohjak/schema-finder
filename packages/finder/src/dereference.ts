@@ -65,22 +65,29 @@ async function resolveAddress(
   }
 }
 
+/**
+ * Returns whatever the JSONPointer is pointing to in a schema
+ */
 function evaljp(j: JSONSchema7, keys: string[]): [unknown, Error?] {
-  // TODO: rewrite iteratively + potentially add recursive dereferencing
-  if (!keys.length) return [j];
+  for (const key of keys) {
+    if (!(key in j)) {
+      return [
+        j,
+        new Error(
+          `No key "${key}" in given object: ${JSON.stringify(
+            j,
+            undefined,
+            "\t"
+          )}`
+        ),
+      ];
+    }
 
-  const [key, ...rest] = keys;
-  if (!key.length) return [j];
-  if (!(key in j))
-    return [
-      j,
-      new Error(
-        `No key "${key}" in given object: ${JSON.stringify(j, undefined, "\t")}`
-      ),
-    ];
+    // @ts-expect-error Indexing with {string}
+    j = j[key];
+  }
 
-  // @ts-expect-error Indexing with {string}
-  return evaljp(j[key], rest);
+  return [j];
 }
 
 function parseJsonPointer(jp: string): string[] {

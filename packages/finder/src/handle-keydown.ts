@@ -78,7 +78,9 @@ export function getKeyDownHandler(
 
   return function handleKeyDown(e) {
     const nextPath = boundGetNextPath(e);
-    nextPath && setPath(nextPath);
-    e.preventDefault();
+    if (nextPath !== undefined) {
+      setPath(nextPath);
+      e.preventDefault();
+    }
   };
 }

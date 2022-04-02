@@ -15,6 +15,7 @@ build({
   target: "node14",
   external: ["react", "react-dom", "styled-components"],
   metafile: true,
+  watch: process.argv[2] === "-watch",
 })
   .then(({metafile}) => analyzeMetafile(metafile))
   .then(console.log)

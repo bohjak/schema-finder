@@ -1,6 +1,6 @@
 {
   "name": "schema-finder",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "A simple React component for viewing and exploring a JSONSchema",
   "keywords": [
     "JSONSchema",
@@ -19,8 +19,10 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "pnpm clear && node ./build.mjs & pnpm tsc",
+    "dev": "pnpm clear && node ./build.mjs -watch",
     "clear": "rm -rf dist",
-    "tsc": "tsc --project tsconfig.json && echo Declarations generated"
+    "tsc": "tsc --pretty --project tsconfig.json",
+    "release": "pnpm build && pnpm publish --dry-run && read -p 'Publish? [y/N]' prompt && echo $prompt | grep -q '[yY]' && pnpm publish"
   },
   "devDependencies": {
     "@types/json-schema": "^7.0.9",

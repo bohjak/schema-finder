@@ -1,5 +1,6 @@
 import {JSONSchema7, R} from "./internal";
 
+// Is in ./types because SchemaEntry needs it
 export type Deref = (ref?: string) => Promise<R<unknown>>;
 
 export type DerefBuilder = (root: JSONSchema7, options?: DerefOptions) => Deref;

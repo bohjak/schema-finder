@@ -14,6 +14,7 @@
   "author": "jakub.bohacek <jamesbohacek@outlook.com>",
   "scripts": {
     "build": "pnpm -r build",
+    "dev": "pnpm --parallel -r dev",
     "format": "prettier --write 'packages/**/src/**/*.{ts,tsx,json}'",
     "format:verify": "prettier --list-different 'src/**/*.{ts,tsx,json}'"
   },
