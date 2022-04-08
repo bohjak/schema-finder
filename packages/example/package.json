@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "0.0.1",
+  "private": true,
   "description": "An example app to show and test the SchemaFinder component.",
   "main": "www/dist/index.js",
   "scripts": {

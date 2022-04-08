@@ -1,6 +1,6 @@
 {
   "name": "schema-finder",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "A simple React component for viewing and exploring a JSONSchema",
   "keywords": [
     "JSONSchema",
