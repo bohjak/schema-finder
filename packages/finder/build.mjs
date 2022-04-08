@@ -12,7 +12,7 @@ build({
   sourcemap: true,
   outdir: "dist",
   platform: "node",
-  target: "node14",
+  target: "node12",
   external: ["react", "react-dom", "styled-components"],
   metafile: true,
   watch: process.argv[2] === "-watch",
