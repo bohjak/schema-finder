@@ -8,7 +8,7 @@ const start = performance.now();
 build({
   entryPoints: ["src/index.ts"],
   bundle: true,
-  minify: true,
+  minify: false,
   sourcemap: true,
   outdir: "dist",
   platform: "node",

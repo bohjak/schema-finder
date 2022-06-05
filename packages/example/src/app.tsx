@@ -1,9 +1,10 @@
 import React from "react";
-import {Finder} from "schema-finder";
+import {Finder, BetterFinder} from "schema-finder";
 import meta from "./meta.json";
+import fds from "./fds.json";
 
 export const App: React.FC = () => {
-  const [schemas, setSchemas] = React.useState({meta});
+  const [schemas, setSchemas] = React.useState({fds, meta});
   const [remote, setRemote] = React.useState(false);
   const name = React.useRef(null);
   const schema = React.useRef(null);
@@ -45,7 +46,9 @@ export const App: React.FC = () => {
         </label>
       </section>
       <hr />
+      <br />
       <section>
+        <BetterFinder schemas={schemas} />
         <Finder schemas={schemas} unsafeAllowRemoteUriResolution={remote} />
       </section>
     </div>

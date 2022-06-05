@@ -55,35 +55,34 @@ export const Column: React.VFC<ColumnProps> = ({
     }
   };
 
+  const groups = Object.entries(byGroup).map(([group, entries]) => {
+    return (
+      <RowGroupWrapper key={`gr-${colIdx}-${group}`}>
+        {showGroup(group, entries) && <RowGroupTitle>{group}</RowGroupTitle>}
+        {entries.map((entry) => {
+          return (
+            <Row
+              key={`row-${colIdx}-${entry.idx}`}
+              clickHandler={clickHandler}
+              entry={entry}
+              isLast={isLast}
+              selectedRow={selectedRow}
+            />
+          );
+        })}
+      </RowGroupWrapper>
+    );
+  });
+
   return (
     <ColumnWrapper id={`col-${colIdx}`} ref={colRef}>
-      {Object.entries(byGroup).map(([group, entries]) => {
-        return (
-          <RowGroupWrapper key={`gr-${colIdx}-${group}`}>
-            {showGroup(group, entries) && (
-              <RowGroupTitle>{group}</RowGroupTitle>
-            )}
-            {entries.map((entry) => {
-              return (
-                <Row
-                  clickHandler={clickHandler}
-                  colIdx={colIdx}
-                  entry={entry}
-                  isLast={isLast}
-                  selectedRow={selectedRow}
-                />
-              );
-            })}
-          </RowGroupWrapper>
-        );
-      })}
+      {groups}
     </ColumnWrapper>
   );
 };
 
 export interface RowProps {
   readonly clickHandler: (entry: SchemaEntry) => () => void;
-  readonly colIdx: number;
   readonly entry: SchemaEntry;
   readonly isLast?: boolean;
   readonly selectedRow?: number;
@@ -91,7 +90,6 @@ export interface RowProps {
 
 export const Row: React.VFC<RowProps> = ({
   clickHandler,
-  colIdx,
   entry,
   isLast,
   selectedRow,
@@ -108,7 +106,6 @@ export const Row: React.VFC<RowProps> = ({
 
   return (
     <PropertyWrapper
-      key={`row-${colIdx}-${rowIdx}`}
       ref={ref}
       tabIndex={-1}
       inPath={rowIdx === selectedRow}

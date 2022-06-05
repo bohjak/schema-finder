@@ -1,17 +1,17 @@
 import React from "react";
-import {getKeyDownHandler} from "./handle-keydown";
 import {
   Breadcrumbs,
+  buildSchemaEntries,
+  buildSchemaEntry,
   Column,
   Columns,
+  DerefOptions,
+  getKeyDownHandler,
   Info,
   InnerWrapper,
   JSONSchema7,
   OuterWrapper,
   SchemaEntry,
-  buildSchemaEntry,
-  DerefOptions,
-  buildSchemaEntries,
 } from "./internal";
 
 export interface FinderProps extends DerefOptions {
@@ -80,7 +80,7 @@ const InternalFinder: React.VFC<FinderProps> = ({
           entries={entriesCol}
           selectedRow={path[col]}
           isLast={col === lastCol}
-          focus={col === entries.length - 1}
+          focus={path.length > 0 && col === entries.length - 1}
           clickHandler={clickHandler}
         />
       );
@@ -109,7 +109,7 @@ const InternalFinder: React.VFC<FinderProps> = ({
 };
 
 /**
- * OSX's Finder-esque JSONSchema explorer
+ * What if OSX Finder could browse JSONSchema
  */
 export const Finder: React.VFC<FinderProps> = (props) => {
   return (
