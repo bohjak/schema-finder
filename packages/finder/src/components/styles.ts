@@ -1,5 +1,38 @@
 import styled, {css} from "styled-components";
 
+export const CleanButton = styled.button`
+  outline: 0;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+
+  background: transparent;
+
+  color: inherit;
+  font: inherit;
+
+  line-height: normal;
+
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+
+  -webkit-appearance: none;
+
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+  &:focus:not(:-moz-focusring) {
+    outline: none;
+  }
+`;
+
 export const OuterWrapper = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -149,4 +182,40 @@ export const Code = styled.code`
 export const Divider = styled.hr`
   width: 80%;
   color: #0002;
+`;
+
+export const BreadcrumbsWrapper = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  border: thin black solid;
+  overflow-x: auto;
+`;
+
+export const Breadcrumb = styled(CleanButton)`
+  cursor: pointer;
+  padding: 0.1em 0.6em;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &::after {
+    content: "";
+    --tri-height: 5px;
+    border-left: var(--tri-height) #0003 solid;
+    border-top: var(--tri-height) transparent solid;
+    border-bottom: var(--tri-height) transparent solid;
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: -3px;
+  }
+
+  &:last-of-type::after {
+    display: none;
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
 `;

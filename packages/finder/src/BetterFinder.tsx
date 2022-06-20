@@ -1,20 +1,20 @@
 import React from "react";
 import {
-  EntryIcon,
-  EntryName,
-  InfoWrapper,
-  Md,
-  Name,
-  PropertyWrapper,
-  Title,
-} from "./components/internal";
-import {
+  Breadcrumb,
+  BreadcrumbsWrapper,
   Columns,
   ColumnWrapper,
+  EntryIcon,
+  EntryName,
   FinderProps,
+  InfoWrapper,
   InnerWrapper,
+  Md,
+  Name,
   OuterWrapper,
+  PropertyWrapper,
   RowGroupWrapper,
+  Title,
 } from "./internal";
 import {parseJSONSchema7, SchemaNode, SchemaNodes} from "./parse";
 
@@ -23,7 +23,8 @@ interface BetterInfoProps {
 }
 
 const BetterInfo: React.VFC<BetterInfoProps> = ({selectedNode}) => {
-  const {title, key, uri, description, valueType} = selectedNode;
+  const {title, key, uri, description, valueType, requiredProperties} =
+    selectedNode;
 
   return (
     <InfoWrapper>
@@ -33,8 +34,13 @@ const BetterInfo: React.VFC<BetterInfoProps> = ({selectedNode}) => {
         <Name>Type:</Name>{" "}
         {Array.isArray(valueType) ? valueType.join(", ") : valueType}
       </p>
+      {requiredProperties && (
+        <p>
+          <Name>Required Properties:</Name> {requiredProperties.join(", ")}
+        </p>
+      )}
       <p>
-        <Name>Full Path:</Name> {uri}
+        <Name>JSON Pointer:</Name> {uri}
       </p>
     </InfoWrapper>
   );
@@ -48,6 +54,7 @@ interface BetterRowProps {
   readonly colIdx: number;
   readonly isSelected?: boolean;
   readonly isInPath?: boolean;
+  readonly isRequired?: boolean;
 }
 
 const BetterRow: React.VFC<BetterRowProps> = ({
@@ -56,6 +63,7 @@ const BetterRow: React.VFC<BetterRowProps> = ({
   colIdx,
   isSelected,
   isInPath,
+  isRequired,
 }) => {
   const autofocus: React.RefCallback<HTMLElement> = React.useCallback(
     (el) => {
@@ -75,6 +83,8 @@ const BetterRow: React.VFC<BetterRowProps> = ({
       onClick={() => selectNode(colIdx + 1, node)}
       lastInPath={isSelected}
       inPath={isInPath}
+      isRequired={isRequired}
+      title={node.key}
     >
       <EntryName>{node.key}</EntryName>
       {Object.keys(node.children).length > 0 && <EntryIcon>&gt;</EntryIcon>}
@@ -103,14 +113,16 @@ const BetterColumn: React.VFC<BetterColumnProps> = ({
 
   for (const key of Object.keys(node.children)) {
     // FIXME: selectedNode may be displayed more than once at the same time, causing multiple rows to be highlighted as selected
+    const child = node.children[key];
     rows.push(
       <BetterRow
         key={`row-${colIdx}-${key}`}
-        node={node.children[key]}
+        node={child}
         selectNode={selectNode}
         colIdx={colIdx}
-        isSelected={node.children[key] === selectedNode}
-        isInPath={node.children[key] === path[colIdx + 1]}
+        isSelected={child === selectedNode}
+        isInPath={child === path[colIdx + 1]}
+        isRequired={node.requiredProperties?.includes(child.key)}
       />
     );
   }
@@ -174,8 +186,19 @@ const BetterInnerFinder: React.VFC<InnerFinderProps> = ({root}) => {
     ));
   }, [path]);
 
+  const breadcrumbs = React.useMemo(() => {
+    return path.map((node, idx) => (
+      <Breadcrumb
+        key={`bc-${idx}-${node.key}`}
+        onClick={() => setPath((prev) => prev.slice(0, idx + 1))}
+      >
+        {node.key}
+      </Breadcrumb>
+    ));
+  }, [path]);
+
   const handleKeyDown: React.KeyboardEventHandler = (e) => {
-    let flag;
+    let preventDefault;
 
     switch (e.key) {
       case "h":
@@ -183,7 +206,7 @@ const BetterInnerFinder: React.VFC<InnerFinderProps> = ({root}) => {
         {
           if (path.length === 1) break;
           setPath((prev) => prev.slice(0, -1));
-          flag = true;
+          preventDefault = true;
         }
         break;
 
@@ -194,7 +217,7 @@ const BetterInnerFinder: React.VFC<InnerFinderProps> = ({root}) => {
           const nextNode = selectedNode.children[nextKey];
           if (nextNode == undefined) break;
           setPath((prev) => [...prev, nextNode]);
-          flag = true;
+          preventDefault = true;
         }
         break;
 
@@ -205,7 +228,7 @@ const BetterInnerFinder: React.VFC<InnerFinderProps> = ({root}) => {
             selectedNodeSiblings?.[Math.max(0, selectedNodeIdx - 1)];
           if (nextNode == undefined) break;
           setPath((prev) => [...prev.slice(0, -1), nextNode]);
-          flag = true;
+          preventDefault = true;
         }
         break;
 
@@ -218,7 +241,7 @@ const BetterInnerFinder: React.VFC<InnerFinderProps> = ({root}) => {
             ];
           if (nextNode == undefined) break;
           setPath((prev) => [...prev.slice(0, -1), nextNode]);
-          flag = true;
+          preventDefault = true;
         }
         break;
 
@@ -227,7 +250,7 @@ const BetterInnerFinder: React.VFC<InnerFinderProps> = ({root}) => {
           const nextNode = selectedNodeSiblings?.[0];
           if (nextNode == undefined || nextNode == selectedNode) break;
           setPath((prev) => [...prev.slice(0, -1), nextNode]);
-          flag = true;
+          preventDefault = true;
         }
         break;
 
@@ -237,12 +260,12 @@ const BetterInnerFinder: React.VFC<InnerFinderProps> = ({root}) => {
             selectedNodeSiblings?.[selectedNodeSiblings.length - 1];
           if (nextNode == undefined || nextNode == selectedNode) break;
           setPath((prev) => [...prev.slice(0, -1), nextNode]);
-          flag = true;
+          preventDefault = true;
         }
         break;
     }
 
-    if (flag) e.preventDefault();
+    if (preventDefault) e.preventDefault();
   };
 
   return (
@@ -254,7 +277,7 @@ const BetterInnerFinder: React.VFC<InnerFinderProps> = ({root}) => {
         </Columns>
         {columns.length > 1 && <BetterInfo selectedNode={selectedNode} />}
       </InnerWrapper>
-      <div>Breadcrumbs...</div>
+      <BreadcrumbsWrapper>{breadcrumbs}</BreadcrumbsWrapper>
     </OuterWrapper>
   );
 };

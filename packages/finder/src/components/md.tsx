@@ -87,6 +87,32 @@ export const Md: React.VFC<MdProps> = ({s, path}) => {
         }
         break;
 
+      case "h":
+        {
+          if (s.substring(i, i + 4) !== "http") {
+            text += "h";
+            break;
+          }
+          let link = "http";
+          let j;
+          for (
+            j = i + 5;
+            j < s.length && s[j] != " " && s[j] != "\n" && s[j] != "\t";
+            ++j
+          ) {
+            link += s[j];
+          }
+
+          body.push(
+            <a key={getKey(i, path)} href={link} target="_blank">
+              {link}
+            </a>
+          );
+          text = "";
+          i = j;
+        }
+        break;
+
       default:
         {
           text += s[i];

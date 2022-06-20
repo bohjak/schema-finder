@@ -68,6 +68,8 @@ export function parseJSONSchema7({
     // https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-01#section-8.3.2
     const refUri = mergeUris(baseUri, schema.$ref);
 
+    // FIXME: this approach is flawed - we're losing information. It's not a problem for required status, because the main authority on that can be the parent node, but the same definition can be referenced under different property names and we're losing that information.
+
     if (refUri in nodes) {
       const node = nodes[refUri];
       node.parents = {...node.parents, ...parents};
@@ -82,6 +84,7 @@ export function parseJSONSchema7({
     }
 
     // All other properties in a "$ref" object MUST be ignored.
+    // TODO: need to keep at least the property name
     return;
   }
 
