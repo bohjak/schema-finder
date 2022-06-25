@@ -152,7 +152,7 @@ interface InnerFinderProps {
   readonly root: SchemaNode;
 }
 
-const BetterInnerFinder: React.VFC<InnerFinderProps> = ({root}) => {
+const InnerFinder: React.VFC<InnerFinderProps> = ({root}) => {
   // TODO: take state out of React to prevent unnecessary re-renders
   const [path, setPath] = React.useState([root]);
   const selectedNode = React.useMemo(() => path[path.length - 1], [path]);
@@ -268,6 +268,9 @@ const BetterInnerFinder: React.VFC<InnerFinderProps> = ({root}) => {
     if (preventDefault) e.preventDefault();
   };
 
+  // Without this, the component doesn't re-render when new root is given
+  React.useEffect(() => setPath([root]), [root]);
+
   return (
     <OuterWrapper>
       <InnerWrapper>
@@ -315,5 +318,5 @@ export const BetterFinder: React.VFC<FinderProps> = ({
     valueType: "object",
   };
 
-  return <BetterInnerFinder root={root} />;
+  return <InnerFinder root={root} />;
 };

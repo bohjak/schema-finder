@@ -1,0 +1,57 @@
+body {
+  font-family: monospace;
+  font-size: 16px;
+  margin: 0;
+}
+
+.AppWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 60rem;
+  padding: 1rem;
+  margin: 0 auto;
+}
+
+#preview {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+h1 {
+  text-align: center;
+  margin: 0;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0;
+}
+
+#schemas input,
+textarea {
+  width: 20rem;
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#schemas button {
+  width: 5rem;
+  max-width: 100%;
+}
+
+#options label {
+  cursor: pointer;
+}
+
+#options input {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}

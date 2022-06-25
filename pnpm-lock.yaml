@@ -10,6 +10,7 @@ importers:
 
   packages/example:
     specifiers:
+      '@types/node': ^18.0.0
       '@types/react': ^16.8.0
       '@types/react-dom': ^16.8.0
       esbuild: ^0.14.10
@@ -24,6 +25,7 @@ importers:
       schema-finder: link:../finder
       styled-components: 4.4.1_wcqkhtmu7mswc6yz4uyexck3ty
     devDependencies:
+      '@types/node': 18.0.0
       '@types/react': 16.14.24
       '@types/react-dom': 16.9.14
       esbuild: 0.14.21
@@ -218,6 +220,10 @@ packages:
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
+    dev: true
+
+  /@types/node/18.0.0:
+    resolution: {integrity: sha512-cHlGmko4gWLVI27cGJntjs/Sj8th9aYwplmZFwmmgYQQvL5NUsgVJG7OddLvNfLqYS31KFN0s3qlaD9qCaxACA==}
     dev: true
 
   /@types/prop-types/15.7.5:
