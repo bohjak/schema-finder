@@ -16,6 +16,7 @@ interface Options {
   remote?: boolean;
   displayOld?: boolean;
   displayReset?: boolean;
+  darkMode?: boolean;
 }
 
 interface State {
@@ -72,7 +73,7 @@ const preserve: Middleware =
   (reducer) =>
   (...args) => {
     const state = reducer(...args);
-    sessionStorage.setItem("state", JSON.stringify(state));
+    localStorage.setItem("state", JSON.stringify(state));
     return state;
   };
 
@@ -140,16 +141,23 @@ export const App: React.FC = () => {
   };
 
   React.useEffect(() => {
-    const sessionState = sessionStorage.getItem("state");
-    if (!sessionState) return;
+    const localState = localStorage.getItem("state");
+    if (!localState) return;
 
     try {
-      dispatch({type: "stateSet", payload: JSON.parse(sessionState)});
+      dispatch({type: "stateSet", payload: JSON.parse(localState)});
     } catch (e) {
       console.error("couldn't restore state from session storage");
       console.error(e);
     }
   }, []);
+
+  React.useEffect(() => {
+    const {style} = document.documentElement;
+    const {darkMode} = state.options;
+    style.setProperty("--color-bg", darkMode ? "#1d1f21" : "white");
+    style.setProperty("--color-fg", darkMode ? "#c5c8c6" : "#1d1f21");
+  }, [state.options.darkMode]);
 
   return (
     <div className="AppWrapper">
@@ -203,6 +211,14 @@ export const App: React.FC = () => {
             checked={!!state.options.displayOld}
           />
           Display Old Finder
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            onChange={toggleOption("darkMode")}
+            checked={!!state.options.darkMode}
+          />
+          Dark Mode
         </label>
         <label>
           <input
